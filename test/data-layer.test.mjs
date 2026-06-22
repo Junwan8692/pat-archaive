@@ -16,5 +16,6 @@ assert.equal(r.created_at, 222);
 assert.equal(r.comment_count, 0);
 assert.equal(r.prompt_text, "p");
 assert.equal(r.title, "t");
+assert.equal(toRow({ linkId:"abc" }).link_id, "abc");   // FK 매핑 가드
 
 console.log("data-layer: ok");
