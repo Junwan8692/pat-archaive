@@ -1,5 +1,6 @@
 import { supabase, STORAGE_BUCKET } from "./supabase.js";
 import { mapRow, toRow } from "./lib/map.mjs";
+import { addAuthorName, removeAuthorName } from "./lib/authors.mjs";
 
 // ========== STATE ==========
 let links = [];
@@ -779,3 +780,26 @@ window.savePrompt = async function() {
   btn.disabled = false;
   btn.textContent = "저장";
 };
+
+// ========== 작성자 퀵버튼 ==========
+const AUTHORS_KEY = "patAuthors";
+function getAuthors(){ try{ return JSON.parse(localStorage.getItem(AUTHORS_KEY)) || ["Pat"]; }catch{ return ["Pat"]; } }
+function saveAuthors(a){ localStorage.setItem(AUTHORS_KEY, JSON.stringify(a)); }
+function renderAuthors(){
+  const box = document.getElementById("authorQuickBtns");
+  if (!box) return;
+  box.innerHTML = getAuthors().map(n => {
+    const safe = n.replace(/'/g, "\\'");
+    return `<span class="author-chip"><button type="button" onclick="window._setAuthor('${safe}')">${escHtml(n)}</button><button type="button" class="author-x" onclick="window._removeAuthor('${safe}')">✕</button></span>`;
+  }).join("");
+}
+window._setAuthor = n => {
+  const a = document.getElementById("authorInput"); if(a) a.value = n;
+  const p = document.getElementById("pAuthorInput"); if(p) p.value = n;
+};
+window.addAuthor = () => {
+  const n = prompt("추가할 이름:"); if(!n) return;
+  saveAuthors(addAuthorName(getAuthors(), n)); renderAuthors();
+};
+window._removeAuthor = n => { saveAuthors(removeAuthorName(getAuthors(), n)); renderAuthors(); };
+renderAuthors();
