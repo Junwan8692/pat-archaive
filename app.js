@@ -788,10 +788,19 @@ function saveAuthors(a){ localStorage.setItem(AUTHORS_KEY, JSON.stringify(a)); }
 function renderAuthors(){
   const box = document.getElementById("authorQuickBtns");
   if (!box) return;
-  box.innerHTML = getAuthors().map(n => {
-    const safe = n.replace(/'/g, "\\'");
-    return `<span class="author-chip"><button type="button" onclick="window._setAuthor('${safe}')">${escHtml(n)}</button><button type="button" class="author-x" onclick="window._removeAuthor('${safe}')">✕</button></span>`;
-  }).join("");
+  // data-idx + 위임 리스너: 이름 문자열을 마크업/JS에 끼워넣지 않아 따옴표·역슬래시 이스케이프 불필요
+  box.innerHTML = getAuthors().map((n, i) =>
+    `<span class="author-chip"><button type="button" data-act="set" data-idx="${i}">${escHtml(n)}</button><button type="button" class="author-x" data-act="del" data-idx="${i}">✕</button></span>`
+  ).join("");
+  if (!box.dataset.bound) {
+    box.addEventListener("click", e => {
+      const b = e.target.closest("button[data-idx]"); if(!b) return;
+      const n = getAuthors()[+b.dataset.idx]; if(n == null) return;
+      if (b.dataset.act === "set") window._setAuthor(n);
+      else if (b.dataset.act === "del") window._removeAuthor(n);
+    });
+    box.dataset.bound = "1";
+  }
 }
 window._setAuthor = n => {
   const a = document.getElementById("authorInput"); if(a) a.value = n;
