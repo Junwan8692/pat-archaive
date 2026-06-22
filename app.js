@@ -373,7 +373,7 @@ window.submitComment = async function() {
   try {
     const { error: insertErr } = await supabase
       .from("comments")
-      .insert(toRow({ linkId: currentDetailLink.id, author, text, createdAt: Date.now() }));
+      .insert({ link_id: currentDetailLink.id, author, text, created_at: Date.now() });
     if (insertErr) throw insertErr;
     await supabase
       .from("links")
