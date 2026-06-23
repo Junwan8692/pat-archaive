@@ -1771,15 +1771,7 @@ header h1 {
   .grid {
     grid-template-columns: 1fr;
   }
-
-  .card {
-    height: 340px;
-  }
-
-  .card-thumb,
-  .card-thumb-placeholder {
-    height: 140px;
-  }
+  /* 카드·썸네일 높이는 --card-h/--thumb-h 변수가 처리(크기 프리셋이 모바일에도 적용) */
 }
 
 /* ===== 크기 토글 (S/M/L) ===== */
