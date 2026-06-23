@@ -1521,7 +1521,7 @@ header h1 {
 
 /* 이름 버튼 */
 .author-chip > button:first-child {
-  padding: 3px 10px;
+  padding: 5px 10px;
   font-size: 12px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
@@ -1538,7 +1538,7 @@ header h1 {
 
 /* 삭제(✕) 버튼 — hover 시 노출 */
 .author-chip .author-x {
-  padding: 3px 6px;
+  padding: 5px 6px;
   font-size: 11px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
@@ -1562,7 +1562,8 @@ header h1 {
 
 /* + 이름 추가 버튼 */
 .author-add-btn {
-  padding: 3px 10px;
+  margin-top: 8px;
+  padding: 5px 10px;
   font-size: 12px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
