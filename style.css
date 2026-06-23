@@ -30,6 +30,25 @@
   --shadow: 4px 4px 0 var(--black);
   --shadow-hover: 6px 6px 0 var(--black);
   --shadow-modal: 8px 8px 0 var(--black);
+
+  /* 카드 크기 (M 기본) */
+  --card-min: 240px;
+  --card-h:   340px;
+  --thumb-h:  140px;
+  --title-fs: 16px;
+}
+
+/* 카드 크기 프리셋 */
+html[data-size="s"] { --card-min:185px; --card-h:300px; --thumb-h:115px; --title-fs:14px; }
+html[data-size="m"] { --card-min:240px; --card-h:340px; --thumb-h:140px; --title-fs:16px; }
+html[data-size="l"] { --card-min:310px; --card-h:410px; --thumb-h:190px; --title-fs:18px; }
+
+/* 다크 테마 — 시맨틱 변수 4개만 오버라이드 (포인트색 불변) */
+html[data-theme="dark"] {
+  --bg:    #161616;
+  --white: #242424;
+  --black: #F0F0F0;
+  --muted: #9AA0A6;
 }
 
 /* ===== 2. 리셋 & 베이스 ===== */
@@ -457,7 +476,7 @@ header h1 {
 .grid {
   padding: 20px 20px 60px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
   gap: 16px;
 }
 
@@ -471,9 +490,9 @@ header h1 {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  height: 340px;
+  height: var(--card-h);
   position: relative;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, height 0.15s;
 }
 
 .card:hover {
@@ -489,7 +508,7 @@ header h1 {
 /* 썸네일 */
 .card-thumb {
   width: 100%;
-  height: 140px;
+  height: var(--thumb-h);
   object-fit: cover;
   background: var(--bg);
   display: block;
@@ -498,7 +517,7 @@ header h1 {
 
 .card-thumb-placeholder {
   width: 100%;
-  height: 140px;
+  height: var(--thumb-h);
   background: var(--bg);
   border-bottom: var(--bw) solid var(--black);
   display: flex;
@@ -516,7 +535,7 @@ header h1 {
 }
 
 .card-title {
-  font-size: 15px;
+  font-size: var(--title-fs);
   font-weight: 700;
   color: var(--black);
   margin-bottom: 4px;
@@ -1762,3 +1781,30 @@ header h1 {
     height: 140px;
   }
 }
+
+/* ===== 크기 토글 (S/M/L) ===== */
+.size-toggle { display: inline-flex; }
+.size-btn {
+  width: 30px; height: 30px;
+  border: 2px solid var(--black);
+  border-left-width: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: inherit; font-weight: 700; font-size: 12px;
+  cursor: pointer;
+}
+.size-btn:first-child { border-left-width: 2px; }
+.size-btn:hover { background: var(--pink); }
+.size-btn.active { background: var(--pink); }
+
+/* ===== 테마 토글 ===== */
+.theme-toggle {
+  width: 38px; height: 38px;
+  border: 3px solid var(--black);
+  background: var(--white);
+  box-shadow: 4px 4px 0 var(--black);
+  font-size: 16px; line-height: 1; cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.theme-toggle:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--black); }
+.theme-toggle:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--black); }
