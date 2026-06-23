@@ -629,7 +629,8 @@ header h1 {
 }
 
 .card-actions .del-btn:hover {
-  background: #ff5a38;
+  background: var(--orange);
+  filter: brightness(0.9);
 }
 
 /* 빈 상태 */
