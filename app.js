@@ -473,12 +473,22 @@ function updatePromptFields() {
 function renderModalTags() {
   const box = document.getElementById("modalTags");
   if (!box) return;
-  box.innerHTML = allTags.map(t =>
-    `<button type="button" class="modal-tag${selectedModalTags.has(t) ? " selected" : ""}" data-tag="${escHtml(t)}">${escHtml(t)}</button>`).join("");
+  box.innerHTML = allTags.map(t => {
+    const e = escHtml(t);
+    return `<button type="button" class="modal-tag${selectedModalTags.has(t) ? " selected" : ""}" data-tag="${e}">${e}<span class="tag-del" title="태그 삭제">✕</span></button>`;
+  }).join("");
   if (!box.dataset.bound) {
-    box.addEventListener("click", e => {
+    box.addEventListener("click", async e => {
       const btn = e.target.closest(".modal-tag"); if (!btn) return;
       const tag = btn.dataset.tag;
+      if (e.target.classList.contains("tag-del")) {
+        if (!confirm(`'${tag}' 태그를 삭제할까요?\n모두에게 공유되는 태그입니다.`)) return;
+        selectedModalTags.delete(tag);
+        selectedTags.delete(tag);   // 필터바에 남은 활성 필터도 정리
+        const { error } = await supabase.from("tags").delete().eq("name", tag);
+        if (error) alert("태그 삭제 실패: " + error.message);
+        return;   // 실시간 콜백이 재렌더
+      }
       if (selectedModalTags.has(tag)) selectedModalTags.delete(tag);
       else selectedModalTags.add(tag);
       btn.classList.toggle("selected");

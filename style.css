@@ -356,6 +356,17 @@ header h1 {
   box-shadow: 2px 2px 0 var(--black);
 }
 
+/* 태그 삭제 ✕ — hover 시 노출 */
+.modal-tag .tag-del {
+  display: none;
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  opacity: 0.65;
+}
+.modal-tag:hover .tag-del { display: inline; }
+.modal-tag .tag-del:hover { color: var(--orange); opacity: 1; }
+
 /* 프롬프트 필드 */
 .prompt-fields {
   display: none;

@@ -73,6 +73,7 @@ create table if not exists tags (
 alter table tags enable row level security;
 create policy tags_read   on tags for select using (true);
 create policy tags_insert on tags for insert with check (char_length(name) between 1 and 40);
+create policy tags_delete on tags for delete using (true);
 alter publication supabase_realtime add table tags;
 
 -- 기본 태그 12종 시드 (created_at = 1..12 로 원래 순서 유지; 사용자 추가분은 Date.now()라 뒤에 정렬됨)
