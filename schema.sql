@@ -55,3 +55,11 @@ create policy comments_delete on comments for delete using (true);
 -- Realtime publication
 alter publication supabase_realtime add table links;
 alter publication supabase_realtime add table comments;
+
+-- Storage: prompts 버킷 익명 읽기/업로드 허용
+-- (대시보드에서 prompts 버킷을 Public으로 생성한 뒤 아래 정책 실행)
+-- 공개 버킷은 읽기만 열리므로, 익명 업로드(insert)는 정책이 별도로 필요함.
+create policy "prompts public read" on storage.objects
+  for select using (bucket_id = 'prompts');
+create policy "prompts anon insert" on storage.objects
+  for insert with check (bucket_id = 'prompts');

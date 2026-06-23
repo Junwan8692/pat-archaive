@@ -2,8 +2,8 @@
 // anon key는 공개되어도 안전(RLS로 보호). 자세한 건 README 참고.
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";   // ← 교체
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";                  // ← 교체
+const SUPABASE_URL = "https://whrnisglpzcvebdttmxc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indocm5pc2dscHpjdmViZHR0bXhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNTc0MjksImV4cCI6MjA5NzczMzQyOX0.U0t7XX44nYhzfx2OS6VAyxo4MZkBZANoUSHWH75QMgE";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 export const STORAGE_BUCKET = "prompts";
