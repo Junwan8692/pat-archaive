@@ -33,23 +33,9 @@
 
 <div class="controls">
   <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="제목, URL 검색...">
+    <input type="text" id="searchInput" placeholder="제목, URL, 설명 검색...">
   </div>
-  <div class="tag-filters">
-    <button class="tag-btn active" data-tag="전체">전체</button>
-    <button class="tag-btn" data-tag="AI">AI</button>
-    <button class="tag-btn" data-tag="Vibecoding">Vibecoding</button>
-    <button class="tag-btn" data-tag="Image">Image</button>
-    <button class="tag-btn" data-tag="Video">Video</button>
-    <button class="tag-btn" data-tag="Product">Product</button>
-    <button class="tag-btn" data-tag="Github">Github</button>
-    <button class="tag-btn" data-tag="ComfyUI">ComfyUI</button>
-    <button class="tag-btn" data-tag="Design">Design</button>
-    <button class="tag-btn" data-tag="Prompt">Prompt</button>
-    <button class="tag-btn" data-tag="Idea">Idea</button>
-    <button class="tag-btn" data-tag="Assets">Assets</button>
-    <button class="tag-btn" data-tag="ETC">ETC</button>
-  </div>
+  <div class="tag-filters" id="tagFilters"></div>
   <div id="authorFilterBadge" style="display:none;align-items:center;gap:4px;background:#eef6fc;border:1px solid var(--border-dark);border-radius:3px;padding:4px 8px;font-size:11px;color:var(--sky);font-weight:bold;">
     <span></span>
     <button onclick="window._clearAuthorFilter()" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;line-height:1;padding:0 2px;">✕</button>
@@ -81,20 +67,8 @@
     <div class="author-quick-btns" id="authorQuickBtns"></div>
     <button type="button" class="author-add-btn" onclick="window.addAuthor()">+ 이름 추가</button>
     <label>태그</label>
-    <div class="modal-tags">
-      <button class="modal-tag" data-tag="AI">AI</button>
-      <button class="modal-tag" data-tag="Vibecoding">Vibecoding</button>
-      <button class="modal-tag" data-tag="Image">Image</button>
-      <button class="modal-tag" data-tag="Video">Video</button>
-      <button class="modal-tag" data-tag="Product">Product</button>
-      <button class="modal-tag" data-tag="Github">Github</button>
-      <button class="modal-tag" data-tag="ComfyUI">ComfyUI</button>
-      <button class="modal-tag" data-tag="Design">Design</button>
-      <button class="modal-tag" data-tag="Prompt">Prompt</button>
-      <button class="modal-tag" data-tag="Idea">Idea</button>
-      <button class="modal-tag" data-tag="Assets">Assets</button>
-      <button class="modal-tag" data-tag="ETC">ETC</button>
-    </div>
+    <div class="modal-tags" id="modalTags"></div>
+    <button type="button" class="author-add-btn" onclick="window.addTag()">+ 태그 추가</button>
 
     <!-- 프롬프트 태그 선택 시 표시 -->
     <div class="prompt-fields" id="promptFields">

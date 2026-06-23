@@ -63,3 +63,21 @@ create policy "prompts public read" on storage.objects
   for select using (bucket_id = 'prompts');
 create policy "prompts anon insert" on storage.objects
   for insert with check (bucket_id = 'prompts');
+
+-- ===== 공유 태그 테이블 =====
+create table if not exists tags (
+  id         uuid primary key default gen_random_uuid(),
+  name       text not null unique check (char_length(name) between 1 and 40),
+  created_at bigint not null
+);
+alter table tags enable row level security;
+create policy tags_read   on tags for select using (true);
+create policy tags_insert on tags for insert with check (char_length(name) between 1 and 40);
+alter publication supabase_realtime add table tags;
+
+-- 기본 태그 12종 시드 (created_at = 1..12 로 원래 순서 유지; 사용자 추가분은 Date.now()라 뒤에 정렬됨)
+insert into tags (name, created_at)
+select name, ord
+from unnest(array['AI','Vibecoding','Image','Video','Product','Github','ComfyUI','Design','Prompt','Idea','Assets','ETC'])
+     with ordinality as t(name, ord)
+on conflict (name) do nothing;

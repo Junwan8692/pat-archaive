@@ -7,6 +7,7 @@ let links = [];
 let authorFilter = '';
 let selectedTags = new Set();
 let selectedModalTags = new Set();
+let allTags = [];   // 공유 태그 목록 (DB)
 let fetchTimer = null;
 let editId = null;
 let pendingMeta = {};
@@ -39,6 +40,37 @@ supabase
   .subscribe();
 
 loadLinks();
+
+// 공유 태그 로드 + 실시간
+async function loadTags() {
+  const { data, error } = await supabase
+    .from("tags")
+    .select("name")
+    .order("created_at", { ascending: true });
+  if (error) return;   // tags 테이블 없으면 조용히 무시 (필터바 비어있게)
+  allTags = data.map(r => r.name);
+  renderTagFilters();
+  if (document.getElementById("modalBg").classList.contains("open")) renderModalTags();
+}
+
+supabase
+  .channel("tags-rt")
+  .on("postgres_changes", { event: "*", schema: "public", table: "tags" }, loadTags)
+  .subscribe();
+
+loadTags();
+
+window.addTag = async function() {
+  const raw = prompt("추가할 태그 이름:");
+  const name = (raw || "").trim();
+  if (!name) return;
+  if (allTags.some(t => t.toLowerCase() === name.toLowerCase())) { alert("이미 있는 태그예요."); return; }
+  const { error } = await supabase.from("tags").insert({ name, created_at: Date.now() });
+  if (error) { alert("태그 추가 실패: " + error.message); return; }
+  // 방금 추가한 태그를 작성 중인 링크에 바로 선택 상태로
+  selectedModalTags.add(name);
+  // 실시간 콜백이 renderTagFilters/renderModalTags 갱신
+};
 
 // ========== HELPERS ==========
 function getDomain(url) {
@@ -140,7 +172,7 @@ function render() {
     const isPromptOnly = linkTags.includes("Prompt") && !l.url;
     if (isPromptOnly) return false;
     const matchTag = selectedTags.size === 0 || linkTags.some(t => selectedTags.has(t));
-    const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ);
+    const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ) || (l.desc || "").toLowerCase().includes(searchQ);
     const matchAuthor = !authorFilter || (l.author || "") === authorFilter;
     return matchTag && matchQ && matchAuthor;
   });
@@ -407,29 +439,27 @@ document.addEventListener("keydown", e => {
   }
 });
 
-// ========== TAG FILTERS ==========
-document.querySelectorAll(".tag-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (btn.dataset.tag === "전체") {
-      selectedTags.clear();
-      document.querySelectorAll(".tag-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-    } else {
-      document.querySelector('.tag-btn[data-tag="전체"]').classList.remove("active");
-      if (selectedTags.has(btn.dataset.tag)) {
-        selectedTags.delete(btn.dataset.tag);
-        btn.classList.remove("active");
-      } else {
-        selectedTags.add(btn.dataset.tag);
-        btn.classList.add("active");
-      }
-      if (selectedTags.size === 0) {
-        document.querySelector('.tag-btn[data-tag="전체"]').classList.add("active");
-      }
-    }
-    render();
-  });
-});
+// ========== TAG FILTERS (DB 동적 렌더 + 위임) ==========
+function renderTagFilters() {
+  const box = document.getElementById("tagFilters");
+  if (!box) return;
+  const chips = [`<button class="tag-btn${selectedTags.size === 0 ? " active" : ""}" data-tag="전체">전체</button>`]
+    .concat(allTags.map(t =>
+      `<button class="tag-btn${selectedTags.has(t) ? " active" : ""}" data-tag="${escHtml(t)}">${escHtml(t)}</button>`));
+  box.innerHTML = chips.join("");
+  if (!box.dataset.bound) {
+    box.addEventListener("click", e => {
+      const btn = e.target.closest(".tag-btn"); if (!btn) return;
+      const tag = btn.dataset.tag;
+      if (tag === "전체") selectedTags.clear();
+      else if (selectedTags.has(tag)) selectedTags.delete(tag);
+      else selectedTags.add(tag);
+      renderTagFilters();
+      render();
+    });
+    box.dataset.bound = "1";
+  }
+}
 
 document.getElementById("searchInput").addEventListener("input", render);
 document.getElementById("sortSelect").addEventListener("change", render);
@@ -439,18 +469,24 @@ function updatePromptFields() {
   document.getElementById("promptFields").classList.toggle("visible", selectedModalTags.has("Prompt"));
 }
 
-document.querySelectorAll(".modal-tag").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (selectedModalTags.has(btn.dataset.tag)) {
-      selectedModalTags.delete(btn.dataset.tag);
-      btn.classList.remove("selected");
-    } else {
-      selectedModalTags.add(btn.dataset.tag);
-      btn.classList.add("selected");
-    }
-    updatePromptFields();
-  });
-});
+// 모달 태그 칩 (DB 동적 렌더 + 위임)
+function renderModalTags() {
+  const box = document.getElementById("modalTags");
+  if (!box) return;
+  box.innerHTML = allTags.map(t =>
+    `<button type="button" class="modal-tag${selectedModalTags.has(t) ? " selected" : ""}" data-tag="${escHtml(t)}">${escHtml(t)}</button>`).join("");
+  if (!box.dataset.bound) {
+    box.addEventListener("click", e => {
+      const btn = e.target.closest(".modal-tag"); if (!btn) return;
+      const tag = btn.dataset.tag;
+      if (selectedModalTags.has(tag)) selectedModalTags.delete(tag);
+      else selectedModalTags.add(tag);
+      btn.classList.toggle("selected");
+      updatePromptFields();
+    });
+    box.dataset.bound = "1";
+  }
+}
 
 window.openModal = function(id) {
   editId = id || null;
@@ -481,9 +517,7 @@ window.openModal = function(id) {
     selectedModalTags = new Set();
   }
 
-  document.querySelectorAll(".modal-tag").forEach(b => {
-    b.classList.toggle("selected", selectedModalTags.has(b.dataset.tag));
-  });
+  renderModalTags();
   updatePromptFields();
 };
 
