@@ -490,9 +490,9 @@ header h1 {
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  height: var(--card-h);
+  min-height: var(--card-h);
   position: relative;
-  transition: transform 0.1s, box-shadow 0.1s, height 0.15s;
+  transition: transform 0.1s, box-shadow 0.1s, min-height 0.15s;
 }
 
 .card:hover {
