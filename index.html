@@ -11,7 +11,6 @@
 <header>
   <h1>PAT ARCHIVE</h1>
   <div class="header-btns">
-    <button class="add-btn" onclick="openPromptModal()">+ 이미지/프롬프트</button>
     <button class="add-btn" onclick="openModal()">+ 링크 추가</button>
   </div>
 </header>
@@ -33,7 +32,7 @@
 
 <div class="controls">
   <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="제목, URL, 설명 검색...">
+    <input type="text" id="searchInput" placeholder="제목, URL, 설명, 사람 검색...">
   </div>
   <div class="tag-filters" id="tagFilters"></div>
   <div id="authorFilterBadge" style="display:none;align-items:center;gap:4px;background:#eef6fc;border:1px solid var(--border-dark);border-radius:3px;padding:4px 8px;font-size:11px;color:var(--sky);font-weight:bold;">
@@ -70,6 +69,14 @@
     <div class="modal-tags" id="modalTags"></div>
     <button type="button" class="author-add-btn" onclick="window.addTag()">+ 태그 추가</button>
 
+    <label>이미지 <span style="color:#555;font-size:11px">(선택 · 여러 장 가능)</span></label>
+    <div class="upload-area" onclick="document.getElementById('imageFiles').click()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:6px;display:block;margin-left:auto;margin-right:auto"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      클릭해서 이미지 선택
+      <input type="file" id="imageFiles" accept="image/*,.heic,.heif" multiple style="display:none" onchange="handleImageSelect(event)">
+    </div>
+    <div class="upload-preview" id="uploadPreview"></div>
+
     <!-- 프롬프트 태그 선택 시 표시 -->
     <div class="prompt-fields" id="promptFields">
       <div class="prompt-fields-header">프롬프트 상세</div>
@@ -91,50 +98,6 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">취소</button>
       <button class="btn-save" id="saveBtn" onclick="saveLink()">저장</button>
-    </div>
-  </div>
-</div>
-
-<!-- Prompt Add Modal -->
-<div class="modal-bg" id="promptModalBg" onclick="handlePromptBgClick(event)">
-  <div class="modal" style="width:520px;max-width:95vw">
-    <h2>프롬프트 추가</h2>
-    <label>제목</label>
-    <input type="text" id="pTitleInput" placeholder="프롬프트 제목">
-    <label>올린 사람 <span style="color:#555;font-size:11px">(선택)</span></label>
-    <input type="text" id="pAuthorInput" placeholder="닉네임...">
-    <label>태그</label>
-    <div class="modal-tags" id="promptModalTagsContainer">
-      <button class="modal-tag selected" data-tag="Prompt">Prompt</button>
-      <button class="modal-tag" data-tag="AI">AI</button>
-      <button class="modal-tag" data-tag="Image">Image</button>
-      <button class="modal-tag" data-tag="Video">Video</button>
-      <button class="modal-tag" data-tag="ComfyUI">ComfyUI</button>
-      <button class="modal-tag" data-tag="ETC">ETC</button>
-    </div>
-    <label>이미지 <span style="color:#555;font-size:11px">(여러 장 가능)</span></label>
-    <div class="upload-area" onclick="document.getElementById('imageFiles').click()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:6px;display:block;margin-left:auto;margin-right:auto"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      클릭해서 이미지 선택
-      <input type="file" id="imageFiles" accept="image/*,.heic,.heif" multiple style="display:none" onchange="handleImageSelect(event)">
-    </div>
-    <div class="upload-preview" id="uploadPreview"></div>
-    <div class="prompt-fields-header" style="font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;margin-top:18px;margin-bottom:4px">프롬프트 내용</div>
-    <label>프롬프트 소개</label>
-    <textarea id="pPromptIntroInput" placeholder="어떤 용도의 프롬프트인지 간단히..."></textarea>
-    <label>실행환경 <span style="color:#555;font-size:11px">(예: DALL-E, ComfyUI, Midjourney)</span></label>
-    <input type="text" id="pPromptEnvInput" placeholder="실행환경...">
-    <label>프롬프트</label>
-    <textarea id="pPromptTextInput" placeholder="프롬프트 본문..." style="min-height:120px"></textarea>
-    <label>활용 팁 <span style="color:#555;font-size:11px">(선택)</span></label>
-    <textarea id="pPromptTipInput" placeholder="사용 팁이나 주의사항..."></textarea>
-    <label class="pin-toggle">
-      <input type="checkbox" id="pPinnedInput">
-      <span>✦ Pat recommendation에 고정</span>
-    </label>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closePromptModal()">취소</button>
-      <button class="btn-save" id="pSaveBtn" onclick="savePrompt()">저장</button>
     </div>
   </div>
 </div>

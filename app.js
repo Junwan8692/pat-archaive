@@ -8,6 +8,8 @@ let authorFilter = '';
 let selectedTags = new Set();
 let selectedModalTags = new Set();
 let allTags = [];   // 공유 태그 목록 (DB)
+let selectedImageFiles = [];   // 링크 모달에서 새로 올릴 이미지 파일
+let existingImages = [];        // 링크 수정 시 기존 이미지 URL
 let fetchTimer = null;
 let editId = null;
 let pendingMeta = {};
@@ -172,7 +174,7 @@ function render() {
     const isPromptOnly = linkTags.includes("Prompt") && !l.url;
     if (isPromptOnly) return false;
     const matchTag = selectedTags.size === 0 || linkTags.some(t => selectedTags.has(t));
-    const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ) || (l.desc || "").toLowerCase().includes(searchQ);
+    const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ) || (l.desc || "").toLowerCase().includes(searchQ) || (l.author || "").toLowerCase().includes(searchQ);
     const matchAuthor = !authorFilter || (l.author || "") === authorFilter;
     return matchTag && matchQ && matchAuthor;
   });
@@ -434,7 +436,6 @@ document.getElementById("detailBg").addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (document.getElementById("detailBg").classList.contains("open")) window.closeDetail();
-    else if (document.getElementById("promptModalBg").classList.contains("open")) window.closePromptModal();
     else window.closeModal();
   }
 });
@@ -519,14 +520,18 @@ window.openModal = function(id) {
     const existingTags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);
     selectedModalTags = new Set(existingTags);
     pendingMeta = { image: l.image };
+    existingImages = Array.isArray(l.images) ? [...l.images] : [];
   } else {
     ["urlInput","titleInput","descInput","authorInput","promptIntroInput","promptEnvInput","promptTextInput","promptTipInput"].forEach(fieldId => {
       document.getElementById(fieldId).value = "";
     });
     document.getElementById("pinnedInput").checked = false;
     selectedModalTags = new Set();
+    existingImages = [];
   }
 
+  selectedImageFiles = [];
+  renderUploadPreview();
   renderModalTags();
   updatePromptFields();
 };
@@ -578,30 +583,46 @@ window.saveLink = async function() {
   const desc = document.getElementById("descInput").value.trim();
   const author = document.getElementById("authorInput").value.trim();
   const tags = [...selectedModalTags];
-  if (!url && !tags.includes("Prompt")) return;
+  if (!url && !title && !selectedImageFiles.length && !existingImages.length) {
+    alert("URL · 제목 · 이미지 중 하나는 필요해요.");
+    return;
+  }
 
   const saveBtn = document.getElementById("saveBtn");
   saveBtn.disabled = true;
-  saveBtn.textContent = "저장 중...";
-
-  const data = { url, title, desc, author, tags, image: pendingMeta.image || "" };
-
-  const pinned = document.getElementById("pinnedInput").checked;
-  const existing = editId ? links.find(l => l.id === editId) : null;
-  const wasPinned = existing && existing.pinned === true;
-  data.pinned = pinned;
-  if (pinned && !wasPinned) {
-    data.pinnedAt = Date.now();
-  }
-
-  if (tags.includes("Prompt")) {
-    data.promptIntro = document.getElementById("promptIntroInput").value.trim();
-    data.promptEnv = document.getElementById("promptEnvInput").value.trim();
-    data.promptText = document.getElementById("promptTextInput").value.trim();
-    data.promptTip = document.getElementById("promptTipInput").value.trim();
-  }
+  saveBtn.textContent = selectedImageFiles.length ? "업로드 중..." : "저장 중...";
 
   try {
+    // 새 이미지 업로드 (압축 → Storage)
+    const uploaded = [];
+    for (const file of selectedImageFiles) {
+      const blob = await compressToBlob(file);
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const path = `${Date.now()}_${safeName}`;
+      const { error: upErr } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, blob, { contentType: "image/jpeg" });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      uploaded.push(pub.publicUrl);
+    }
+    const images = [...existingImages, ...uploaded];
+
+    const data = { url, title, desc, author, tags, image: pendingMeta.image || "", images };
+
+    const pinned = document.getElementById("pinnedInput").checked;
+    const existing = editId ? links.find(l => l.id === editId) : null;
+    const wasPinned = existing && existing.pinned === true;
+    data.pinned = pinned;
+    if (pinned && !wasPinned) data.pinnedAt = Date.now();
+
+    if (tags.includes("Prompt")) {
+      data.promptIntro = document.getElementById("promptIntroInput").value.trim();
+      data.promptEnv = document.getElementById("promptEnvInput").value.trim();
+      data.promptText = document.getElementById("promptTextInput").value.trim();
+      data.promptTip = document.getElementById("promptTipInput").value.trim();
+    }
+
     if (editId) {
       const { error } = await supabase.from("links").update(toRow(data)).eq("id", editId);
       if (error) throw error;
@@ -681,45 +702,7 @@ window._carouselGo = function(i) {
   dots[carouselIndex].classList.add("active");
 };
 
-// ========== PROMPT MODAL ==========
-let selectedPromptModalTags = new Set(["Prompt"]);
-let selectedImageFiles = [];
-
-document.querySelectorAll("#promptModalTagsContainer .modal-tag").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (btn.dataset.tag === "Prompt") return; // Prompt tag is always fixed
-    if (selectedPromptModalTags.has(btn.dataset.tag)) {
-      selectedPromptModalTags.delete(btn.dataset.tag);
-      btn.classList.remove("selected");
-    } else {
-      selectedPromptModalTags.add(btn.dataset.tag);
-      btn.classList.add("selected");
-    }
-  });
-});
-
-window.openPromptModal = function() {
-  selectedPromptModalTags = new Set(["Prompt"]);
-  selectedImageFiles = [];
-  ["pTitleInput","pAuthorInput","pPromptIntroInput","pPromptEnvInput","pPromptTextInput","pPromptTipInput"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-  document.getElementById("pPinnedInput").checked = false;
-  document.getElementById("uploadPreview").innerHTML = "";
-  document.querySelectorAll("#promptModalTagsContainer .modal-tag").forEach(b => {
-    b.classList.toggle("selected", selectedPromptModalTags.has(b.dataset.tag));
-  });
-  document.getElementById("promptModalBg").classList.add("open");
-};
-
-window.closePromptModal = function() {
-  document.getElementById("promptModalBg").classList.remove("open");
-};
-
-window.handlePromptBgClick = function(e) {
-  if (e.target === document.getElementById("promptModalBg")) window.closePromptModal();
-};
-
+// ========== 이미지 업로드 (링크 모달) ==========
 window.handleImageSelect = function(e) {
   selectedImageFiles = [...selectedImageFiles, ...[...e.target.files]];
   e.target.value = "";
@@ -728,20 +711,29 @@ window.handleImageSelect = function(e) {
 
 function renderUploadPreview() {
   const preview = document.getElementById("uploadPreview");
-  if (!selectedImageFiles.length) { preview.innerHTML = ""; return; }
-  preview.innerHTML = selectedImageFiles.map((f, i) => `
-    <div class="upload-thumb">
-      <img src="${URL.createObjectURL(f)}" alt="">
-      <button onclick="window._removeImage(${i})">✕</button>
-    </div>`).join("");
+  if (!preview) return;
+  const thumbs = [
+    ...existingImages.map((url, i) => `
+      <div class="upload-thumb">
+        <img src="${escHtml(url)}" alt="">
+        <button type="button" onclick="window._removeImage('e',${i})">✕</button>
+      </div>`),
+    ...selectedImageFiles.map((f, i) => `
+      <div class="upload-thumb">
+        <img src="${URL.createObjectURL(f)}" alt="">
+        <button type="button" onclick="window._removeImage('n',${i})">✕</button>
+      </div>`)
+  ];
+  preview.innerHTML = thumbs.join("");
 }
 
-window._removeImage = function(i) {
-  selectedImageFiles.splice(i, 1);
+window._removeImage = function(kind, i) {
+  if (kind === "e") existingImages.splice(i, 1);
+  else selectedImageFiles.splice(i, 1);
   renderUploadPreview();
 };
 
-// compress image file to blob (used in savePrompt)
+// compress image file to blob (used when uploading link images)
 async function compressToBlob(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -769,61 +761,6 @@ async function compressToBlob(file) {
     reader.readAsDataURL(file);
   });
 }
-
-window.savePrompt = async function() {
-  const title = document.getElementById("pTitleInput").value.trim();
-  if (!title) { alert("제목을 입력해주세요"); return; }
-
-  const btn = document.getElementById("pSaveBtn");
-  btn.disabled = true;
-  btn.textContent = selectedImageFiles.length > 0 ? "업로드 중..." : "저장 중...";
-
-  try {
-    const imageUrls = [];
-    for (const file of selectedImageFiles) {
-      const blob = await compressToBlob(file);
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = `${Date.now()}_${safeName}`;
-      const { error: uploadErr } = await supabase.storage
-        .from(STORAGE_BUCKET)
-        .upload(path, blob, { contentType: "image/jpeg" });
-      if (uploadErr) throw uploadErr;
-      const { data: pub } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-      imageUrls.push(pub.publicUrl);
-    }
-
-    const tags = [...selectedPromptModalTags];
-    const pinned = document.getElementById("pPinnedInput").checked;
-    const docData = {
-      title,
-      author: document.getElementById("pAuthorInput").value.trim(),
-      tags,
-      images: imageUrls,
-      promptIntro: document.getElementById("pPromptIntroInput").value.trim(),
-      promptEnv: document.getElementById("pPromptEnvInput").value.trim(),
-      promptText: document.getElementById("pPromptTextInput").value.trim(),
-      promptTip: document.getElementById("pPromptTipInput").value.trim(),
-      createdAt: Date.now(),
-      views: 0,
-      likes: 0,
-      commentCount: 0,
-      pinned
-    };
-    if (pinned) docData.pinnedAt = Date.now();
-
-    const { error: insertErr } = await supabase.from("links").insert(toRow(docData));
-    if (insertErr) throw insertErr;
-    window.closePromptModal();
-  } catch(e) {
-    alert("저장 실패: " + e.message);
-    btn.disabled = false;
-    btn.textContent = "저장";
-    return;
-  }
-
-  btn.disabled = false;
-  btn.textContent = "저장";
-};
 
 // ========== 작성자 퀵버튼 ==========
 const AUTHORS_KEY = "patAuthors";
