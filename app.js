@@ -1,6 +1,8 @@
 import { supabase, STORAGE_BUCKET } from "./supabase.js";
 import { mapRow, toRow } from "./lib/map.mjs";
 import { addAuthorName, removeAuthorName } from "./lib/authors.mjs";
+import { normalizeSize } from "./lib/cardsize.mjs";
+import { normalizeTheme } from "./lib/theme.mjs";
 
 // ========== STATE ==========
 let links = [];
@@ -793,3 +795,29 @@ window.addAuthor = () => {
 };
 window._removeAuthor = n => { saveAuthors(removeAuthorName(getAuthors(), n)); renderAuthors(); };
 renderAuthors();
+
+// ========== 카드 크기 / 테마 ==========
+function applySize(size) {
+  const s = normalizeSize(size);
+  document.documentElement.dataset.size = s;
+  localStorage.setItem("cardSize", s);
+  document.querySelectorAll("#sizeToggle .size-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.size === s));
+}
+function applyTheme(theme) {
+  const t = normalizeTheme(theme);
+  document.documentElement.dataset.theme = t;
+  localStorage.setItem("theme", t);
+  const btn = document.getElementById("themeToggle");
+  if (btn) btn.textContent = t === "dark" ? "🌙" : "☀";
+}
+window.toggleTheme = function() {
+  applyTheme(document.documentElement.dataset.theme === "dark" ? "day" : "dark");
+};
+const sizeBox = document.getElementById("sizeToggle");
+if (sizeBox) sizeBox.addEventListener("click", e => {
+  const b = e.target.closest(".size-btn");
+  if (b) applySize(b.dataset.size);
+});
+applySize(localStorage.getItem("cardSize"));   // null이면 normalizeSize가 'm'
+applyTheme(localStorage.getItem("theme"));      // null이면 normalizeTheme가 'day'

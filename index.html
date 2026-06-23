@@ -11,6 +11,7 @@
 <header>
   <h1>PAT ARCHIVE</h1>
   <div class="header-btns">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="테마 전환">☀</button>
     <button class="add-btn" onclick="openModal()">+ 링크 추가</button>
   </div>
 </header>
@@ -35,9 +36,14 @@
     <input type="text" id="searchInput" placeholder="제목, URL, 설명, 사람 검색...">
   </div>
   <div class="tag-filters" id="tagFilters"></div>
-  <div id="authorFilterBadge" style="display:none;align-items:center;gap:4px;background:#eef6fc;border:1px solid var(--border-dark);border-radius:3px;padding:4px 8px;font-size:11px;color:var(--sky);font-weight:bold;">
+  <div id="authorFilterBadge" style="display:none;align-items:center;gap:4px;background:var(--white);border:2px solid var(--black);border-radius:3px;padding:4px 8px;font-size:11px;color:var(--black);font-weight:bold;">
     <span></span>
     <button onclick="window._clearAuthorFilter()" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;line-height:1;padding:0 2px;">✕</button>
+  </div>
+  <div class="size-toggle" id="sizeToggle">
+    <button type="button" class="size-btn" data-size="s">S</button>
+    <button type="button" class="size-btn active" data-size="m">M</button>
+    <button type="button" class="size-btn" data-size="l">L</button>
   </div>
   <select class="sort-select" id="sortSelect">
     <option value="desc">최신순</option>
