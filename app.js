@@ -240,8 +240,9 @@ window._openDetail = async function(id) {
   if (!l) return;
   currentDetailLink = l;
 
-  // 조회수 증가
+  // 조회수 증가 — DB RPC + 로컬 낙관적 +1 (realtime 왕복 기다리지 않고 즉시 반영)
   supabase.rpc("increment_views", { row_id: id });
+  l.views = (l.views || 0) + 1;
 
   // 썸네일 / 캐러셀
   const thumbWrap = document.getElementById("detailThumbWrap");
