@@ -204,5 +204,7 @@ create trigger trg_comments_count after insert or delete on comments
 -- 주의: delete_comment_admin/쓰기정책은 'authenticated'=admin 전제. Supabase 가입(sign-up) 비활성 유지 필수.
 
 -- del_hash(삭제암호 해시)는 클라이언트에 노출 금지 — 약한 암호 오프라인 크랙 방지.
--- 삭제는 security definer RPC가 내부에서 비교하므로 anon/authenticated는 이 컬럼을 읽을 필요 없음.
-revoke select (del_hash) on comments from anon, authenticated;
+-- Supabase는 테이블 단위 SELECT를 부여하므로, 컬럼 revoke만으론 안 막힘.
+-- → 테이블 SELECT를 회수하고 허용 컬럼만 grant (del_hash 제외). INSERT 권한은 그대로라 게스트 del_hash 저장은 됨.
+revoke select on comments from anon, authenticated;
+grant select (id, link_id, author, text, created_at) on comments to anon, authenticated;
