@@ -342,7 +342,7 @@ window._openDetail = async function(id) {
   async function loadComments() {
     const { data, error } = await supabase
       .from("comments")
-      .select("*")
+      .select("id, link_id, author, text, created_at")
       .eq("link_id", id)
       .order("created_at", { ascending: true });
     if (!error) renderComments((data || []).map(mapRow));
@@ -422,8 +422,7 @@ function bindCommentDelete() {
     } else {
       const pw = prompt("댓글 삭제 암호:");
       if (!pw) return;
-      const pw_hash = await sha256Hex(pw);
-      await supabase.rpc("delete_comment", { comment_id: id, pw_hash });
+      await supabase.rpc("delete_comment", { comment_id: id, pw });
       // 일치하지 않으면 아무 행도 안 지워짐(조용). 실시간 구독이 목록 갱신.
     }
   });
@@ -440,7 +439,6 @@ window.submitComment = async function() {
   if (pw) row.del_hash = await sha256Hex(pw);
   const { error } = await supabase.from("comments").insert(row);
   if (error) { alert("댓글 등록 실패: " + error.message); return; }
-  await supabase.rpc("bump_comment_count", { row_id: currentDetailLink.id });
   document.getElementById("commentText").value = "";
   document.getElementById("commentPw").value = "";
 };

@@ -153,3 +153,50 @@ create or replace function delete_comment_admin(comment_id uuid) returns void
 
 create or replace function bump_comment_count(row_id uuid) returns void
   language sql security definer as $$ update links set comment_count = comment_count + 1 where id = row_id $$;
+
+-- ===== 보안 보정 (final review) =====
+create extension if not exists pgcrypto with schema extensions;
+
+-- 댓글 insert: 부모글이 보이는 경우에만(게스트는 admin-only 글에 댓글 불가)
+drop policy if exists comments_insert on comments;
+create policy comments_insert on comments for insert with check (
+  char_length(text) between 1 and 1000
+  and exists (select 1 from links l
+              where l.id = link_id
+              and (l.admin_only = false or auth.role() = 'authenticated'))
+);
+
+-- 게스트 댓글 삭제: 평문 암호를 받아 서버에서 해시 비교(클라 해시 되쏘기 차단)
+create or replace function delete_comment(comment_id uuid, pw text) returns void
+  language plpgsql security definer as $$
+  begin
+    delete from comments
+      where id = comment_id and del_hash is not null
+        and del_hash = encode(extensions.digest(pw, 'sha256'), 'hex');
+  end; $$;
+
+-- admin 댓글 삭제: 인증 확인(카운트는 트리거가 처리)
+create or replace function delete_comment_admin(comment_id uuid) returns void
+  language plpgsql security definer as $$
+  begin
+    if auth.role() <> 'authenticated' then raise exception 'not authorized'; end if;
+    delete from comments where id = comment_id;
+  end; $$;
+
+-- 댓글 수: 트리거로 일원화(무제한 bump RPC 제거, 행과 트랜잭션 결합)
+drop function if exists bump_comment_count(uuid);
+create or replace function comments_count_trg() returns trigger
+  language plpgsql security definer as $$
+  begin
+    if tg_op = 'INSERT' then
+      update links set comment_count = comment_count + 1 where id = new.link_id;
+    elsif tg_op = 'DELETE' then
+      update links set comment_count = greatest(comment_count - 1, 0) where id = old.link_id;
+    end if;
+    return null;
+  end; $$;
+drop trigger if exists trg_comments_count on comments;
+create trigger trg_comments_count after insert or delete on comments
+  for each row execute function comments_count_trg();
+
+-- 주의: delete_comment_admin/쓰기정책은 'authenticated'=admin 전제. Supabase 가입(sign-up) 비활성 유지 필수.
