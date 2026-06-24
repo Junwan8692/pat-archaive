@@ -821,3 +821,45 @@ if (sizeBox) sizeBox.addEventListener("click", e => {
 });
 applySize(localStorage.getItem("cardSize"));   // null이면 normalizeSize가 'm'
 applyTheme(localStorage.getItem("theme"));      // null이면 normalizeTheme가 'day'
+
+// ========== 인증 / 역할 (admin/guest) ==========
+let isAdmin = false;
+function setRole(admin) {
+  isAdmin = admin;
+  document.documentElement.dataset.role = admin ? "admin" : "guest";
+  render();   // 역할에 따라 admin-only 카드 노출/숨김 갱신(T4)
+}
+function showAuthOverlay() { document.getElementById("authOverlay").classList.add("open"); }
+function hideAuthOverlay() { document.getElementById("authOverlay").classList.remove("open"); }
+
+window.adminLogin = async function() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPw").value;
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) { document.getElementById("loginError").textContent = "로그인 실패: " + error.message; return; }
+  localStorage.removeItem("patGuest");
+  hideAuthOverlay();   // onAuthStateChange가 admin 역할 설정
+};
+window.enterAsGuest = function() {
+  localStorage.setItem("patGuest", "1");
+  setRole(false);
+  hideAuthOverlay();
+};
+window.logout = async function() {
+  await supabase.auth.signOut();
+  localStorage.removeItem("patGuest");
+  setRole(false);
+  showAuthOverlay();
+};
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  if (session) { setRole(true); hideAuthOverlay(); }
+  else { setRole(false); }
+});
+
+(async function initAuth() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) { setRole(true); hideAuthOverlay(); }
+  else if (localStorage.getItem("patGuest") === "1") { setRole(false); hideAuthOverlay(); }
+  else { setRole(false); showAuthOverlay(); }
+})();

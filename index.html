@@ -8,11 +8,24 @@
 </head>
 <body>
 
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-card">
+    <h2>PAT ARCHIVE</h2>
+    <p class="auth-sub">관리자 로그인 또는 게스트로 둘러보기</p>
+    <input type="email" id="loginEmail" placeholder="이메일">
+    <input type="password" id="loginPw" placeholder="비밀번호" onkeydown="if(event.key==='Enter')adminLogin()">
+    <div class="auth-error" id="loginError"></div>
+    <button class="btn-save" onclick="adminLogin()">로그인</button>
+    <button class="btn-cancel" onclick="enterAsGuest()">게스트로 둘러보기</button>
+  </div>
+</div>
+
 <header>
   <h1>PAT ARCHIVE</h1>
   <div class="header-btns">
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="테마 전환">☀</button>
     <button class="add-btn" onclick="openModal()">+ 링크 추가</button>
+    <button class="add-btn-secondary" id="logoutBtn" onclick="logout()">로그아웃</button>
   </div>
 </header>
 
