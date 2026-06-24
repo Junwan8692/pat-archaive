@@ -150,3 +150,6 @@ create or replace function delete_comment_admin(comment_id uuid) returns void
     delete from comments where id = comment_id;
     if lid is not null then update links set comment_count = greatest(comment_count - 1, 0) where id = lid; end if;
   end; $$;
+
+create or replace function bump_comment_count(row_id uuid) returns void
+  language sql security definer as $$ update links set comment_count = comment_count + 1 where id = row_id $$;
