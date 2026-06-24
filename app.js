@@ -30,6 +30,11 @@ async function loadLinks() {
     return;
   }
   links = data.map(mapRow);
+  // 게스트: admin 전용 글의 존재만 잠긴 티저 카드로 노출 (내용은 RLS가 차단해 받지 않음)
+  if (!isAdmin) {
+    const { data: locked } = await supabase.rpc("locked_links");
+    if (locked?.length) links.push(...locked.map(r => ({ id: r.id, createdAt: r.created_at, locked: true })));
+  }
   document.getElementById("status").style.display = "none";
   document.getElementById("grid").style.display = "grid";
   render();
@@ -190,6 +195,16 @@ function render() {
   }
 
   grid.innerHTML = filtered.map(l => {
+    if (l.locked) return `
+    <div class="card card-locked" title="로그인하면 볼 수 있어요">
+      <div class="card-thumb-placeholder locked-blur">🔒</div>
+      <div class="card-body locked-blur">
+        <div class="card-title">멤버 전용 콘텐츠</div>
+        <div class="card-url">●●●●●●●●</div>
+        <div class="card-desc">●●●● ●●●●● ●● ●●●●●●</div>
+      </div>
+      <div class="locked-overlay"><span>🔒 로그인하면 볼 수 있어요</span></div>
+    </div>`;
     const thumbUrl = (l.images && l.images.length > 0) ? l.images[0] : l.image;
     const fallbackEmoji = l.url ? getSiteEmoji(l.url) : "💬";
     const thumb = thumbUrl
@@ -237,7 +252,7 @@ let carouselIndex = 0;
 
 window._openDetail = async function(id) {
   const l = links.find(x => x.id === id);
-  if (!l) return;
+  if (!l || l.locked) return;   // 잠긴 티저 카드는 열 수 없음 (내용 자체가 클라에 없음)
   currentDetailLink = l;
 
   // 조회수 증가 — DB RPC + 로컬 낙관적 +1 (realtime 왕복 기다리지 않고 즉시 반영)
@@ -867,7 +882,7 @@ let isAdmin = false;
 function setRole(admin) {
   isAdmin = admin;
   document.documentElement.dataset.role = admin ? "admin" : "guest";
-  render();   // 역할에 따라 admin-only 카드 노출/숨김 갱신(T4)
+  loadLinks();   // 역할 바뀌면 권한에 맞게 재조회 (admin=실데이터, 게스트=잠긴 티저). loadLinks가 render 호출
 }
 function showAuthOverlay() { document.getElementById("authOverlay").classList.add("open"); }
 function hideAuthOverlay() { document.getElementById("authOverlay").classList.remove("open"); }

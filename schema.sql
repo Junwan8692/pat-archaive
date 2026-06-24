@@ -128,6 +128,15 @@ create or replace function increment_views(row_id uuid) returns void
 create or replace function adjust_likes(row_id uuid, delta int) returns void
   language sql security definer as $$ update links set likes = likes + sign(delta)::int where id = row_id $$;
 
+-- 게스트 티저: admin 전용 글의 "존재"(id·작성시각)만 노출. 제목·URL·이미지·내용은 절대 반환 안 함.
+-- id가 노출돼도 links_read RLS가 anon의 admin_only 행 직접 조회를 계속 차단 → 내용은 안전.
+create or replace function locked_links()
+  returns table(id uuid, created_at bigint)
+  language sql security definer stable as $$
+    select id, created_at from links where admin_only = true
+  $$;
+grant execute on function locked_links() to anon, authenticated;
+
 -- RPC: 게스트 댓글 삭제(해시 일치 시) + count 감소
 create or replace function delete_comment(comment_id uuid, pw_hash text) returns void
   language plpgsql security definer as $$

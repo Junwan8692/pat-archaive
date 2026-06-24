@@ -1839,6 +1839,16 @@ html:not([data-role="admin"]) .upload-area { display: none !important; }
 html[data-role="admin"] #loginBtn { display: none !important; }
 html:not([data-role="admin"]) #loginBtn { display: inline-block !important; }
 
+/* 게스트용 잠긴 티저 카드 — 내용 없이 블러+자물쇠, 클릭 불가 */
+.card-locked { position: relative; overflow: hidden; cursor: default; }
+.card-locked:hover { transform: none; }
+.locked-blur { filter: blur(5px); opacity: .55; user-select: none; pointer-events: none; }
+.locked-overlay {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 12px; font-weight: 700; font-size: 13px; color: var(--black);
+  background: rgba(255,255,255,.4);
+}
+
 /* ===== Admin-only 배지 ===== */
 .admin-badge {
   position: absolute; top: 8px; right: 8px; z-index: 3;
