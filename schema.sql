@@ -126,7 +126,7 @@ create policy "prompts auth insert" on storage.objects
 create or replace function increment_views(row_id uuid) returns void
   language sql security definer as $$ update links set views = views + 1 where id = row_id $$;
 create or replace function adjust_likes(row_id uuid, delta int) returns void
-  language sql security definer as $$ update links set likes = likes + sign(delta) where id = row_id $$;
+  language sql security definer as $$ update links set likes = likes + sign(delta)::int where id = row_id $$;
 
 -- RPC: 게스트 댓글 삭제(해시 일치 시) + count 감소
 create or replace function delete_comment(comment_id uuid, pw_hash text) returns void
