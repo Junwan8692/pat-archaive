@@ -82,3 +82,71 @@ select name, ord
 from unnest(array['AI','Vibecoding','Image','Video','Product','Github','ComfyUI','Design','Prompt','Idea','Assets','ETC'])
      with ordinality as t(name, ord)
 on conflict (name) do nothing;
+
+-- ===== 접근 제어 (admin/guest) =====
+alter table links    add column if not exists admin_only boolean default false;
+alter table comments add column if not exists del_hash text;
+
+-- links: 읽기는 공개분만(또는 로그인), 쓰기는 authenticated
+drop policy if exists links_read   on links;
+drop policy if exists links_insert on links;
+drop policy if exists links_update on links;
+drop policy if exists links_delete on links;
+create policy links_read   on links for select
+  using (admin_only = false or auth.role() = 'authenticated');
+create policy links_insert on links for insert to authenticated
+  with check (char_length(title) between 1 and 500);
+create policy links_update on links for update to authenticated using (true);
+create policy links_delete on links for delete to authenticated using (true);
+
+-- comments: insert 공개, 읽기는 부모글 가시성 따름, 직접 delete 정책 없음(cascade/RPC만)
+drop policy if exists comments_read   on comments;
+drop policy if exists comments_insert on comments;
+drop policy if exists comments_delete on comments;
+create policy comments_read on comments for select using (
+  exists (select 1 from links l
+          where l.id = comments.link_id
+          and (l.admin_only = false or auth.role() = 'authenticated'))
+);
+create policy comments_insert on comments for insert
+  with check (char_length(text) between 1 and 1000);
+
+-- tags: 쓰기 authenticated
+drop policy if exists tags_insert on tags;
+drop policy if exists tags_delete on tags;
+create policy tags_insert on tags for insert to authenticated with check (char_length(name) between 1 and 40);
+create policy tags_delete on tags for delete to authenticated using (true);
+
+-- storage: 업로드 authenticated만(읽기 공개 유지)
+drop policy if exists "prompts anon insert" on storage.objects;
+create policy "prompts auth insert" on storage.objects
+  for insert to authenticated with check (bucket_id = 'prompts');
+
+-- RPC: 조회/좋아요는 security definer로 게스트도 가능(좁은 범위)
+create or replace function increment_views(row_id uuid) returns void
+  language sql security definer as $$ update links set views = views + 1 where id = row_id $$;
+create or replace function adjust_likes(row_id uuid, delta int) returns void
+  language sql security definer as $$ update links set likes = likes + sign(delta) where id = row_id $$;
+
+-- RPC: 게스트 댓글 삭제(해시 일치 시) + count 감소
+create or replace function delete_comment(comment_id uuid, pw_hash text) returns void
+  language plpgsql security definer as $$
+  declare lid uuid;
+  begin
+    select link_id into lid from comments
+      where id = comment_id and del_hash is not null and del_hash = pw_hash;
+    if lid is null then return; end if;
+    delete from comments where id = comment_id;
+    update links set comment_count = greatest(comment_count - 1, 0) where id = lid;
+  end; $$;
+
+-- RPC: admin 댓글 전체 삭제(인증 확인) + count 감소
+create or replace function delete_comment_admin(comment_id uuid) returns void
+  language plpgsql security definer as $$
+  declare lid uuid;
+  begin
+    if auth.role() <> 'authenticated' then raise exception 'not authorized'; end if;
+    select link_id into lid from comments where id = comment_id;
+    delete from comments where id = comment_id;
+    if lid is not null then update links set comment_count = greatest(comment_count - 1, 0) where id = lid; end if;
+  end; $$;
