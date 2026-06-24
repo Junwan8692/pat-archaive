@@ -1834,3 +1834,11 @@ html:not([data-role="admin"]) .header-btns .add-btn,
 html:not([data-role="admin"]) .author-add-btn,
 html:not([data-role="admin"]) .card-actions,
 html:not([data-role="admin"]) .upload-area { display: none !important; }
+
+/* ===== Admin-only 배지 ===== */
+.admin-badge {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+  background: var(--black); color: var(--white);
+  border: 2px solid var(--black);
+  font-size: 11px; padding: 2px 6px; font-weight: 700;
+}

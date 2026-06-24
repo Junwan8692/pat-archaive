@@ -113,6 +113,7 @@ function renderFeatured() {
   const pinned = links
     .filter(l => {
       if (l.pinned !== true) return false;
+      if (!isAdmin && l.adminOnly) return false;
       const tags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);
       const isPromptOnly = tags.includes("Prompt") && !l.url;
       return !isPromptOnly;
@@ -175,6 +176,7 @@ function render() {
     // Prompt-only items (no url, has promptText) are excluded from the main grid
     const isPromptOnly = linkTags.includes("Prompt") && !l.url;
     if (isPromptOnly) return false;
+    if (!isAdmin && l.adminOnly) return false;
     const matchTag = selectedTags.size === 0 || linkTags.some(t => selectedTags.has(t));
     const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ) || (l.desc || "").toLowerCase().includes(searchQ) || (l.author || "").toLowerCase().includes(searchQ);
     const matchAuthor = !authorFilter || (l.author || "") === authorFilter;
@@ -200,6 +202,7 @@ function render() {
     return `
     <div class="card" onclick="window._openDetail('${l.id}')">
       ${isNew ? '<span class="new-badge">✦ NEW</span>' : ""}
+      ${l.adminOnly ? '<span class="admin-badge">🔒</span>' : ''}
       ${thumb}
       <div class="card-body">
         <div class="card-title">${escHtml(l.title || (l.url ? getDomain(l.url) : "제목 없음"))}</div>
@@ -519,6 +522,7 @@ window.openModal = function(id) {
     document.getElementById("promptTextInput").value = l.promptText || "";
     document.getElementById("promptTipInput").value = l.promptTip || "";
     document.getElementById("pinnedInput").checked = l.pinned === true;
+    document.getElementById("adminOnlyInput").checked = l.adminOnly === true;
     const existingTags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);
     selectedModalTags = new Set(existingTags);
     pendingMeta = { image: l.image };
@@ -528,6 +532,7 @@ window.openModal = function(id) {
       document.getElementById(fieldId).value = "";
     });
     document.getElementById("pinnedInput").checked = false;
+    document.getElementById("adminOnlyInput").checked = false;
     selectedModalTags = new Set();
     existingImages = [];
   }
@@ -611,6 +616,7 @@ window.saveLink = async function() {
     const images = [...existingImages, ...uploaded];
 
     const data = { url, title, desc, author, tags, image: pendingMeta.image || "", images };
+    data.adminOnly = document.getElementById("adminOnlyInput").checked;
 
     const pinned = document.getElementById("pinnedInput").checked;
     const existing = editId ? links.find(l => l.id === editId) : null;

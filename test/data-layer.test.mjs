@@ -18,4 +18,6 @@ assert.equal(r.prompt_text, "p");
 assert.equal(r.title, "t");
 assert.equal(toRow({ linkId:"abc" }).link_id, "abc");   // FK 매핑 가드
 
+assert.equal(toRow({ adminOnly: true }).admin_only, true);
+assert.equal(mapRow({ admin_only: true }).adminOnly, true);
 console.log("data-layer: ok");
