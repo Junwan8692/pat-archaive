@@ -243,6 +243,7 @@ window._openDetail = async function(id) {
   // 조회수 증가 — DB RPC + 로컬 낙관적 +1 (realtime 왕복 기다리지 않고 즉시 반영)
   supabase.rpc("increment_views", { row_id: id });
   l.views = (l.views || 0) + 1;
+  render();  // 메인 카드도 즉시 갱신 (realtime 왕복 안 기다림)
 
   // 썸네일 / 캐러셀
   const thumbWrap = document.getElementById("detailThumbWrap");
@@ -870,6 +871,7 @@ function setRole(admin) {
 }
 function showAuthOverlay() { document.getElementById("authOverlay").classList.add("open"); }
 function hideAuthOverlay() { document.getElementById("authOverlay").classList.remove("open"); }
+window.showLogin = showAuthOverlay;   // 게스트가 헤더 LOGIN 버튼으로 언제든 로그인 화면 열기
 
 window.adminLogin = async function() {
   const email = document.getElementById("loginEmail").value.trim();

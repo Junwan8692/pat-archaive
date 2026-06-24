@@ -1835,6 +1835,10 @@ html:not([data-role="admin"]) .author-add-btn,
 html:not([data-role="admin"]) .card-actions,
 html:not([data-role="admin"]) .upload-area { display: none !important; }
 
+/* 게스트 전용 LOGIN 버튼: admin은 숨김, 게스트는 위의 add-btn 숨김을 ID 우선순위로 무시하고 표시 */
+html[data-role="admin"] #loginBtn { display: none !important; }
+html:not([data-role="admin"]) #loginBtn { display: inline-block !important; }
+
 /* ===== Admin-only 배지 ===== */
 .admin-badge {
   position: absolute; top: 8px; right: 8px; z-index: 3;
