@@ -3,6 +3,7 @@ import { mapRow, toRow } from "./lib/map.mjs";
 import { addAuthorName, removeAuthorName } from "./lib/authors.mjs";
 import { normalizeSize } from "./lib/cardsize.mjs";
 import { normalizeTheme } from "./lib/theme.mjs";
+import { sha256Hex } from "./lib/hash.mjs";
 
 // ========== STATE ==========
 let links = [];
@@ -113,6 +114,7 @@ function renderFeatured() {
   const pinned = links
     .filter(l => {
       if (l.pinned !== true) return false;
+      if (!isAdmin && l.adminOnly) return false;
       const tags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);
       const isPromptOnly = tags.includes("Prompt") && !l.url;
       return !isPromptOnly;
@@ -175,6 +177,7 @@ function render() {
     // Prompt-only items (no url, has promptText) are excluded from the main grid
     const isPromptOnly = linkTags.includes("Prompt") && !l.url;
     if (isPromptOnly) return false;
+    if (!isAdmin && l.adminOnly) return false;
     const matchTag = selectedTags.size === 0 || linkTags.some(t => selectedTags.has(t));
     const matchQ = !searchQ || (l.title || "").toLowerCase().includes(searchQ) || (l.url || "").toLowerCase().includes(searchQ) || (l.desc || "").toLowerCase().includes(searchQ) || (l.author || "").toLowerCase().includes(searchQ);
     const matchAuthor = !authorFilter || (l.author || "") === authorFilter;
@@ -200,6 +203,7 @@ function render() {
     return `
     <div class="card" onclick="window._openDetail('${l.id}')">
       ${isNew ? '<span class="new-badge">✦ NEW</span>' : ""}
+      ${l.adminOnly ? '<span class="admin-badge">🔒</span>' : ''}
       ${thumb}
       <div class="card-body">
         <div class="card-title">${escHtml(l.title || (l.url ? getDomain(l.url) : "제목 없음"))}</div>
@@ -338,7 +342,7 @@ window._openDetail = async function(id) {
   async function loadComments() {
     const { data, error } = await supabase
       .from("comments")
-      .select("*")
+      .select("id, link_id, author, text, created_at")
       .eq("link_id", id)
       .order("created_at", { ascending: true });
     if (!error) renderComments((data || []).map(mapRow));
@@ -389,6 +393,7 @@ function renderComments(comments) {
   const list = document.getElementById("commentsList");
   if (!comments.length) {
     list.innerHTML = '<div style="color:#444;font-size:13px;padding:4px 0 12px">첫 댓글을 남겨보세요!</div>';
+    bindCommentDelete();
     return;
   }
   list.innerHTML = comments.map(c => `
@@ -399,7 +404,29 @@ function renderComments(comments) {
         <div class="comment-text">${escHtml(c.text)}</div>
         <div class="comment-date">${c.createdAt ? new Date(c.createdAt).toLocaleString("ko-KR", {year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}) : ""}</div>
       </div>
+      <button type="button" class="comment-del" data-cid="${c.id}">✕</button>
     </div>`).join("");
+  bindCommentDelete();
+}
+
+function bindCommentDelete() {
+  const list = document.getElementById("commentsList");
+  if (list.dataset.bound) return;
+  list.addEventListener("click", async e => {
+    const b = e.target.closest(".comment-del"); if (!b) return;
+    const id = b.dataset.cid;
+    if (isAdmin) {
+      if (!confirm("이 댓글을 삭제할까요?")) return;
+      const { error } = await supabase.rpc("delete_comment_admin", { comment_id: id });
+      if (error) alert("삭제 실패: " + error.message);
+    } else {
+      const pw = prompt("댓글 삭제 암호:");
+      if (!pw) return;
+      await supabase.rpc("delete_comment", { comment_id: id, pw });
+      // 일치하지 않으면 아무 행도 안 지워짐(조용). 실시간 구독이 목록 갱신.
+    }
+  });
+  list.dataset.bound = "1";
 }
 
 window.submitComment = async function() {
@@ -407,19 +434,13 @@ window.submitComment = async function() {
   const author = document.getElementById("commentAuthor").value.trim() || "익명";
   const text = document.getElementById("commentText").value.trim();
   if (!text) return;
-  try {
-    const { error: insertErr } = await supabase
-      .from("comments")
-      .insert({ link_id: currentDetailLink.id, author, text, created_at: Date.now() });
-    if (insertErr) throw insertErr;
-    await supabase
-      .from("links")
-      .update({ comment_count: (currentDetailLink.commentCount || 0) + 1 })
-      .eq("id", currentDetailLink.id);
-    document.getElementById("commentText").value = "";
-  } catch(e) {
-    alert("댓글 등록 실패: " + e.message);
-  }
+  const pw = document.getElementById("commentPw").value;
+  const row = { link_id: currentDetailLink.id, author, text, created_at: Date.now() };
+  if (pw) row.del_hash = await sha256Hex(pw);
+  const { error } = await supabase.from("comments").insert(row);
+  if (error) { alert("댓글 등록 실패: " + error.message); return; }
+  document.getElementById("commentText").value = "";
+  document.getElementById("commentPw").value = "";
 };
 
 window.closeDetail = function() {
@@ -519,6 +540,7 @@ window.openModal = function(id) {
     document.getElementById("promptTextInput").value = l.promptText || "";
     document.getElementById("promptTipInput").value = l.promptTip || "";
     document.getElementById("pinnedInput").checked = l.pinned === true;
+    document.getElementById("adminOnlyInput").checked = l.adminOnly === true;
     const existingTags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);
     selectedModalTags = new Set(existingTags);
     pendingMeta = { image: l.image };
@@ -528,6 +550,7 @@ window.openModal = function(id) {
       document.getElementById(fieldId).value = "";
     });
     document.getElementById("pinnedInput").checked = false;
+    document.getElementById("adminOnlyInput").checked = false;
     selectedModalTags = new Set();
     existingImages = [];
   }
@@ -611,6 +634,7 @@ window.saveLink = async function() {
     const images = [...existingImages, ...uploaded];
 
     const data = { url, title, desc, author, tags, image: pendingMeta.image || "", images };
+    data.adminOnly = document.getElementById("adminOnlyInput").checked;
 
     const pinned = document.getElementById("pinnedInput").checked;
     const existing = editId ? links.find(l => l.id === editId) : null;
@@ -821,3 +845,45 @@ if (sizeBox) sizeBox.addEventListener("click", e => {
 });
 applySize(localStorage.getItem("cardSize"));   // null이면 normalizeSize가 'm'
 applyTheme(localStorage.getItem("theme"));      // null이면 normalizeTheme가 'day'
+
+// ========== 인증 / 역할 (admin/guest) ==========
+let isAdmin = false;
+function setRole(admin) {
+  isAdmin = admin;
+  document.documentElement.dataset.role = admin ? "admin" : "guest";
+  render();   // 역할에 따라 admin-only 카드 노출/숨김 갱신(T4)
+}
+function showAuthOverlay() { document.getElementById("authOverlay").classList.add("open"); }
+function hideAuthOverlay() { document.getElementById("authOverlay").classList.remove("open"); }
+
+window.adminLogin = async function() {
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPw").value;
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) { document.getElementById("loginError").textContent = "로그인 실패: " + error.message; return; }
+  localStorage.removeItem("patGuest");
+  hideAuthOverlay();   // onAuthStateChange가 admin 역할 설정
+};
+window.enterAsGuest = function() {
+  localStorage.setItem("patGuest", "1");
+  setRole(false);
+  hideAuthOverlay();
+};
+window.logout = async function() {
+  await supabase.auth.signOut();
+  localStorage.removeItem("patGuest");
+  setRole(false);
+  showAuthOverlay();
+};
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  if (session) { setRole(true); hideAuthOverlay(); }
+  else { setRole(false); }
+});
+
+(async function initAuth() {
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) { setRole(true); hideAuthOverlay(); }
+  else if (localStorage.getItem("patGuest") === "1") { setRole(false); hideAuthOverlay(); }
+  else { setRole(false); showAuthOverlay(); }
+})();
