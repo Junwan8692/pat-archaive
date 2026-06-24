@@ -28,7 +28,16 @@ Gumroad풍 **네오브루탈리즘** 링크/프롬프트 아카이브. 로그인
 4. **Project Settings → API**에서 `Project URL` 과 `anon` `public` 키 복사 → [`supabase.js`](./supabase.js) 상단 두 상수에 기입.
    - `anon` 키만 사용. RLS로 보호되므로 코드에 박혀도 안전. `service_role` 키는 절대 커밋 금지.
 
-> 권한 정책은 로그인 없는 신뢰 그룹 기준 — 누구나 읽기/쓰기/수정/삭제. 공개 서비스로 키우려면 인증 + "본인 글만" RLS로 강화할 것.
+## 접근 제어 셋업 (admin/guest) — 주인 1회 작업
+
+쓰기 권한은 Supabase RLS로 강제된다. **admin(로그인)만** 글 생성/수정/삭제·태그·이미지·admin-only가 가능하고, **guest(비로그인)**는 보기 + 댓글·좋아요만 된다. anon 키가 공개돼도 RLS가 실제로 막는다.
+
+1. **Authentication → Sign In / Providers**에서 이메일 **회원가입(Sign-ups)을 비활성화**.
+   - ⚠️ 필수: 가입이 열려있으면 누구나 admin 계정을 만들 수 있다(`authenticated`=admin 전제).
+2. **Authentication → Users → Add user**로 **admin 계정**(이메일+비밀번호) 생성. 여러 명 가능, 모두 동일 권한.
+3. **SQL Editor**에서 [`schema.sql`](./schema.sql)의 접근제어/보안 블록(파일 하단 `===== 접근 제어 =====` 이후 전부)을 실행. (`create extension pgcrypto`, RLS 교체, RPC, 댓글수 트리거 포함)
+
+설정 후: 사이트 첫 진입 시 블러된 로그인 화면 → admin은 로그인, guest는 "게스트로 둘러보기". admin은 글에 `🔒 Admin only` 체크로 게스트에게 숨길 수 있다. 게스트 댓글은 작성 시 정한 삭제암호로만 본인이 삭제, admin은 전부 삭제 가능.
 
 ## 로컬 실행
 
