@@ -600,16 +600,27 @@ async function fetchMeta(url) {
     saveBtn.disabled = false;
     return;
   }
+  const setMeta = (title, image) => {
+    pendingMeta = { title: title || "", image: image || "" };
+    const ti = document.getElementById("titleInput");
+    if (!ti.value) ti.value = pendingMeta.title;
+  };
+  // 1차: 자체 og 프록시(Edge Function). Discordbot UA라 reddit 등 antibot 사이트도 통과.
+  try {
+    const { data } = await supabase.functions.invoke("og", { body: { url } });
+    if (data?.image) {
+      setMeta(data.title, data.image);
+      saveBtn.textContent = "저장";
+      saveBtn.disabled = false;
+      return;
+    }
+  } catch(e) {}
+  // 2차: microlink — og 없는 사이트는 스크린샷 fallback 제공.
   try {
     const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`);
     const data = await res.json();
     if (data.status === "success") {
-      pendingMeta = {
-        title: data.data.title || "",
-        image: data.data.image?.url || data.data.screenshot?.url || ""
-      };
-      const titleInput = document.getElementById("titleInput");
-      if (!titleInput.value) titleInput.value = pendingMeta.title;
+      setMeta(data.data.title, data.data.image?.url || data.data.screenshot?.url);
     }
   } catch(e) {}
   saveBtn.textContent = "저장";
