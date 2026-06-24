@@ -8,7 +8,7 @@
 - **프런트**: 바닐라 ES module (프레임워크/번들러 없음). `index.html`이 `style.css` + `app.js`를 직접 로드.
 - **백엔드**: Supabase (Postgres + RLS + RPC + Realtime + Storage). 서버 코드 없음 — 브라우저가 `anon` 키로 직접 호출.
 - **호스팅**: Vercel 정적 서빙. **빌드 단계 없음.**
-- **링크 메타 추출**: microlink.io (무료 티어). HF는 antibot으로 차단되어 자체 썸네일 URL로 우회(`fetchMeta`).
+- **링크 메타 추출**: 자체 og 프록시(Supabase Edge Function `og`, Discordbot UA)가 1차. reddit·HF 등 antibot 사이트 포함 og:image·title 추출. microlink는 og 없는 사이트용 스크린샷 fallback.
 
 ## 구조
 
@@ -40,7 +40,7 @@
 - **`anon` 키는 코드에 박아도 안전**(RLS 보호). `service_role` 키는 **절대 커밋 금지**.
 - 순수 헬퍼 고치면 `lib/`에서 하고 대응 `test/` 갱신. `app.js`에 로직 복붙하지 말 것.
 - DB 스키마/정책 변경은 `schema.sql`에 멱등하게 반영 후 Supabase SQL Editor에서 실행. 코드만 고치고 끝내지 말 것.
-- `fetchMeta` 순서: ①HF 직접 CDN → ②자체 og 프록시(Edge Function, Discordbot UA) → ③microlink fallback. 새 사이트가 안 뜨면 보통 ②가 og 태그 못 받는 경우 → 그 사이트가 어떤 crawler UA에 og를 주는지 확인 후 함수 UA 조정, 정 안 되면 HF처럼 직접 패턴 우회.
+- `fetchMeta` 순서: ①자체 og 프록시(Edge Function, Discordbot UA) → ②microlink fallback. 새 사이트가 안 뜨면 보통 ①이 og 태그 못 받는 경우 → 그 사이트가 어떤 crawler UA에 og를 주는지 확인 후 함수 UA 조정. (수정 모달은 image·images 둘 다 빈 옛 행을 열면 fetchMeta 자동 재호출 → 백필.)
 
 ## 명령어
 

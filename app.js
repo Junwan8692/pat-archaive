@@ -588,20 +588,7 @@ async function fetchMeta(url) {
   const saveBtn = document.getElementById("saveBtn");
   saveBtn.textContent = "불러오는 중...";
   saveBtn.disabled = true;
-  // ponytail: HF blocks microlink free tier (antibot). Build its own social-thumbnail URL directly.
-  const hf = url.match(/^https?:\/\/huggingface\.co\/(?:(spaces|datasets)\/)?([\w.-]+\/[\w.-]+)/);
-  if (hf) {
-    const kind = hf[1] === "spaces" ? "spaces" : hf[1] === "datasets" ? "datasets" : "models";
-    pendingMeta = {
-      title: hf[2],
-      image: `https://cdn-thumbnails.huggingface.co/social-thumbnails/${kind}/${hf[2]}.png`
-    };
-    const ti = document.getElementById("titleInput");
-    if (!ti.value) ti.value = pendingMeta.title;
-    saveBtn.textContent = "저장";
-    saveBtn.disabled = false;
-    return;
-  }
+  // HF·reddit 등 antibot 사이트 포함 모든 og:image는 아래 og 프록시(Discordbot UA)가 처리.
   const setMeta = (title, image) => {
     pendingMeta = { title: title || "", image: image || "" };
     const ti = document.getElementById("titleInput");
