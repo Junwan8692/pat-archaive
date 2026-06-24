@@ -545,6 +545,8 @@ window.openModal = function(id) {
     selectedModalTags = new Set(existingTags);
     pendingMeta = { image: l.image };
     existingImages = Array.isArray(l.images) ? [...l.images] : [];
+    // 썸네일 없는 옛 행을 수정 열면 자동 재추출 (URL .value 세팅은 input 이벤트를 안 터뜨려 fetchMeta가 안 돌기 때문)
+    if (l.url && !l.image && existingImages.length === 0) fetchMeta(l.url);
   } else {
     ["urlInput","titleInput","descInput","authorInput","promptIntroInput","promptEnvInput","promptTextInput","promptTipInput"].forEach(fieldId => {
       document.getElementById(fieldId).value = "";
