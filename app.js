@@ -261,7 +261,8 @@ window._openDetail = async function(id) {
   currentDetailLink = l;
 
   // 조회수 증가 — DB RPC + 로컬 낙관적 +1 (realtime 왕복 기다리지 않고 즉시 반영)
-  supabase.rpc("increment_views", { row_id: id });
+  // .then() 필수 — supabase-js 빌더는 thenable이라 안 붙이면 요청이 발사조차 안 됨
+  supabase.rpc("increment_views", { row_id: id }).then(() => {}, () => {});
   l.views = (l.views || 0) + 1;
   render();  // 메인 카드도 즉시 갱신 (realtime 왕복 안 기다림)
 
