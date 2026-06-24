@@ -167,6 +167,8 @@ create policy comments_insert on comments for insert with check (
 );
 
 -- 게스트 댓글 삭제: 평문 암호를 받아 서버에서 해시 비교(클라 해시 되쏘기 차단)
+-- (앞서 pw_hash 파라미터명으로 정의됐을 수 있어 먼저 drop — create or replace는 파라미터명 변경 불가)
+drop function if exists delete_comment(uuid, text);
 create or replace function delete_comment(comment_id uuid, pw text) returns void
   language plpgsql security definer as $$
   begin
