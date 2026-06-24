@@ -20,21 +20,26 @@ let currentDetailLink = null;
 let detailCommentChannel = null;
 
 // ========== INIT / REALTIME ==========
+let loadSeq = 0;
 async function loadLinks() {
+  const seq = ++loadSeq;
   const { data, error } = await supabase
     .from("links")
     .select("*")
     .order("created_at", { ascending: false });
+  if (seq !== loadSeq) return;   // 더 최신 loadLinks가 시작됨 → 이 결과 폐기 (역할전환 레이스 방지)
   if (error) {
     document.getElementById("status").textContent = "DB 연결 실패: " + error.message;
     return;
   }
-  links = data.map(mapRow);
+  let next = data.map(mapRow);
   // 게스트: admin 전용 글의 존재만 잠긴 티저 카드로 노출 (내용은 RLS가 차단해 받지 않음)
   if (!isAdmin) {
     const { data: locked } = await supabase.rpc("locked_links");
-    if (locked?.length) links.push(...locked.map(r => ({ id: r.id, createdAt: r.created_at, locked: true })));
+    if (seq !== loadSeq) return;
+    if (locked?.length) next = next.concat(locked.map(r => ({ id: r.id, createdAt: r.created_at, locked: true })));
   }
+  links = next;   // 한 번에 교체 — 동시 호출이 중간상태(append 누적)를 안 봄
   document.getElementById("status").style.display = "none";
   document.getElementById("grid").style.display = "grid";
   render();
@@ -196,14 +201,14 @@ function render() {
 
   grid.innerHTML = filtered.map(l => {
     if (l.locked) return `
-    <div class="card card-locked" title="로그인하면 볼 수 있어요">
+    <div class="card card-locked" title="Admin only access">
       <div class="card-thumb-placeholder locked-blur">🔒</div>
       <div class="card-body locked-blur">
         <div class="card-title">멤버 전용 콘텐츠</div>
         <div class="card-url">●●●●●●●●</div>
         <div class="card-desc">●●●● ●●●●● ●● ●●●●●●</div>
       </div>
-      <div class="locked-overlay"><span>🔒 로그인하면 볼 수 있어요</span></div>
+      <div class="locked-overlay"><span>🔒 Admin only access</span></div>
     </div>`;
     const thumbUrl = (l.images && l.images.length > 0) ? l.images[0] : l.image;
     const fallbackEmoji = l.url ? getSiteEmoji(l.url) : "💬";
