@@ -1839,6 +1839,15 @@ html:not([data-role="admin"]) .upload-area { display: none !important; }
 html[data-role="admin"] #loginBtn { display: none !important; }
 html:not([data-role="admin"]) #loginBtn { display: inline-block !important; }
 
+/* 첨부파일 — 모달 칩 + 디테일 다운로드 버튼 */
+.file-chip { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px; border:var(--bw) solid var(--black); margin-top:6px; font-size:13px; background:var(--white); word-break:break-all; }
+.file-chip em { color:#888; font-style:normal; font-size:11px; }
+.file-chip button { border:none; background:none; cursor:pointer; font-weight:700; flex-shrink:0; }
+.detail-files { margin-top:10px; }
+.detail-files-title { font-weight:700; font-size:13px; margin-bottom:6px; }
+.file-dl { display:inline-block; margin:3px 6px 3px 0; padding:6px 12px; border:var(--bw) solid var(--black); background:var(--white); text-decoration:none; color:var(--black); font-size:13px; font-weight:600; word-break:break-all; }
+.file-dl:hover { background:var(--black); color:var(--white); }
+
 /* 게스트용 잠긴 티저 카드 — 내용 없이 블러+자물쇠, 클릭 불가 */
 .card-locked { position: relative; overflow: hidden; cursor: default; }
 .card-locked:hover { transform: none; }

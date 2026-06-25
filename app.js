@@ -13,6 +13,10 @@ let selectedModalTags = new Set();
 let allTags = [];   // 공유 태그 목록 (DB)
 let selectedImageFiles = [];   // 링크 모달에서 새로 올릴 이미지 파일
 let existingImages = [];        // 링크 수정 시 기존 이미지 URL
+let selectedFiles = [];         // 새로 올릴 첨부파일(zip·워크플로 등)
+let existingFiles = [];         // 수정 시 기존 첨부파일 [{name,url}]
+const FILE_ALLOW = ["zip","7z","tar","gz","json","yaml","yml","safetensors","ckpt","pt","pth","txt","csv","png"];
+const FILE_MAX = 25 * 1024 * 1024;   // 25MB
 let fetchTimer = null;
 let editId = null;
 let pendingMeta = {};
@@ -318,6 +322,13 @@ window._openDetail = async function(id) {
   // 설명
   document.getElementById("detailDesc").textContent = l.desc || "";
 
+  // 첨부파일 (다운로드 강제: ?download=원본이름)
+  const atts = Array.isArray(l.files) ? l.files : [];
+  document.getElementById("detailFiles").innerHTML = atts.length
+    ? `<div class="detail-files-title">📎 첨부파일</div>` + atts.map(f =>
+        `<a class="file-dl" href="${escHtml(f.url)}?download=${encodeURIComponent(f.name)}" target="_blank" rel="noopener">⬇ ${escHtml(f.name)}</a>`).join("")
+    : "";
+
   // 통계
   renderDetailStats();
 
@@ -568,6 +579,7 @@ window.openModal = function(id) {
     selectedModalTags = new Set(existingTags);
     pendingMeta = { image: l.image };
     existingImages = Array.isArray(l.images) ? [...l.images] : [];
+    existingFiles = Array.isArray(l.files) ? [...l.files] : [];
     // 썸네일 없는 옛 행을 수정 열면 자동 재추출 (URL .value 세팅은 input 이벤트를 안 터뜨려 fetchMeta가 안 돌기 때문)
     if (l.url && !l.image && existingImages.length === 0) fetchMeta(l.url);
   } else {
@@ -578,10 +590,13 @@ window.openModal = function(id) {
     document.getElementById("adminOnlyInput").checked = false;
     selectedModalTags = new Set();
     existingImages = [];
+    existingFiles = [];
   }
 
   selectedImageFiles = [];
+  selectedFiles = [];
   renderUploadPreview();
+  renderFilePreview();
   renderModalTags();
   updatePromptFields();
 };
@@ -652,7 +667,7 @@ window.saveLink = async function() {
 
   const saveBtn = document.getElementById("saveBtn");
   saveBtn.disabled = true;
-  saveBtn.textContent = selectedImageFiles.length ? "업로드 중..." : "저장 중...";
+  saveBtn.textContent = (selectedImageFiles.length || selectedFiles.length) ? "업로드 중..." : "저장 중...";
 
   try {
     // 새 이미지 업로드 (압축 → Storage)
@@ -670,7 +685,21 @@ window.saveLink = async function() {
     }
     const images = [...existingImages, ...uploaded];
 
-    const data = { url, title, desc, author, tags, image: pendingMeta.image || "", images };
+    // 첨부파일 원본 업로드 (압축 없음). files/ 하위 경로.
+    const uploadedFiles = [];
+    for (const file of selectedFiles) {
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const path = `files/${Date.now()}_${safeName}`;
+      const { error: fErr } = await supabase.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, file, { contentType: file.type || "application/octet-stream" });
+      if (fErr) throw fErr;
+      const { data: pub } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      uploadedFiles.push({ name: file.name, url: pub.publicUrl });
+    }
+    const files = [...existingFiles, ...uploadedFiles];
+
+    const data = { url, title, desc, author, tags, image: pendingMeta.image || "", images, files };
     data.adminOnly = document.getElementById("adminOnlyInput").checked;
 
     const pinned = document.getElementById("pinnedInput").checked;
@@ -794,6 +823,36 @@ window._removeImage = function(kind, i) {
   if (kind === "e") existingImages.splice(i, 1);
   else selectedImageFiles.splice(i, 1);
   renderUploadPreview();
+};
+
+window.handleFileSelect = function(e) {
+  for (const f of [...e.target.files]) {
+    const ext = (f.name.split(".").pop() || "").toLowerCase();
+    if (!FILE_ALLOW.includes(ext)) { alert(`허용 안 되는 형식: .${ext}`); continue; }
+    if (f.size > FILE_MAX) { alert(`${f.name} — 25MB 초과 (${(f.size/1048576).toFixed(1)}MB)`); continue; }
+    selectedFiles.push(f);
+  }
+  e.target.value = "";
+  renderFilePreview();
+};
+
+function renderFilePreview() {
+  const box = document.getElementById("filePreview");
+  if (!box) return;
+  box.innerHTML = [
+    ...existingFiles.map((f, i) => `
+      <div class="file-chip"><span>📎 ${escHtml(f.name)}</span>
+        <button type="button" onclick="window._removeFile('e',${i})">✕</button></div>`),
+    ...selectedFiles.map((f, i) => `
+      <div class="file-chip"><span>📎 ${escHtml(f.name)} <em>(${(f.size/1048576).toFixed(1)}MB)</em></span>
+        <button type="button" onclick="window._removeFile('n',${i})">✕</button></div>`)
+  ].join("");
+}
+
+window._removeFile = function(kind, i) {
+  if (kind === "e") existingFiles.splice(i, 1);
+  else selectedFiles.splice(i, 1);
+  renderFilePreview();
 };
 
 // compress image file to blob (used when uploading link images)

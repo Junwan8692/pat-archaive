@@ -85,6 +85,7 @@ on conflict (name) do nothing;
 
 -- ===== 접근 제어 (admin/guest) =====
 alter table links    add column if not exists admin_only boolean default false;
+alter table links    add column if not exists files jsonb default '[]'::jsonb;  -- 첨부파일 [{name,url}] (admin 업로드)
 alter table comments add column if not exists del_hash text;
 
 -- links: 읽기는 공개분만(또는 로그인), 쓰기는 authenticated

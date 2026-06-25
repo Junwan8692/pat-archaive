@@ -97,6 +97,14 @@
     </div>
     <div class="upload-preview" id="uploadPreview"></div>
 
+    <label>첨부 파일 <span style="color:#555;font-size:11px">(선택 · zip·워크플로 등 · 25MB↓)</span></label>
+    <div class="upload-area" onclick="document.getElementById('attachFiles').click()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:6px;display:block;margin-left:auto;margin-right:auto"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      클릭해서 파일 선택
+      <input type="file" id="attachFiles" accept=".zip,.7z,.tar,.gz,.json,.yaml,.yml,.safetensors,.ckpt,.pt,.pth,.txt,.csv,.png" multiple style="display:none" onchange="handleFileSelect(event)">
+    </div>
+    <div class="upload-preview" id="filePreview"></div>
+
     <!-- 프롬프트 태그 선택 시 표시 -->
     <div class="prompt-fields" id="promptFields">
       <div class="prompt-fields-header">프롬프트 상세</div>
@@ -137,6 +145,7 @@
         <div class="detail-title" id="detailTitle"></div>
         <div class="detail-meta" id="detailMeta"></div>
         <div class="detail-desc" id="detailDesc"></div>
+        <div class="detail-files" id="detailFiles"></div>
         <div class="detail-stats" id="detailStats"></div>
       </div>
     </div>
