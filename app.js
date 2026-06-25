@@ -241,7 +241,7 @@ function render() {
         <div style="font-size:10px;color:#99aabb;margin-top:4px;min-height:1.4em;display:flex;align-items:center;justify-content:space-between;">
           <span>${l.author ? `<span style="cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px" onclick="event.stopPropagation();window._filterByAuthor(${escHtml(JSON.stringify(l.author))})">by ${escHtml(l.author)}</span>` : ""}</span>
           <div class="card-actions" onclick="event.stopPropagation()">
-            <button onclick="window._share('${l.id}', this)">공유</button>
+            <button class="share-btn" onclick="window._share('${l.id}', this)">공유</button>
             <button onclick="window._editLink('${l.id}')">수정</button>
             <button class="del-btn" onclick="window._deleteLink('${l.id}')">삭제</button>
           </div>

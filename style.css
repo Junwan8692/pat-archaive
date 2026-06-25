@@ -652,6 +652,11 @@ header h1 {
   transform: translate(2px, 2px);
 }
 
+.card-actions .share-btn {
+  min-width: 42px;       /* 공유→✓ 전환 시 폭 유지 */
+  text-align: center;
+}
+
 .card-actions .del-btn {
   background: var(--orange);
   color: var(--black);
