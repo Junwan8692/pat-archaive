@@ -1,0 +1,9 @@
+{
+  "projectRoot": "D:/code/share_url/pat-archive",
+  "batchFiles": [
+    {"path": "docs/superpowers/plans/2026-06-23-card-size-theme.md", "language": "markdown", "sizeLines": 344, "fileCategory": "docs"},
+    {"path": "docs/superpowers/plans/2026-06-23-pat-archive.md", "language": "markdown", "sizeLines": 587, "fileCategory": "docs"},
+    {"path": "docs/superpowers/plans/2026-06-24-access-control.md", "language": "markdown", "sizeLines": 563, "fileCategory": "docs"}
+  ],
+  "batchImportData": {"docs/superpowers/plans/2026-06-23-card-size-theme.md":[],"docs/superpowers/plans/2026-06-23-pat-archive.md":[],"docs/superpowers/plans/2026-06-24-access-control.md":[]}
+}

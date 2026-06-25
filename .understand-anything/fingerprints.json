@@ -1,0 +1,713 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "8b17b7a961007cd8519b0faec9ba9356ea58565e",
+  "generatedAt": "2026-06-25T05:10:06.695Z",
+  "files": {
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "7b01ed0ab71011566e623270f1c4900bc7b0b1dfd4fad5ee35aa45dde5da4e0c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 37,
+      "hasStructuralAnalysis": false
+    },
+    ".understand-anything/config.json": {
+      "filePath": ".understand-anything/config.json",
+      "contentHash": "6241daac28ec1ac6166af17c73964fef9fa7e728b98c19706b07b7b8f0712b20",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    "app.js": {
+      "filePath": "app.js",
+      "contentHash": "3f6fa57c03c4a0836347f59efdd63c333eadeca06c8f239460688f9001f5d171",
+      "functions": [
+        {
+          "name": "loadLinks",
+          "params": [],
+          "exported": false,
+          "lineCount": 27
+        },
+        {
+          "name": "loadTags",
+          "params": [],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "getDomain",
+          "params": [
+            "url"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "getSiteEmoji",
+          "params": [
+            "url"
+          ],
+          "exported": false,
+          "lineCount": 10
+        },
+        {
+          "name": "escHtml",
+          "params": [
+            "str"
+          ],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "getLikedSet",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "setLiked",
+          "params": [
+            "id",
+            "liked"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "renderFeatured",
+          "params": [],
+          "exported": false,
+          "lineCount": 42
+        },
+        {
+          "name": "render",
+          "params": [],
+          "exported": false,
+          "lineCount": 89
+        },
+        {
+          "name": "renderDetailStats",
+          "params": [],
+          "exported": false,
+          "lineCount": 11
+        },
+        {
+          "name": "renderComments",
+          "params": [
+            "comments"
+          ],
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "bindCommentDelete",
+          "params": [],
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "renderTagFilters",
+          "params": [],
+          "exported": false,
+          "lineCount": 20
+        },
+        {
+          "name": "updatePromptFields",
+          "params": [],
+          "exported": false,
+          "lineCount": 3
+        },
+        {
+          "name": "renderModalTags",
+          "params": [],
+          "exported": false,
+          "lineCount": 27
+        },
+        {
+          "name": "fetchMeta",
+          "params": [
+            "url"
+          ],
+          "exported": false,
+          "lineCount": 31
+        },
+        {
+          "name": "renderUploadPreview",
+          "params": [],
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "renderFilePreview",
+          "params": [],
+          "exported": false,
+          "lineCount": 12
+        },
+        {
+          "name": "compressToBlob",
+          "params": [
+            "file"
+          ],
+          "exported": false,
+          "lineCount": 27
+        },
+        {
+          "name": "getAuthors",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "saveAuthors",
+          "params": [
+            "a"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "renderAuthors",
+          "params": [],
+          "exported": false,
+          "lineCount": 17
+        },
+        {
+          "name": "applySize",
+          "params": [
+            "size"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "applyTheme",
+          "params": [
+            "theme"
+          ],
+          "exported": false,
+          "lineCount": 7
+        },
+        {
+          "name": "setRole",
+          "params": [
+            "admin"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "showAuthOverlay",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "hideAuthOverlay",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./supabase.js",
+          "specifiers": [
+            "supabase",
+            "STORAGE_BUCKET"
+          ]
+        },
+        {
+          "source": "./lib/map.mjs",
+          "specifiers": [
+            "mapRow",
+            "toRow"
+          ]
+        },
+        {
+          "source": "./lib/authors.mjs",
+          "specifiers": [
+            "addAuthorName",
+            "removeAuthorName"
+          ]
+        },
+        {
+          "source": "./lib/cardsize.mjs",
+          "specifiers": [
+            "normalizeSize"
+          ]
+        },
+        {
+          "source": "./lib/theme.mjs",
+          "specifiers": [
+            "normalizeTheme"
+          ]
+        },
+        {
+          "source": "./lib/hash.mjs",
+          "specifiers": [
+            "sha256Hex"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 987,
+      "hasStructuralAnalysis": true
+    },
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "57e1532cf51abbf59108adec247aad8fb3dc3359bdb1ab366e6890c975a899bc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 87,
+      "hasStructuralAnalysis": true
+    },
+    "Design.md": {
+      "filePath": "Design.md",
+      "contentHash": "ac6b616d2f44407dacbe8bcc4e08fbd39978b7ceb3f69577627d307795298ecf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 191,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-06-23-card-size-theme.md": {
+      "filePath": "docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "contentHash": "9983b1291e37be53424e5073fce4e1ff2a07e086b66f33ee1da55eb9317a5b12",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 345,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-06-23-pat-archive.md": {
+      "filePath": "docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "contentHash": "839bb37f33dfaafbb0a6f5e21b47d3fadc92aee110a896f4e897e48260cb3cfc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 588,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/plans/2026-06-24-access-control.md": {
+      "filePath": "docs/superpowers/plans/2026-06-24-access-control.md",
+      "contentHash": "51cd6d3875347a05d8806f0f0992049ef03a18f2a054b2877fb44a8745f545a6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 564,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-06-23-card-size-theme-design.md": {
+      "filePath": "docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "contentHash": "50b16dcb03ca4f1b26e74fc694858fe3b98edc2301e67b44b5fbc48fc82dca34",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 108,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-06-23-pat-archive-design.md": {
+      "filePath": "docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "contentHash": "59e1fedc0767720957d712c4d83c22770abc64b360a6e65b753b66864fd18623",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 185,
+      "hasStructuralAnalysis": true
+    },
+    "docs/superpowers/specs/2026-06-24-access-control-design.md": {
+      "filePath": "docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "contentHash": "d1e495795b4a82f51dfe750eaa581169af48e04bf85f45a01c42e9053b948fc2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 180,
+      "hasStructuralAnalysis": true
+    },
+    "index.html": {
+      "filePath": "index.html",
+      "contentHash": "357daae49c113382b0890b3fef5b7cabe975f0dc2168668c0c87ba345461611c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 169,
+      "hasStructuralAnalysis": false
+    },
+    "lib/authors.mjs": {
+      "filePath": "lib/authors.mjs",
+      "contentHash": "85f6ba324652a6cd12e88ce81ffe7926eb8a0aeb4aaa759bef1df30b77bf3f71",
+      "functions": [
+        {
+          "name": "addAuthorName",
+          "params": [
+            "list",
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "removeAuthorName",
+          "params": [
+            "list",
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "addAuthorName",
+        "removeAuthorName"
+      ],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "lib/cardsize.mjs": {
+      "filePath": "lib/cardsize.mjs",
+      "contentHash": "90190951a3785939a66b49d26f5804cadb6a71dafaefd4477dfe7066a2e47b85",
+      "functions": [
+        {
+          "name": "normalizeSize",
+          "params": [
+            "v"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "normalizeSize"
+      ],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    "lib/hash.mjs": {
+      "filePath": "lib/hash.mjs",
+      "contentHash": "663fb027975166f51233d637ea3ab25e08cf7e35c55e1e63e748c531ad223cd4",
+      "functions": [
+        {
+          "name": "sha256Hex",
+          "params": [
+            "str"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "sha256Hex"
+      ],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "lib/map.mjs": {
+      "filePath": "lib/map.mjs",
+      "contentHash": "4e0a14f2c829e259fddc8deee5deaf2f3cff93d0886768ce5c3dc0ec075cb6f6",
+      "functions": [
+        {
+          "name": "mapRow",
+          "params": [
+            "row"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "toRow",
+          "params": [
+            "obj"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "mapRow",
+        "toRow"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "lib/theme.mjs": {
+      "filePath": "lib/theme.mjs",
+      "contentHash": "1d2c275359437e4707a072c0dd9e26f74fd39881256290e20fb8b54dd05a5542",
+      "functions": [
+        {
+          "name": "normalizeTheme",
+          "params": [
+            "v"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "normalizeTheme"
+      ],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "f4aee87aa17dfe09ee8ce6ce2e4b00aab46191e3d0e929063b97262d217345a6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 68,
+      "hasStructuralAnalysis": true
+    },
+    "schema.sql": {
+      "filePath": "schema.sql",
+      "contentHash": "4865b371e69df8432f5b1e1869d8cb7a54e3f71de5f235366d7740ced3905adc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 221,
+      "hasStructuralAnalysis": true
+    },
+    "style.css": {
+      "filePath": "style.css",
+      "contentHash": "2a81872e9ca279d2e3b5a55651f55e1714dbcd2104f3c349508b7805112c05b5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1868,
+      "hasStructuralAnalysis": false
+    },
+    "supabase.js": {
+      "filePath": "supabase.js",
+      "contentHash": "3dc498c189dc27b86fb3dfe869e33d85400010e7d045c2ce5dd115b5c90c421e",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "https://esm.sh/@supabase/supabase-js@2",
+          "specifiers": [
+            "createClient"
+          ]
+        }
+      ],
+      "exports": [
+        "supabase",
+        "STORAGE_BUCKET"
+      ],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "supabase/.temp/cli-latest": {
+      "filePath": "supabase/.temp/cli-latest",
+      "contentHash": "6ee78bae40fae4d9b9c8e1b85dbad4f90d8512a30832f1e91963b52f8e62a6ed",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "supabase/.temp/linked-project.json": {
+      "filePath": "supabase/.temp/linked-project.json",
+      "contentHash": "f3031185321533e43d1329cda097b921a7e00d9c6e98320aff5b59aefa455de3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "supabase/functions/og/index.ts": {
+      "filePath": "supabase/functions/og/index.ts",
+      "contentHash": "03603098662b2940208459bf480501c0f0a736f9d14b1f1ee912954183d99d73",
+      "functions": [
+        {
+          "name": "json",
+          "params": [
+            "body",
+            "status"
+          ],
+          "exported": false,
+          "lineCount": 5
+        },
+        {
+          "name": "decode",
+          "params": [
+            "s"
+          ],
+          "exported": false,
+          "lineCount": 2
+        },
+        {
+          "name": "og",
+          "params": [
+            "html",
+            "prop"
+          ],
+          "returnType": "string",
+          "exported": false,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "test/authors.test.mjs": {
+      "filePath": "test/authors.test.mjs",
+      "contentHash": "e1ed81bc7116f192371b7f09853e64f7f0f12dc5510cbd47b5bae89f9c1d1d1d",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/authors.mjs",
+          "specifiers": [
+            "addAuthorName",
+            "removeAuthorName"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "test/cardsize.test.mjs": {
+      "filePath": "test/cardsize.test.mjs",
+      "contentHash": "dcaec24812b09c9964fd86ab416b020d0a721cbf9002f2e8c5593d178806d20a",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/cardsize.mjs",
+          "specifiers": [
+            "normalizeSize"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "test/data-layer.test.mjs": {
+      "filePath": "test/data-layer.test.mjs",
+      "contentHash": "919c21749a00a660670093e045d17ab119eaa8efe77348118be0c095bf359573",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/map.mjs",
+          "specifiers": [
+            "mapRow",
+            "toRow"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "test/hash.test.mjs": {
+      "filePath": "test/hash.test.mjs",
+      "contentHash": "c70f9c1650dd270e2ae8773552e92ea7eae21b097580a8d6e748c1e08dc8b9d0",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/hash.mjs",
+          "specifiers": [
+            "sha256Hex"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "test/theme.test.mjs": {
+      "filePath": "test/theme.test.mjs",
+      "contentHash": "ae3ec04fe5ac1c9bd74388ea08c69849e6d3e1ff7b8033817b087fec729c4c23",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "node:assert",
+          "specifiers": [
+            "assert"
+          ]
+        },
+        {
+          "source": "../lib/theme.mjs",
+          "specifiers": [
+            "normalizeTheme"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": true
+    },
+    "vercel.json": {
+      "filePath": "vercel.json",
+      "contentHash": "6e65d8a48b3de0a9ced3622c415517489e5e67ca601dd22b3edd260fee087c07",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

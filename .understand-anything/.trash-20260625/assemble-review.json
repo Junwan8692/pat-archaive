@@ -1,0 +1,16 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 4,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "Fixed section looks sane: node count unchanged (52->52), edges 96->91 after mechanical fixes. No systemic ID-correction or complexity-skew issues to flag.",
+    "Could-not-fix section had no nodes-without-id, no unknown node types, and no unknown complexity values. Only dropped edges needed attention.",
+    "Recovered all 4 'documents' edges dropped on ID-form mismatch: targets 'table:schema.sql' (batch-3, 2 edges) and 'file:schema.sql' (batch-4, 2 edges) rewritten to the actual node id 'schema:schema.sql'. All 4 source document nodes exist in the graph.",
+    "The 1 dropped tested_by edge and the 5 production nodes tagged 'tested' were handled mechanically by the merge script; no orphan test/prod relationship needed recovery.",
+    "Cross-batch import verification against IMPORT_MAP: all 11 expected 'imports' edges already present (6 from app.js, 5 from test/* files). No cross-batch import gaps; no speculative edges added.",
+    "Final graph validated: 52 nodes, 95 edges, zero dangling edges, well-formed JSON."
+  ]
+}

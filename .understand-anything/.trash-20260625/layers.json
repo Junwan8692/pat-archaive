@@ -1,0 +1,77 @@
+[
+  {
+    "id": "layer:ui",
+    "name": "프레젠테이션 / UI 레이어",
+    "description": "브라우저에서 직접 로드되는 SPA 셸과 앱 로직 — index.html 마크업, 네오브루탈리즘 style.css, 렌더링·이벤트·상태를 담당하는 app.js, 그리고 anon 키로 Supabase에 직접 붙는 클라이언트 초기화(supabase.js)로 구성.",
+    "nodeIds": [
+      "file:index.html",
+      "file:style.css",
+      "file:app.js",
+      "file:supabase.js"
+    ]
+  },
+  {
+    "id": "layer:utility",
+    "name": "유틸리티 레이어",
+    "description": "의존성 없는 순수 헬퍼 모듈(lib/*.mjs) — 행 매핑·작성자·sha256 해시·카드크기·테마 로직. app.js와 테스트 양쪽에서 import되는 가장 foundational한 계층.",
+    "nodeIds": [
+      "file:lib/map.mjs",
+      "file:lib/authors.mjs",
+      "file:lib/hash.mjs",
+      "file:lib/cardsize.mjs",
+      "file:lib/theme.mjs"
+    ]
+  },
+  {
+    "id": "layer:data",
+    "name": "백엔드 / 데이터 레이어",
+    "description": "Supabase 백엔드 — schema.sql의 테이블·RLS·RPC·Realtime·Storage 정의와 links·comments·tags 데이터 모델, 그리고 썸네일 og:image를 추출하는 Edge Function(og 프록시).",
+    "nodeIds": [
+      "schema:schema.sql",
+      "table:schema.sql:links",
+      "table:schema.sql:comments",
+      "table:schema.sql:tags",
+      "file:supabase/functions/og/index.ts"
+    ]
+  },
+  {
+    "id": "layer:test",
+    "name": "테스트 레이어",
+    "description": "lib/ 순수 헬퍼를 검증하는 node 기반 단위 테스트(test/*.mjs) — 매핑·작성자·해시·카드크기·테마 로직을 의존성 없이 확인.",
+    "nodeIds": [
+      "file:test/data-layer.test.mjs",
+      "file:test/authors.test.mjs",
+      "file:test/hash.test.mjs",
+      "file:test/cardsize.test.mjs",
+      "file:test/theme.test.mjs"
+    ]
+  },
+  {
+    "id": "layer:documentation",
+    "name": "문서 레이어",
+    "description": "프로젝트 개요·아키텍처·디자인 시스템 문서(README/CLAUDE/Design)와 docs/superpowers의 기능별 설계 spec·구현 계획서.",
+    "nodeIds": [
+      "document:README.md",
+      "document:CLAUDE.md",
+      "document:Design.md",
+      "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "document:docs/superpowers/specs/2026-06-24-access-control-design.md"
+    ]
+  },
+  {
+    "id": "layer:config",
+    "name": "설정 / 도구 레이어",
+    "description": "Vercel 정적 호스팅 설정(vercel.json)과 Supabase CLI 연동·understand-anything 분석 도구가 생성한 설정·아티팩트 파일들.",
+    "nodeIds": [
+      "config:vercel.json",
+      "file:.understand-anything/.understandignore",
+      "config:.understand-anything/config.json",
+      "file:supabase/.temp/cli-latest",
+      "config:supabase/.temp/linked-project.json"
+    ]
+  }
+]

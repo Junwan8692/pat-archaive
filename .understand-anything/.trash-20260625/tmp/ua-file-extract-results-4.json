@@ -1,0 +1,295 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 107,
+      "nonEmptyLines": 80,
+      "sections": [
+        {
+          "heading": "Pat Archive — 카드 크기 조절 + Day/Dark 모드 (Spec)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요 / 비목표",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 카드 크기 (S / M / L)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "2.1 컨트롤 UI",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "2.2 메커니즘 (CSS 변수 프리셋)",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "2.3 영속",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "3. Day / Dark 테마",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "3.1 컨트롤 UI",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "3.2 메커니즘 (시맨틱 변수 오버라이드)",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "3.3 영속 + 초기값",
+          "level": 3,
+          "line": 70
+        },
+        {
+          "heading": "3.4 색 감사 (테마 정상 작동 위해 필수)",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "4. 적용 순서 (초기화)",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "5. 파일 변경",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "6. 테스트",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "7. 미해결/튜닝 포인트",
+          "level": 2,
+          "line": 105
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 184,
+      "nonEmptyLines": 144,
+      "sections": [
+        {
+          "heading": "Pat Archive — 설계 문서 (Spec)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 브랜딩 변경",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "3. 태그 재구성",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "4. 작성자 퀵버튼 (동작 변경)",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "5. 디자인 시스템",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "6. 백엔드 — Supabase",
+          "level": 2,
+          "line": 67
+        },
+        {
+          "heading": "6.1 스택",
+          "level": 3,
+          "line": 69
+        },
+        {
+          "heading": "6.2 스키마 (`schema.sql`)",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "6.3 RLS 정책 (기존 firestore.rules와 동등)",
+          "level": 3,
+          "line": 114
+        },
+        {
+          "heading": "6.4 데이터 계층 매핑",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "6.5 설정 분리",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "7. 유지되는 기능 (변경 없음, 백엔드만 교체)",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "8. 프로젝트 구조",
+          "level": 2,
+          "line": 146
+        },
+        {
+          "heading": "9. 배포 — Vercel",
+          "level": 2,
+          "line": 162
+        },
+        {
+          "heading": "10. 구현 순서(요약)",
+          "level": 2,
+          "line": 171
+        },
+        {
+          "heading": "11. 미해결/확인 포인트",
+          "level": 2,
+          "line": 182
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 179,
+      "nonEmptyLines": 140,
+      "sections": [
+        {
+          "heading": "Pat Archive — Admin/Guest 접근 제어 + 모더레이션 (Spec)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요 / 핵심 원칙",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 진입 / 인증 플로우",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "3. UI 역할 게이팅 (프론트, 억제용)",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "4. RLS / 스키마 (실제 방어 — 핵심)",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "4.1 스키마 변경",
+          "level": 3,
+          "line": 52
+        },
+        {
+          "heading": "4.2 권한 매트릭스",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "4.3 RLS 정책 (교체)",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "4.4 RPC (security definer — 게스트도 가능하되 안전하게)",
+          "level": 3,
+          "line": 109
+        },
+        {
+          "heading": "5. 댓글 동작 (프론트)",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "6. 조회수 = 클릭수",
+          "level": 2,
+          "line": 140
+        },
+        {
+          "heading": "7. Admin-only 콘텐츠",
+          "level": 2,
+          "line": 145
+        },
+        {
+          "heading": "8. 주인 1회 셋업 (README에 기록)",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "9. 파일 변경",
+          "level": 2,
+          "line": 160
+        },
+        {
+          "heading": "10. 테스트",
+          "level": 2,
+          "line": 172
+        },
+        {
+          "heading": "11. 미해결/주의",
+          "level": 2,
+          "line": 176
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    }
+  ]
+}

@@ -1,0 +1,1367 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "app.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 986,
+      "nonEmptyLines": 897,
+      "functions": [
+        {
+          "name": "loadLinks",
+          "startLine": 28,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "loadTags",
+          "startLine": 64,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "getDomain",
+          "startLine": 95,
+          "endLine": 97,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "getSiteEmoji",
+          "startLine": 99,
+          "endLine": 108,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "escHtml",
+          "startLine": 110,
+          "endLine": 112,
+          "params": [
+            "str"
+          ]
+        },
+        {
+          "name": "getLikedSet",
+          "startLine": 114,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "setLiked",
+          "startLine": 118,
+          "endLine": 122,
+          "params": [
+            "id",
+            "liked"
+          ]
+        },
+        {
+          "name": "renderFeatured",
+          "startLine": 125,
+          "endLine": 166,
+          "params": []
+        },
+        {
+          "name": "render",
+          "startLine": 169,
+          "endLine": 257,
+          "params": []
+        },
+        {
+          "name": "renderDetailStats",
+          "startLine": 394,
+          "endLine": 404,
+          "params": []
+        },
+        {
+          "name": "renderComments",
+          "startLine": 426,
+          "endLine": 444,
+          "params": [
+            "comments"
+          ]
+        },
+        {
+          "name": "bindCommentDelete",
+          "startLine": 446,
+          "endLine": 464,
+          "params": []
+        },
+        {
+          "name": "renderTagFilters",
+          "startLine": 501,
+          "endLine": 520,
+          "params": []
+        },
+        {
+          "name": "updatePromptFields",
+          "startLine": 526,
+          "endLine": 528,
+          "params": []
+        },
+        {
+          "name": "renderModalTags",
+          "startLine": 531,
+          "endLine": 557,
+          "params": []
+        },
+        {
+          "name": "fetchMeta",
+          "startLine": 625,
+          "endLine": 655,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "renderUploadPreview",
+          "startLine": 804,
+          "endLine": 820,
+          "params": []
+        },
+        {
+          "name": "renderFilePreview",
+          "startLine": 839,
+          "endLine": 850,
+          "params": []
+        },
+        {
+          "name": "compressToBlob",
+          "startLine": 859,
+          "endLine": 885,
+          "params": [
+            "file"
+          ]
+        },
+        {
+          "name": "getAuthors",
+          "startLine": 889,
+          "endLine": 889,
+          "params": []
+        },
+        {
+          "name": "saveAuthors",
+          "startLine": 890,
+          "endLine": 890,
+          "params": [
+            "a"
+          ]
+        },
+        {
+          "name": "renderAuthors",
+          "startLine": 891,
+          "endLine": 907,
+          "params": []
+        },
+        {
+          "name": "applySize",
+          "startLine": 920,
+          "endLine": 926,
+          "params": [
+            "size"
+          ]
+        },
+        {
+          "name": "applyTheme",
+          "startLine": 927,
+          "endLine": 933,
+          "params": [
+            "theme"
+          ]
+        },
+        {
+          "name": "setRole",
+          "startLine": 947,
+          "endLine": 951,
+          "params": [
+            "admin"
+          ]
+        },
+        {
+          "name": "showAuthOverlay",
+          "startLine": 952,
+          "endLine": 952,
+          "params": []
+        },
+        {
+          "name": "hideAuthOverlay",
+          "startLine": 953,
+          "endLine": 953,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "loadLinks",
+          "callee": "supabase\r\n    .from(\"links\")\r\n    .select(\"*\")\r\n    .order",
+          "lineNumber": 30
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "supabase\r\n    .from(\"links\")\r\n    .select",
+          "lineNumber": 30
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 30
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "document.getElementById",
+          "lineNumber": 36
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "data.map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "supabase.rpc",
+          "lineNumber": 42
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "next.concat",
+          "lineNumber": 44
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "locked.map",
+          "lineNumber": 44
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "document.getElementById",
+          "lineNumber": 47
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "document.getElementById",
+          "lineNumber": 48
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "render",
+          "lineNumber": 49
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "links.find",
+          "lineNumber": 51
+        },
+        {
+          "caller": "loadLinks",
+          "callee": "renderDetailStats",
+          "lineNumber": 52
+        },
+        {
+          "caller": "loadTags",
+          "callee": "supabase\r\n    .from(\"tags\")\r\n    .select(\"name\")\r\n    .order",
+          "lineNumber": 65
+        },
+        {
+          "caller": "loadTags",
+          "callee": "supabase\r\n    .from(\"tags\")\r\n    .select",
+          "lineNumber": 65
+        },
+        {
+          "caller": "loadTags",
+          "callee": "supabase\r\n    .from",
+          "lineNumber": 65
+        },
+        {
+          "caller": "loadTags",
+          "callee": "data.map",
+          "lineNumber": 70
+        },
+        {
+          "caller": "loadTags",
+          "callee": "renderTagFilters",
+          "lineNumber": 71
+        },
+        {
+          "caller": "loadTags",
+          "callee": "document.getElementById(\"modalBg\").classList.contains",
+          "lineNumber": 72
+        },
+        {
+          "caller": "loadTags",
+          "callee": "document.getElementById",
+          "lineNumber": 72
+        },
+        {
+          "caller": "loadTags",
+          "callee": "renderModalTags",
+          "lineNumber": 72
+        },
+        {
+          "caller": "getDomain",
+          "callee": "new URL(url).hostname.replace",
+          "lineNumber": 96
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "getDomain",
+          "lineNumber": 100
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 101
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 101
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 102
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 103
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 104
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 104
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 105
+        },
+        {
+          "caller": "getSiteEmoji",
+          "callee": "d.includes",
+          "lineNumber": 106
+        },
+        {
+          "caller": "escHtml",
+          "callee": "String(str || \"\").replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\").replace(/>/g, \"&gt;\").replace",
+          "lineNumber": 111
+        },
+        {
+          "caller": "escHtml",
+          "callee": "String(str || \"\").replace(/&/g, \"&amp;\").replace(/</g, \"&lt;\").replace",
+          "lineNumber": 111
+        },
+        {
+          "caller": "escHtml",
+          "callee": "String(str || \"\").replace(/&/g, \"&amp;\").replace",
+          "lineNumber": 111
+        },
+        {
+          "caller": "escHtml",
+          "callee": "String(str || \"\").replace",
+          "lineNumber": 111
+        },
+        {
+          "caller": "escHtml",
+          "callee": "String",
+          "lineNumber": 111
+        },
+        {
+          "caller": "getLikedSet",
+          "callee": "JSON.parse",
+          "lineNumber": 115
+        },
+        {
+          "caller": "getLikedSet",
+          "callee": "localStorage.getItem",
+          "lineNumber": 115
+        },
+        {
+          "caller": "setLiked",
+          "callee": "getLikedSet",
+          "lineNumber": 119
+        },
+        {
+          "caller": "setLiked",
+          "callee": "s.add",
+          "lineNumber": 120
+        },
+        {
+          "caller": "setLiked",
+          "callee": "s.delete",
+          "lineNumber": 120
+        },
+        {
+          "caller": "setLiked",
+          "callee": "localStorage.setItem",
+          "lineNumber": 121
+        },
+        {
+          "caller": "setLiked",
+          "callee": "JSON.stringify",
+          "lineNumber": 121
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "document.getElementById",
+          "lineNumber": 126
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "document.getElementById",
+          "lineNumber": 127
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "links\r\n    .filter(l => {\r\n      if (l.pinned !== true) return false;\r\n      if (!isAdmin && l.adminOnly) return false;\r\n      const tags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : []);\r\n      const isPromptOnly = tags.includes(\"Prompt\") && !l.url;\r\n      return !isPromptOnly;\r\n    })\r\n    .sort",
+          "lineNumber": 128
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "links\r\n    .filter",
+          "lineNumber": 128
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "Array.isArray",
+          "lineNumber": 132
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "tags.includes",
+          "lineNumber": 133
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "pinned.map(l => {\r\n    const thumbUrl = (l.images && l.images.length > 0) ? l.images[0] : l.image;\r\n    const fallbackEmoji = l.url ? getSiteEmoji(l.url) : \"💬\";\r\n    const thumb = thumbUrl\r\n      ? `<img class=\"featured-thumb\" src=\"${escHtml(thumbUrl)}\" onerror=\"this.style.display='none';this.nextElementSibling.style.display='flex'\" loading=\"lazy\">\r\n         <div class=\"featured-thumb-placeholder\" style=\"display:none\">${fallbackEmoji}</div>`\r\n      : `<div class=\"featured-thumb-placeholder\">${fallbackEmoji}</div>`;\r\n    const domain = l.url ? getDomain(l.url) : \"\";\r\n    return `\r\n      <div class=\"featured-card\" onclick=\"window._openDetail('${l.id}')\">\r\n        <span class=\"pin-badge\">✦ PICK</span>\r\n        ${thumb}\r\n        <div class=\"featured-body\">\r\n          <div class=\"featured-card-title\">${escHtml(l.title || domain || \"제목 없음\")}</div>\r\n          <div class=\"featured-card-domain\">${escHtml(domain)}</div>\r\n          <div class=\"featured-card-meta\">\r\n            <span>♥ ${l.likes || 0}</span>\r\n            <span>💬 ${l.commentCount || 0}</span>\r\n          </div>\r\n        </div>\r\n      </div>`;\r\n  }).join",
+          "lineNumber": 144
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "pinned.map",
+          "lineNumber": 144
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "getSiteEmoji",
+          "lineNumber": 146
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "escHtml",
+          "lineNumber": 148
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "getDomain",
+          "lineNumber": 151
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "escHtml",
+          "lineNumber": 157
+        },
+        {
+          "caller": "renderFeatured",
+          "callee": "escHtml",
+          "lineNumber": 158
+        },
+        {
+          "caller": "render",
+          "callee": "renderFeatured",
+          "lineNumber": 170
+        },
+        {
+          "caller": "render",
+          "callee": "document.getElementById(\"searchInput\").value.toLowerCase",
+          "lineNumber": 171
+        },
+        {
+          "caller": "render",
+          "callee": "document.getElementById",
+          "lineNumber": 171
+        },
+        {
+          "caller": "render",
+          "callee": "document.getElementById",
+          "lineNumber": 172
+        },
+        {
+          "caller": "render",
+          "callee": "document.getElementById",
+          "lineNumber": 173
+        },
+        {
+          "caller": "render",
+          "callee": "[...links].sort",
+          "lineNumber": 174
+        },
+        {
+          "caller": "render",
+          "callee": "document.getElementById",
+          "lineNumber": 181
+        },
+        {
+          "caller": "render",
+          "callee": "badge.querySelector",
+          "lineNumber": 184
+        },
+        {
+          "caller": "render",
+          "callee": "sorted.filter",
+          "lineNumber": 189
+        },
+        {
+          "caller": "render",
+          "callee": "Array.isArray",
+          "lineNumber": 190
+        },
+        {
+          "caller": "render",
+          "callee": "linkTags.includes",
+          "lineNumber": 192
+        },
+        {
+          "caller": "render",
+          "callee": "linkTags.some",
+          "lineNumber": 195
+        },
+        {
+          "caller": "render",
+          "callee": "selectedTags.has",
+          "lineNumber": 195
+        },
+        {
+          "caller": "render",
+          "callee": "(l.title || \"\").toLowerCase().includes",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.title || \"\").toLowerCase",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.url || \"\").toLowerCase().includes",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.url || \"\").toLowerCase",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.desc || \"\").toLowerCase().includes",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.desc || \"\").toLowerCase",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.author || \"\").toLowerCase().includes",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "(l.author || \"\").toLowerCase",
+          "lineNumber": 196
+        },
+        {
+          "caller": "render",
+          "callee": "filtered.map(l => {\r\n    if (l.locked) return `\r\n    <div class=\"card card-locked\" title=\"Admin only access\">\r\n      <div class=\"card-thumb-placeholder locked-blur\">🔒</div>\r\n      <div class=\"card-body locked-blur\">\r\n        <div class=\"card-title\">멤버 전용 콘텐츠</div>\r\n        <div class=\"card-url\">●●●●●●●●</div>\r\n        <div class=\"card-desc\">●●●● ●●●●● ●● ●●●●●●</div>\r\n      </div>\r\n      <div class=\"locked-overlay\"><span>🔒 Admin only access</span></div>\r\n    </div>`;\r\n    const thumbUrl = (l.images && l.images.length > 0) ? l.images[0] : l.image;\r\n    const fallbackEmoji = l.url ? getSiteEmoji(l.url) : \"💬\";\r\n    const thumb = thumbUrl\r\n      ? `<img class=\"card-thumb\" src=\"${escHtml(thumbUrl)}\" onerror=\"this.style.display='none';this.nextElementSibling.style.display='flex'\" loading=\"lazy\">\r\n         <div class=\"card-thumb-placeholder\" style=\"display:none\">${fallbackEmoji}</div>`\r\n      : `<div class=\"card-thumb-placeholder\">${fallbackEmoji}</div>`;\r\n\r\n    const tags = Array.isArray(l.tags) ? l.tags : (l.tag ? [l.tag] : [\"기타\"]);\r\n\r\n    const isNew = l.createdAt && (Date.now() - l.createdAt) < 2 * 24 * 60 * 60 * 1000;\r\n    return `\r\n    <div class=\"card\" onclick=\"window._openDetail('${l.id}')\">\r\n      ${isNew ? '<span class=\"new-badge\">✦ NEW</span>' : \"\"}\r\n      ${l.adminOnly ? '<span class=\"admin-badge\">🔒</span>' : ''}\r\n      ${thumb}\r\n      <div class=\"card-body\">\r\n        <div class=\"card-title\">${escHtml(l.title || (l.url ? getDomain(l.url) : \"제목 없음\"))}</div>\r\n        <div class=\"card-url\">${l.url ? escHtml(getDomain(l.url)) : \"\"}</div>\r\n        <div class=\"card-desc\">${escHtml(l.desc || l.promptIntro || \"\")}</div>\r\n        <div class=\"card-bottom\">\r\n        <div class=\"card-footer\">\r\n          <div class=\"card-tags\">${tags.map(t => `<span class=\"card-tag\">${escHtml(t)}</span>`).join(\"\")}</div>\r\n        </div>\r\n        <div style=\"font-size:10px;color:#99aabb;margin-top:4px;min-height:1.4em;display:flex;align-items:center;justify-content:space-between;\">\r\n          <span>${l.author ? `<span style=\"cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px\" onclick=\"event.stopPropagation();window._filterByAuthor(${escHtml(JSON.stringify(l.author))})\">by ${escHtml(l.author)}</span>` : \"\"}</span>\r\n          <div class=\"card-actions\" onclick=\"event.stopPropagation()\">\r\n            <button onclick=\"window._editLink('${l.id}')\">수정</button>\r\n            <button class=\"del-btn\" onclick=\"window._deleteLink('${l.id}')\">삭제</button>\r\n          </div>\r\n        </div>\r\n        <div class=\"card-meta\">\r\n          <span class=\"eye-icon\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8 3C4.5 3 1.5 8 1.5 8C1.5 8 4.5 13 8 13C11.5 13 14.5 8 14.5 8C14.5 8 11.5 3 8 3Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/><circle cx=\"8\" cy=\"8\" r=\"2\" stroke=\"currentColor\" stroke-width=\"1.4\"/></svg> ${l.views || 0}</span>\r\n          <span>♥ ${l.likes || 0}</span>\r\n          <span>💬 ${l.commentCount || 0}</span>\r\n          ${l.createdAt ? `<span class=\"card-meta-date\">${new Date(l.createdAt).toLocaleDateString(\"ko-KR\", {year:\"numeric\",month:\"long\",day:\"numeric\"})}</span>` : \"\"}\r\n        </div>\r\n        </div>\r\n      </div>\r\n    </div>`;\r\n  }).join",
+          "lineNumber": 206
+        },
+        {
+          "caller": "render",
+          "callee": "filtered.map",
+          "lineNumber": 206
+        },
+        {
+          "caller": "render",
+          "callee": "getSiteEmoji",
+          "lineNumber": 218
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 220
+        },
+        {
+          "caller": "render",
+          "callee": "Array.isArray",
+          "lineNumber": 224
+        },
+        {
+          "caller": "render",
+          "callee": "Date.now",
+          "lineNumber": 226
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 233
+        },
+        {
+          "caller": "render",
+          "callee": "getDomain",
+          "lineNumber": 233
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 234
+        },
+        {
+          "caller": "render",
+          "callee": "getDomain",
+          "lineNumber": 234
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 235
+        },
+        {
+          "caller": "render",
+          "callee": "tags.map(t => `<span class=\"card-tag\">${escHtml(t)}</span>`).join",
+          "lineNumber": 238
+        },
+        {
+          "caller": "render",
+          "callee": "tags.map",
+          "lineNumber": 238
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 238
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 241
+        },
+        {
+          "caller": "render",
+          "callee": "JSON.stringify",
+          "lineNumber": 241
+        },
+        {
+          "caller": "render",
+          "callee": "escHtml",
+          "lineNumber": 241
+        },
+        {
+          "caller": "render",
+          "callee": "new Date(l.createdAt).toLocaleDateString",
+          "lineNumber": 251
+        },
+        {
+          "caller": "loadComments",
+          "callee": "supabase\r\n      .from(\"comments\")\r\n      .select(\"id, link_id, author, text, created_at\")\r\n      .eq(\"link_id\", id)\r\n      .order",
+          "lineNumber": 377
+        },
+        {
+          "caller": "loadComments",
+          "callee": "supabase\r\n      .from(\"comments\")\r\n      .select(\"id, link_id, author, text, created_at\")\r\n      .eq",
+          "lineNumber": 377
+        },
+        {
+          "caller": "loadComments",
+          "callee": "supabase\r\n      .from(\"comments\")\r\n      .select",
+          "lineNumber": 377
+        },
+        {
+          "caller": "loadComments",
+          "callee": "supabase\r\n      .from",
+          "lineNumber": 377
+        },
+        {
+          "caller": "loadComments",
+          "callee": "renderComments",
+          "lineNumber": 382
+        },
+        {
+          "caller": "loadComments",
+          "callee": "(data || []).map",
+          "lineNumber": 382
+        },
+        {
+          "caller": "renderDetailStats",
+          "callee": "getLikedSet().has",
+          "lineNumber": 397
+        },
+        {
+          "caller": "renderDetailStats",
+          "callee": "getLikedSet",
+          "lineNumber": 397
+        },
+        {
+          "caller": "renderDetailStats",
+          "callee": "document.getElementById",
+          "lineNumber": 398
+        },
+        {
+          "caller": "renderComments",
+          "callee": "document.getElementById",
+          "lineNumber": 427
+        },
+        {
+          "caller": "renderComments",
+          "callee": "bindCommentDelete",
+          "lineNumber": 430
+        },
+        {
+          "caller": "renderComments",
+          "callee": "comments.map(c => `\r\n    <div class=\"comment-item\">\r\n      <div class=\"comment-avatar\">${(c.author || \"?\")[0].toUpperCase()}</div>\r\n      <div class=\"comment-content\">\r\n        <div class=\"comment-author\">${escHtml(c.author || \"익명\")}</div>\r\n        <div class=\"comment-text\">${escHtml(c.text)}</div>\r\n        <div class=\"comment-date\">${c.createdAt ? new Date(c.createdAt).toLocaleString(\"ko-KR\", {year:\"numeric\",month:\"2-digit\",day:\"2-digit\",hour:\"2-digit\",minute:\"2-digit\"}) : \"\"}</div>\r\n      </div>\r\n      <button type=\"button\" class=\"comment-del\" data-cid=\"${c.id}\">✕</button>\r\n    </div>`).join",
+          "lineNumber": 433
+        },
+        {
+          "caller": "renderComments",
+          "callee": "comments.map",
+          "lineNumber": 433
+        },
+        {
+          "caller": "renderComments",
+          "callee": "(c.author || \"?\")[0].toUpperCase",
+          "lineNumber": 435
+        },
+        {
+          "caller": "renderComments",
+          "callee": "escHtml",
+          "lineNumber": 437
+        },
+        {
+          "caller": "renderComments",
+          "callee": "escHtml",
+          "lineNumber": 438
+        },
+        {
+          "caller": "renderComments",
+          "callee": "new Date(c.createdAt).toLocaleString",
+          "lineNumber": 439
+        },
+        {
+          "caller": "renderComments",
+          "callee": "bindCommentDelete",
+          "lineNumber": 443
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "document.getElementById",
+          "lineNumber": 447
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "list.addEventListener",
+          "lineNumber": 449
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "e.target.closest",
+          "lineNumber": 450
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "confirm",
+          "lineNumber": 453
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "supabase.rpc",
+          "lineNumber": 454
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "alert",
+          "lineNumber": 455
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "prompt",
+          "lineNumber": 457
+        },
+        {
+          "caller": "bindCommentDelete",
+          "callee": "supabase.rpc",
+          "lineNumber": 459
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "document.getElementById",
+          "lineNumber": 502
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "[`<button class=\"tag-btn${selectedTags.size === 0 ? \" active\" : \"\"}\" data-tag=\"전체\">전체</button>`]\r\n    .concat",
+          "lineNumber": 504
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "allTags.map",
+          "lineNumber": 505
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "selectedTags.has",
+          "lineNumber": 506
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "escHtml",
+          "lineNumber": 506
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "escHtml",
+          "lineNumber": 506
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "chips.join",
+          "lineNumber": 507
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "box.addEventListener",
+          "lineNumber": 509
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "e.target.closest",
+          "lineNumber": 510
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "selectedTags.clear",
+          "lineNumber": 512
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "selectedTags.has",
+          "lineNumber": 513
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "selectedTags.delete",
+          "lineNumber": 513
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "selectedTags.add",
+          "lineNumber": 514
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "renderTagFilters",
+          "lineNumber": 515
+        },
+        {
+          "caller": "renderTagFilters",
+          "callee": "render",
+          "lineNumber": 516
+        },
+        {
+          "caller": "updatePromptFields",
+          "callee": "document.getElementById(\"promptFields\").classList.toggle",
+          "lineNumber": 527
+        },
+        {
+          "caller": "updatePromptFields",
+          "callee": "document.getElementById",
+          "lineNumber": 527
+        },
+        {
+          "caller": "updatePromptFields",
+          "callee": "selectedModalTags.has",
+          "lineNumber": 527
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "document.getElementById",
+          "lineNumber": 532
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "allTags.map(t => {\r\n    const e = escHtml(t);\r\n    return `<button type=\"button\" class=\"modal-tag${selectedModalTags.has(t) ? \" selected\" : \"\"}\" data-tag=\"${e}\">${e}<span class=\"tag-del\" title=\"태그 삭제\">✕</span></button>`;\r\n  }).join",
+          "lineNumber": 534
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "allTags.map",
+          "lineNumber": 534
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "escHtml",
+          "lineNumber": 535
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedModalTags.has",
+          "lineNumber": 536
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "box.addEventListener",
+          "lineNumber": 539
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "e.target.closest",
+          "lineNumber": 540
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "e.target.classList.contains",
+          "lineNumber": 542
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "confirm",
+          "lineNumber": 543
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedModalTags.delete",
+          "lineNumber": 544
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedTags.delete",
+          "lineNumber": 545
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "supabase.from(\"tags\").delete().eq",
+          "lineNumber": 546
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "supabase.from(\"tags\").delete",
+          "lineNumber": 546
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "supabase.from",
+          "lineNumber": 546
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "alert",
+          "lineNumber": 547
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedModalTags.has",
+          "lineNumber": 550
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedModalTags.delete",
+          "lineNumber": 550
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "selectedModalTags.add",
+          "lineNumber": 551
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "btn.classList.toggle",
+          "lineNumber": 552
+        },
+        {
+          "caller": "renderModalTags",
+          "callee": "updatePromptFields",
+          "lineNumber": 553
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "document.getElementById",
+          "lineNumber": 626
+        },
+        {
+          "caller": "setMeta",
+          "callee": "document.getElementById",
+          "lineNumber": 632
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "supabase.functions.invoke",
+          "lineNumber": 637
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "setMeta",
+          "lineNumber": 639
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "fetch",
+          "lineNumber": 647
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "encodeURIComponent",
+          "lineNumber": 647
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "res.json",
+          "lineNumber": 648
+        },
+        {
+          "caller": "fetchMeta",
+          "callee": "setMeta",
+          "lineNumber": 650
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "document.getElementById",
+          "lineNumber": 805
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "existingImages.map",
+          "lineNumber": 808
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "escHtml",
+          "lineNumber": 810
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "selectedImageFiles.map",
+          "lineNumber": 813
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "URL.createObjectURL",
+          "lineNumber": 815
+        },
+        {
+          "caller": "renderUploadPreview",
+          "callee": "thumbs.join",
+          "lineNumber": 819
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "document.getElementById",
+          "lineNumber": 840
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "[\r\n    ...existingFiles.map((f, i) => `\r\n      <div class=\"file-chip\"><span>📎 ${escHtml(f.name)}</span>\r\n        <button type=\"button\" onclick=\"window._removeFile('e',${i})\">✕</button></div>`),\r\n    ...selectedFiles.map((f, i) => `\r\n      <div class=\"file-chip\"><span>📎 ${escHtml(f.name)} <em>(${(f.size/1048576).toFixed(1)}MB)</em></span>\r\n        <button type=\"button\" onclick=\"window._removeFile('n',${i})\">✕</button></div>`)\r\n  ].join",
+          "lineNumber": 842
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "existingFiles.map",
+          "lineNumber": 843
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "escHtml",
+          "lineNumber": 844
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "selectedFiles.map",
+          "lineNumber": 846
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "escHtml",
+          "lineNumber": 847
+        },
+        {
+          "caller": "renderFilePreview",
+          "callee": "(f.size/1048576).toFixed",
+          "lineNumber": 847
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "Math.round",
+          "lineNumber": 868
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "Math.round",
+          "lineNumber": 869
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "document.createElement",
+          "lineNumber": 871
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "canvas.getContext(\"2d\").drawImage",
+          "lineNumber": 873
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "canvas.getContext",
+          "lineNumber": 873
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "canvas.toBlob",
+          "lineNumber": 874
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "resolve",
+          "lineNumber": 875
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "reject",
+          "lineNumber": 876
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "reject",
+          "lineNumber": 879
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "reject",
+          "lineNumber": 882
+        },
+        {
+          "caller": "compressToBlob",
+          "callee": "reader.readAsDataURL",
+          "lineNumber": 883
+        },
+        {
+          "caller": "getAuthors",
+          "callee": "JSON.parse",
+          "lineNumber": 889
+        },
+        {
+          "caller": "getAuthors",
+          "callee": "localStorage.getItem",
+          "lineNumber": 889
+        },
+        {
+          "caller": "saveAuthors",
+          "callee": "localStorage.setItem",
+          "lineNumber": 890
+        },
+        {
+          "caller": "saveAuthors",
+          "callee": "JSON.stringify",
+          "lineNumber": 890
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "document.getElementById",
+          "lineNumber": 892
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "getAuthors().map((n, i) =>\r\n    `<span class=\"author-chip\"><button type=\"button\" data-act=\"set\" data-idx=\"${i}\">${escHtml(n)}</button><button type=\"button\" class=\"author-x\" data-act=\"del\" data-idx=\"${i}\">✕</button></span>`\r\n  ).join",
+          "lineNumber": 895
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "getAuthors().map",
+          "lineNumber": 895
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "getAuthors",
+          "lineNumber": 895
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "escHtml",
+          "lineNumber": 896
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "box.addEventListener",
+          "lineNumber": 899
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "e.target.closest",
+          "lineNumber": 900
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "getAuthors",
+          "lineNumber": 901
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "window._setAuthor",
+          "lineNumber": 902
+        },
+        {
+          "caller": "renderAuthors",
+          "callee": "window._removeAuthor",
+          "lineNumber": 903
+        },
+        {
+          "caller": "applySize",
+          "callee": "normalizeSize",
+          "lineNumber": 921
+        },
+        {
+          "caller": "applySize",
+          "callee": "localStorage.setItem",
+          "lineNumber": 923
+        },
+        {
+          "caller": "applySize",
+          "callee": "document.querySelectorAll(\"#sizeToggle .size-btn\").forEach",
+          "lineNumber": 924
+        },
+        {
+          "caller": "applySize",
+          "callee": "document.querySelectorAll",
+          "lineNumber": 924
+        },
+        {
+          "caller": "applySize",
+          "callee": "b.classList.toggle",
+          "lineNumber": 925
+        },
+        {
+          "caller": "applyTheme",
+          "callee": "normalizeTheme",
+          "lineNumber": 928
+        },
+        {
+          "caller": "applyTheme",
+          "callee": "localStorage.setItem",
+          "lineNumber": 930
+        },
+        {
+          "caller": "applyTheme",
+          "callee": "document.getElementById",
+          "lineNumber": 931
+        },
+        {
+          "caller": "setRole",
+          "callee": "loadLinks",
+          "lineNumber": 950
+        },
+        {
+          "caller": "showAuthOverlay",
+          "callee": "document.getElementById(\"authOverlay\").classList.add",
+          "lineNumber": 952
+        },
+        {
+          "caller": "showAuthOverlay",
+          "callee": "document.getElementById",
+          "lineNumber": 952
+        },
+        {
+          "caller": "hideAuthOverlay",
+          "callee": "document.getElementById(\"authOverlay\").classList.remove",
+          "lineNumber": 953
+        },
+        {
+          "caller": "hideAuthOverlay",
+          "callee": "document.getElementById",
+          "lineNumber": 953
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 0,
+        "functionCount": 27,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/theme.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "functions": [
+        {
+          "name": "normalizeTheme",
+          "startLine": 1,
+          "endLine": 3,
+          "params": [
+            "v"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "normalizeTheme",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "supabase.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "exports": [
+        {
+          "name": "supabase",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "STORAGE_BUCKET",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/theme.test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

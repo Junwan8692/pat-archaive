@@ -1,0 +1,67 @@
+[
+  {
+    "order": 1,
+    "title": "프로젝트 개요와 스택",
+    "description": "README.md로 투어를 시작합니다. 이 문서는 Pat Archive가 '로그인 없이 함께 쓰는 실시간 링크/프롬프트 아카이브'라는 정체성과 바닐라 ES module + Supabase + Vercel 정적 호스팅이라는 스택을 한눈에 보여줍니다. Supabase 셋업, admin/guest 접근 제어 설정, 로컬 실행·테스트·배포 절차까지 담겨 있어 앞으로 이어질 투어의 지도 역할을 합니다.",
+    "nodeIds": ["document:README.md"]
+  },
+  {
+    "order": 2,
+    "title": "아키텍처 핵심 — 서버 없는 구조",
+    "description": "CLAUDE.md와 최상위 설계 spec은 이 프로젝트의 가장 중요한 사상을 설명합니다. 별도의 서버 코드가 전혀 없고, 브라우저가 anon 키로 Supabase에 직접 붙으며, 실제 신뢰 경계(trust boundary)는 클라이언트가 아니라 DB의 RLS라는 점입니다. authenticated=admin(전권), anon=guest(보기+댓글·좋아요)라는 권한 모델이 여기서 정립되며, 이후 코드를 읽을 때 계속 떠올려야 할 뼈대입니다.",
+    "nodeIds": ["document:CLAUDE.md", "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md", "document:docs/superpowers/specs/2026-06-24-access-control-design.md"]
+  },
+  {
+    "order": 3,
+    "title": "진입 셸과 디자인 시스템",
+    "description": "index.html은 앱의 마크업 진입점으로, 번들러 없이 style.css와 app.js(ES module)를 직접 로드하고 카드 그리드·모달 등 정적 구조만 정의합니다. style.css는 네오브루탈리즘 디자인 시스템 전체 — CSS 변수 토큰, 카드/버튼/모달 스타일, 카드 크기·다크 테마 프리셋을 담습니다. fan-in 상위에 함께 오르는 두 파일로, 화면의 '뼈대'와 '외형'을 책임집니다.",
+    "nodeIds": ["file:index.html", "file:style.css"],
+    "languageLesson": "프레임워크·번들러가 없으므로 index.html이 <script type=\"module\"> 로 app.js를 직접 로드합니다. 그래서 file:// 로 열면 Chrome이 ES module을 CORS(origin null)로 차단합니다 — 반드시 HTTP 서버로 실행해야 합니다."
+  },
+  {
+    "order": 4,
+    "title": "앱 로직 전체 — app.js",
+    "description": "BFS 탐색의 시작점(depth 0)이자 fan-in 1위(9)인 app.js는 앱 로직 전체를 담은 단일 진입점입니다. STATE/RENDER/DETAIL/MODAL/업로드/작성자/크기·테마 섹션으로 나뉘어 Supabase에서 링크·태그·댓글을 불러와 네오브루탈 카드 UI로 렌더링하고, RPC·Realtime·Storage 호출과 admin/guest 역할 전환까지 담당합니다. 3단계의 셸 위에서 실제로 '동작'을 만들어내는 심장부입니다.",
+    "nodeIds": ["file:app.js"],
+    "languageLesson": "바닐라 ES module 패턴: 템플릿 리터럴로 innerHTML을 직접 조립하고, window._* 전역 핸들러를 만들어 인라인 onclick과 연결합니다. 프레임워크의 가상 DOM 대신 문자열 조립 + 전역 함수라는 가장 단순한 방식을 택했습니다."
+  },
+  {
+    "order": 5,
+    "title": "의존성 없는 순수 헬퍼 — lib/",
+    "description": "BFS depth 1에서 app.js가 직접 import하는 lib/*.mjs 모듈들입니다. map.mjs(snake_case↔camelCase 행 매핑), authors.mjs(작성자 퀵버튼), hash.mjs(댓글 삭제 암호 SHA-256), cardsize.mjs·theme.mjs(값 정규화)로, 모두 DB·UI 의존이 없는 순수 함수입니다. UI/DB 로직은 app.js에, 검증 가능한 순수 로직은 lib/에 분리하는 것이 이 프로젝트의 핵심 설계 원칙입니다.",
+    "nodeIds": ["file:lib/map.mjs", "file:lib/hash.mjs", "file:lib/authors.mjs", "file:lib/cardsize.mjs", "file:lib/theme.mjs"]
+  },
+  {
+    "order": 6,
+    "title": "순수 헬퍼 단위 테스트 — test/",
+    "description": "5단계의 순수 헬퍼가 '검증 가능하다'는 약속을 지키는 곳입니다. test/*.mjs는 node 내장 테스트 러너만으로 — 의존성 설치 없이 — map·authors·hash·cardsize·theme 로직을 확인합니다. 헬퍼를 순수하게 유지했기 때문에 브라우저나 Supabase 없이도 빠르게 테스트할 수 있다는 점이, 5단계의 분리 원칙이 가져다주는 실질적 이득을 보여줍니다.",
+    "nodeIds": ["file:test/data-layer.test.mjs", "file:test/hash.test.mjs", "file:test/authors.test.mjs", "file:test/cardsize.test.mjs", "file:test/theme.test.mjs"]
+  },
+  {
+    "order": 7,
+    "title": "백엔드 경계 — Supabase 클라이언트",
+    "description": "supabase.js는 프론트와 백엔드를 잇는 단 하나의 연결 지점입니다. anon 키로 Supabase 클라이언트를 초기화해 export하고 Storage 버킷명도 함께 노출합니다. anon 키가 코드에 박혀 공개되어도 안전한 이유는 바로 다음 단계의 RLS 때문입니다 — 클라이언트는 어차피 DB가 허용하는 것만 할 수 있습니다.",
+    "nodeIds": ["file:supabase.js"]
+  },
+  {
+    "order": 8,
+    "title": "실제 신뢰 경계 — DB 스키마와 RLS",
+    "description": "schema.sql은 fan-in 상위(6)의 백엔드 전체 정의로, 이 프로젝트의 진짜 보안 방어선입니다. 멱등하게 작성된 이 한 파일에 links·comments·tags 테이블, RLS 정책, 그리고 클라이언트가 카운트 값을 마음대로 못 쓰게 막는 RPC(increment_views·adjust_likes·delete_comment 등)가 모두 들어 있습니다. 2단계에서 본 admin/guest 권한 모델이 여기서 코드로 강제되며, comments는 link_id 외래키로 links에 연결됩니다.",
+    "nodeIds": ["schema:schema.sql", "table:schema.sql:links", "table:schema.sql:comments", "table:schema.sql:tags"],
+    "languageLesson": "RLS(Row Level Security)는 PostgreSQL이 행 단위로 접근을 강제하는 기능입니다. 클라이언트 가드는 UX용일 뿐이고, anon 키가 노출돼도 RLS가 실제로 막습니다. 단, Supabase에서 이메일 Sign-ups를 비활성화하지 않으면 누구나 admin을 생성할 수 있으니 주의해야 합니다."
+  },
+  {
+    "order": 9,
+    "title": "썸네일 추출 Edge Function — og",
+    "description": "supabase/functions/og/index.ts는 링크 카드의 썸네일을 만드는 Supabase Edge Function입니다. 대상 URL을 Discordbot UA로 가져와 og:image·title을 정규식으로 추출하는 프록시로, reddit·HF 같은 antibot 사이트를 브라우저가 직접 못 긁는 문제를 우회합니다. 8단계의 links 테이블에 채워지는 image 필드의 출처가 바로 이 함수이며, 서버 없는 구조에서 유일하게 '서버처럼' 동작하는 부분입니다.",
+    "nodeIds": ["file:supabase/functions/og/index.ts"],
+    "languageLesson": "Edge Function은 Deno 런타임에서 도는 서버리스 함수입니다. 코드 push만으로는 배포되지 않고 `supabase functions deploy og` 로 별도 배포해야 한다는 점이 정적 프론트와 다른 운영 포인트입니다."
+  },
+  {
+    "order": 10,
+    "title": "정적 배포 설정 — Vercel",
+    "description": "vercel.json으로 투어를 마무리합니다. cleanUrls와 trailingSlash 옵션만 지정하며, 빌드 단계 없이 루트를 그대로 정적 서빙합니다. 1단계에서 본 '번들러 없는 바닐라' 철학이 배포까지 일관되게 이어진 결과로, git push만 하면 Vercel이 자동 배포합니다. 다만 DB 변경은 schema.sql을 SQL Editor에서, Edge Function 변경은 CLI로 별도 반영해야 완성됩니다.",
+    "nodeIds": ["config:vercel.json"],
+    "languageLesson": "정적 호스팅에서는 cleanUrls가 /page.html을 /page로 노출하고, trailingSlash가 끝의 슬래시 정규화를 담당합니다. 빌드 산출물이 없으므로 Output Directory는 루트(.)이고 Build Command는 비웁니다."
+  }
+]

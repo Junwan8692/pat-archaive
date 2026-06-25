@@ -1,0 +1,230 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 344,
+      "nonEmptyLines": 255,
+      "sections": [
+        {
+          "heading": "카드 크기 조절 + Day/Dark 모드 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Task 1: 순수 헬퍼 (normalizeSize, normalizeTheme)",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "Task 2: CSS — 크기 프리셋 변수 배선 + 다크 테마 + 토글 스타일 + 색 감사",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "Task 3: index.html — 토글 마크업 + 배지 토큰 교정",
+          "level": 2,
+          "line": 192
+        },
+        {
+          "heading": "Task 4: app.js — applySize/applyTheme + 핸들러 + 초기 복원",
+          "level": 2,
+          "line": 245
+        },
+        {
+          "heading": "Task 5: 통합 수동 검증 (배포본)",
+          "level": 2,
+          "line": 314
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 340
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 587,
+      "nonEmptyLines": 437,
+      "sections": [
+        {
+          "heading": "Pat Archive Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Subagent 트랙 배정",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Track A — 백엔드 (Supabase)",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "Task 1: Supabase 스키마 정의",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "Task 2: Supabase 클라이언트",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "Task 3: 데이터 계층 (app.js) — Firestore→Supabase 포팅",
+          "level": 3,
+          "line": 158
+        },
+        {
+          "heading": "Track B — 프론트 (디자인 시스템 + 마크업)",
+          "level": 2,
+          "line": 287
+        },
+        {
+          "heading": "Task 4: 네오브루탈 디자인 시스템 (style.css)",
+          "level": 3,
+          "line": 289
+        },
+        {
+          "heading": "Task 5: index.html 마크업 (브랜딩·태그·구조)",
+          "level": 3,
+          "line": 339
+        },
+        {
+          "heading": "Task 6: 작성자 퀵버튼 +/✕ (localStorage)",
+          "level": 3,
+          "line": 405
+        },
+        {
+          "heading": "Track C — 통합 · 검수 · 배포",
+          "level": 2,
+          "line": 491
+        },
+        {
+          "heading": "Task 7: 통합 배선 검증 (로컬 E2E)",
+          "level": 3,
+          "line": 493
+        },
+        {
+          "heading": "Task 8: 디자인 검수 (서브에이전트: UI Designer)",
+          "level": 3,
+          "line": 529
+        },
+        {
+          "heading": "Task 9: 배포 (Vercel)",
+          "level": 3,
+          "line": 551
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 582
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-06-24-access-control.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 563,
+      "nonEmptyLines": 440,
+      "sections": [
+        {
+          "heading": "Admin/Guest 접근 제어 + 모더레이션 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "파일 / 책임",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "병렬화 가이드 (subagent)",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Task 1: DB 스키마 · RLS · RPC",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Task 2: sha256Hex 순수 헬퍼",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "Task 3: 로그인 오버레이 + 인증/역할 코어",
+          "level": 2,
+          "line": 187
+        },
+        {
+          "heading": "Task 4: Admin-only 콘텐츠",
+          "level": 2,
+          "line": 327
+        },
+        {
+          "heading": "Task 5: 게스트 댓글 + 암호 삭제",
+          "level": 2,
+          "line": 424
+        },
+        {
+          "heading": "Task 6: 주인 셋업 + 통합 검증 (배포본)",
+          "level": 2,
+          "line": 519
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 559
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    }
+  ]
+}

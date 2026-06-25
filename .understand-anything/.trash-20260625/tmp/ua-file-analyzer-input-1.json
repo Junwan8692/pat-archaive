@@ -1,0 +1,10 @@
+{
+  "projectRoot": "D:/code/share_url/pat-archive",
+  "batchFiles": [
+    {"path": "app.js", "language": "javascript", "sizeLines": 986, "fileCategory": "code"},
+    {"path": "lib/theme.mjs", "language": "javascript", "sizeLines": 3, "fileCategory": "code"},
+    {"path": "supabase.js", "language": "javascript", "sizeLines": 9, "fileCategory": "code"},
+    {"path": "test/theme.test.mjs", "language": "javascript", "sizeLines": 7, "fileCategory": "code"}
+  ],
+  "batchImportData": {"app.js":["lib/authors.mjs","lib/cardsize.mjs","lib/hash.mjs","lib/map.mjs","lib/theme.mjs","supabase.js"],"lib/theme.mjs":[],"supabase.js":[],"test/theme.test.mjs":["lib/theme.mjs"]}
+}

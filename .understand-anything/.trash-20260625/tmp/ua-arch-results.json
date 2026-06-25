@@ -1,0 +1,336 @@
+{
+  "scriptCompleted": true,
+  "commonPrefix": "",
+  "directoryGroups": {
+    "(root)": [
+      "file:app.js",
+      "file:supabase.js",
+      "document:CLAUDE.md",
+      "document:Design.md",
+      "document:README.md",
+      "file:index.html",
+      "schema:schema.sql",
+      "table:schema.sql:links",
+      "table:schema.sql:comments",
+      "table:schema.sql:tags",
+      "file:style.css",
+      "config:vercel.json"
+    ],
+    "lib": [
+      "file:lib/theme.mjs",
+      "file:lib/authors.mjs",
+      "file:lib/cardsize.mjs",
+      "file:lib/hash.mjs",
+      "file:lib/map.mjs"
+    ],
+    "test": [
+      "file:test/theme.test.mjs",
+      "file:test/authors.test.mjs",
+      "file:test/cardsize.test.mjs",
+      "file:test/data-layer.test.mjs",
+      "file:test/hash.test.mjs"
+    ],
+    "docs": [
+      "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "document:docs/superpowers/specs/2026-06-24-access-control-design.md"
+    ],
+    ".understand-anything": [
+      "file:.understand-anything/.understandignore",
+      "config:.understand-anything/config.json"
+    ],
+    "supabase": [
+      "file:supabase/.temp/cli-latest",
+      "config:supabase/.temp/linked-project.json",
+      "file:supabase/functions/og/index.ts"
+    ]
+  },
+  "nodeTypeGroups": {
+    "file": [
+      "file:app.js",
+      "file:lib/theme.mjs",
+      "file:supabase.js",
+      "file:test/theme.test.mjs",
+      "file:index.html",
+      "file:style.css",
+      "file:.understand-anything/.understandignore",
+      "file:lib/authors.mjs",
+      "file:lib/cardsize.mjs",
+      "file:lib/hash.mjs",
+      "file:lib/map.mjs",
+      "file:supabase/.temp/cli-latest",
+      "file:supabase/functions/og/index.ts",
+      "file:test/authors.test.mjs",
+      "file:test/cardsize.test.mjs",
+      "file:test/data-layer.test.mjs",
+      "file:test/hash.test.mjs"
+    ],
+    "document": [
+      "document:CLAUDE.md",
+      "document:Design.md",
+      "document:README.md",
+      "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "document:docs/superpowers/specs/2026-06-24-access-control-design.md"
+    ],
+    "schema": [
+      "schema:schema.sql"
+    ],
+    "table": [
+      "table:schema.sql:links",
+      "table:schema.sql:comments",
+      "table:schema.sql:tags"
+    ],
+    "config": [
+      "config:vercel.json",
+      "config:.understand-anything/config.json",
+      "config:supabase/.temp/linked-project.json"
+    ]
+  },
+  "crossCategoryEdges": [
+    {
+      "fromType": "document",
+      "toType": "file",
+      "edgeType": "documents",
+      "count": 27
+    },
+    {
+      "fromType": "document",
+      "toType": "schema",
+      "edgeType": "documents",
+      "count": 6
+    },
+    {
+      "fromType": "schema",
+      "toType": "table",
+      "edgeType": "defines_schema",
+      "count": 3
+    },
+    {
+      "fromType": "table",
+      "toType": "table",
+      "edgeType": "related",
+      "count": 1
+    },
+    {
+      "fromType": "schema",
+      "toType": "file",
+      "edgeType": "defines_schema",
+      "count": 1
+    },
+    {
+      "fromType": "config",
+      "toType": "file",
+      "edgeType": "configures",
+      "count": 1
+    },
+    {
+      "fromType": "document",
+      "toType": "config",
+      "edgeType": "documents",
+      "count": 1
+    },
+    {
+      "fromType": "document",
+      "toType": "document",
+      "edgeType": "documents",
+      "count": 1
+    }
+  ],
+  "interGroupImports": [
+    {
+      "from": "(root)",
+      "to": "lib",
+      "count": 5
+    },
+    {
+      "from": "test",
+      "to": "lib",
+      "count": 5
+    }
+  ],
+  "intraGroupDensity": {
+    "(root)": {
+      "internalEdges": 1,
+      "totalEdges": 6,
+      "density": 0.167
+    },
+    "lib": {
+      "internalEdges": 0,
+      "totalEdges": 10,
+      "density": 0
+    },
+    "test": {
+      "internalEdges": 0,
+      "totalEdges": 5,
+      "density": 0
+    },
+    "docs": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    ".understand-anything": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    },
+    "supabase": {
+      "internalEdges": 0,
+      "totalEdges": 0,
+      "density": 0
+    }
+  },
+  "patternMatches": {
+    "(root)": "data",
+    "lib": "service",
+    "test": "test",
+    "docs": "documentation",
+    ".understand-anything": "unknown",
+    "supabase": "unknown"
+  },
+  "deploymentTopology": {
+    "hasDockerfile": false,
+    "hasCompose": false,
+    "hasK8s": false,
+    "hasTerraform": false,
+    "hasCI": false,
+    "hasVercel": true,
+    "infraFiles": [
+      "vercel.json"
+    ]
+  },
+  "dataPipeline": {
+    "schemaFiles": [
+      "schema.sql",
+      "schema.sql",
+      "schema.sql",
+      "schema.sql"
+    ],
+    "migrationFiles": [],
+    "dataModelFiles": [
+      "schema:schema.sql",
+      "table:schema.sql:links",
+      "table:schema.sql:comments",
+      "table:schema.sql:tags"
+    ],
+    "apiHandlerFiles": [
+      "file:supabase/functions/og/index.ts"
+    ]
+  },
+  "docCoverage": {
+    "groupsWithDocs": 2,
+    "totalGroups": 6,
+    "coverageRatio": 0.33,
+    "undocumentedGroups": [
+      "lib",
+      "test",
+      ".understand-anything",
+      "supabase"
+    ]
+  },
+  "dependencyDirection": [
+    {
+      "dependent": "(root)",
+      "dependsOn": "lib"
+    },
+    {
+      "dependent": "test",
+      "dependsOn": "lib"
+    }
+  ],
+  "fileStats": {
+    "totalFileNodes": 33,
+    "filesPerGroup": {
+      "(root)": 12,
+      "lib": 5,
+      "test": 5,
+      "docs": 6,
+      ".understand-anything": 2,
+      "supabase": 3
+    },
+    "nodeTypeCounts": {
+      "file": 17,
+      "document": 9,
+      "schema": 1,
+      "table": 3,
+      "config": 3
+    }
+  },
+  "fileFanIn": {
+    "file:app.js": 0,
+    "file:lib/theme.mjs": 2,
+    "file:supabase.js": 1,
+    "file:test/theme.test.mjs": 0,
+    "document:CLAUDE.md": 0,
+    "document:Design.md": 0,
+    "document:README.md": 0,
+    "file:index.html": 0,
+    "schema:schema.sql": 0,
+    "table:schema.sql:links": 0,
+    "table:schema.sql:comments": 0,
+    "table:schema.sql:tags": 0,
+    "file:style.css": 0,
+    "config:vercel.json": 0,
+    "document:docs/superpowers/plans/2026-06-23-card-size-theme.md": 0,
+    "document:docs/superpowers/plans/2026-06-23-pat-archive.md": 0,
+    "document:docs/superpowers/plans/2026-06-24-access-control.md": 0,
+    "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md": 0,
+    "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md": 0,
+    "document:docs/superpowers/specs/2026-06-24-access-control-design.md": 0,
+    "file:.understand-anything/.understandignore": 0,
+    "config:.understand-anything/config.json": 0,
+    "file:lib/authors.mjs": 2,
+    "file:lib/cardsize.mjs": 2,
+    "file:lib/hash.mjs": 2,
+    "file:lib/map.mjs": 2,
+    "file:supabase/.temp/cli-latest": 0,
+    "config:supabase/.temp/linked-project.json": 0,
+    "file:supabase/functions/og/index.ts": 0,
+    "file:test/authors.test.mjs": 0,
+    "file:test/cardsize.test.mjs": 0,
+    "file:test/data-layer.test.mjs": 0,
+    "file:test/hash.test.mjs": 0
+  },
+  "fileFanOut": {
+    "file:app.js": 6,
+    "file:lib/theme.mjs": 0,
+    "file:supabase.js": 0,
+    "file:test/theme.test.mjs": 1,
+    "document:CLAUDE.md": 0,
+    "document:Design.md": 0,
+    "document:README.md": 0,
+    "file:index.html": 0,
+    "schema:schema.sql": 0,
+    "table:schema.sql:links": 0,
+    "table:schema.sql:comments": 0,
+    "table:schema.sql:tags": 0,
+    "file:style.css": 0,
+    "config:vercel.json": 0,
+    "document:docs/superpowers/plans/2026-06-23-card-size-theme.md": 0,
+    "document:docs/superpowers/plans/2026-06-23-pat-archive.md": 0,
+    "document:docs/superpowers/plans/2026-06-24-access-control.md": 0,
+    "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md": 0,
+    "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md": 0,
+    "document:docs/superpowers/specs/2026-06-24-access-control-design.md": 0,
+    "file:.understand-anything/.understandignore": 0,
+    "config:.understand-anything/config.json": 0,
+    "file:lib/authors.mjs": 0,
+    "file:lib/cardsize.mjs": 0,
+    "file:lib/hash.mjs": 0,
+    "file:lib/map.mjs": 0,
+    "file:supabase/.temp/cli-latest": 0,
+    "config:supabase/.temp/linked-project.json": 0,
+    "file:supabase/functions/og/index.ts": 0,
+    "file:test/authors.test.mjs": 1,
+    "file:test/cardsize.test.mjs": 1,
+    "file:test/data-layer.test.mjs": 1,
+    "file:test/hash.test.mjs": 1
+  }
+}

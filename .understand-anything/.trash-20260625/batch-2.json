@@ -1,0 +1,202 @@
+{
+  "nodes": [
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "Claude Code용 프로젝트 가이드 문서. 스택(바닐라 ES module + Supabase + Vercel), 파일 구조, RLS 기반 권한 아키텍처, 작업 시 gotchas, 로컬 실행·배포 절차를 정리한다.",
+      "tags": ["documentation", "architecture", "development", "deployment"],
+      "complexity": "moderate",
+      "languageNotes": "8개 섹션으로 구성된 한국어 개발 가이드. RLS/RPC/Edge Function 등 Supabase 핵심 개념과 신뢰 경계가 DB에 있음을 강조."
+    },
+    {
+      "id": "document:Design.md",
+      "type": "document",
+      "name": "Design.md",
+      "filePath": "Design.md",
+      "summary": "네오브루탈리즘 디자인 시스템 명세서. 색상 토큰, 테두리·그림자 규칙, 타이포그래피, 컴포넌트 스펙(헤더·카드·버튼·칩·모달·작성자 퀵버튼), 애니메이션, 반응형 가이드를 담는다.",
+      "tags": ["documentation", "design-system", "neobrutalism", "ui-spec"],
+      "complexity": "moderate",
+      "languageNotes": "16개 섹션의 디자인 토큰 명세. style.css 구현의 설계 근거 역할."
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "프로젝트 개요와 셋업 가이드. 구성 설명, Supabase 셋업, admin/guest 접근 제어 설정, 로컬 실행, 테스트, Vercel 배포 절차를 안내하는 진입 문서.",
+      "tags": ["documentation", "entry-point", "setup", "overview"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "index.html",
+      "summary": "앱의 마크업 진입점. 프레임워크·번들러 없이 style.css와 app.js(ES module)를 직접 로드하며 카드 그리드·모달 등 정적 구조를 정의한다.",
+      "tags": ["entry-point", "markup", "html", "spa-shell"],
+      "complexity": "moderate",
+      "languageNotes": "빌드 단계 없는 정적 HTML. <script type=\"module\">로 app.js 로드 — file://로 열면 CORS 차단되므로 HTTP 서버 필수."
+    },
+    {
+      "id": "schema:schema.sql",
+      "type": "schema",
+      "name": "schema.sql",
+      "filePath": "schema.sql",
+      "summary": "DB 전체 정의(멱등). links·comments·tags 테이블, RLS 정책, 카운트/댓글 삭제용 RPC(increment_views·adjust_likes·delete_comment 등), Realtime·Storage·접근 제어를 한 파일에 담는다.",
+      "tags": ["schema-definition", "database", "rls", "rpc", "migration"],
+      "complexity": "complex",
+      "languageNotes": "Supabase Postgres 스키마. 권한을 RLS로 강제하고, 클라가 카운트 값을 직접 못 쓰게 SECURITY DEFINER RPC로만 증감하도록 설계."
+    },
+    {
+      "id": "table:schema.sql:links",
+      "type": "table",
+      "name": "links",
+      "filePath": "schema.sql",
+      "lineRange": [3, 22],
+      "summary": "링크/프롬프트 카드의 핵심 테이블. 제목·URL·작성자·태그·썸네일(image/images)·고정(pinned)·조회/좋아요/댓글 카운트와 프롬프트 본문 필드를 보관한다.",
+      "tags": ["data-model", "database", "core-table"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:schema.sql:comments",
+      "type": "table",
+      "name": "comments",
+      "filePath": "schema.sql",
+      "lineRange": [24, 30],
+      "summary": "링크별 댓글 테이블. link_id 외래키로 links에 연결되며 작성자·본문·작성시각을 보관(삭제 검증용 del_hash는 RLS로 클라 비노출).",
+      "tags": ["data-model", "database", "comments"],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:schema.sql:tags",
+      "type": "table",
+      "name": "tags",
+      "filePath": "schema.sql",
+      "lineRange": [68, 72],
+      "summary": "필터용 태그 목록 테이블. 태그 이름과 생성 시각을 보관한다.",
+      "tags": ["data-model", "database", "tags"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:style.css",
+      "type": "file",
+      "name": "style.css",
+      "filePath": "style.css",
+      "summary": "네오브루탈 디자인 시스템 구현 전체. CSS 변수 토큰, 카드/버튼/모달/태그 칩 스타일, 카드 크기·다크 테마 프리셋, 반응형·애니메이션을 정의한다.",
+      "tags": ["styling", "design-system", "neobrutalism", "css", "theming"],
+      "complexity": "complex",
+      "languageNotes": "1867줄 단일 스타일시트. CSS 커스텀 프로퍼티로 테마·카드크기 프리셋을 토글하는 구조."
+    },
+    {
+      "id": "config:vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "vercel.json",
+      "summary": "Vercel 정적 서빙 설정. cleanUrls와 trailingSlash 옵션만 지정하며 빌드 단계 없이 루트를 그대로 서빙한다.",
+      "tags": ["configuration", "deployment", "vercel", "static-hosting"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:links",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:comments",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:tags",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:schema.sql:comments",
+      "target": "table:schema.sql:links",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "file:app.js",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:index.html",
+      "target": "file:style.css",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:index.html",
+      "target": "file:app.js",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:vercel.json",
+      "target": "file:index.html",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:Design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

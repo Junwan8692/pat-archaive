@@ -1,0 +1,429 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 13,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 30,
+      "metrics": {}
+    },
+    {
+      "path": ".understand-anything/config.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "sections": [
+        {
+          "heading": "outputLanguage",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "lib/authors.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "addAuthorName",
+          "startLine": 2,
+          "endLine": 6,
+          "params": [
+            "list",
+            "name"
+          ]
+        },
+        {
+          "name": "removeAuthorName",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "list",
+            "name"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "addAuthorName",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "removeAuthorName",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "addAuthorName",
+          "callee": "(name||\"\").trim",
+          "lineNumber": 3
+        },
+        {
+          "caller": "addAuthorName",
+          "callee": "list.includes",
+          "lineNumber": 4
+        },
+        {
+          "caller": "removeAuthorName",
+          "callee": "list.filter",
+          "lineNumber": 8
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/cardsize.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "functions": [
+        {
+          "name": "normalizeSize",
+          "startLine": 1,
+          "endLine": 3,
+          "params": [
+            "v"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "normalizeSize",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/hash.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "sha256Hex",
+          "startLine": 2,
+          "endLine": 6,
+          "params": [
+            "str"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "sha256Hex",
+          "line": 2,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "sha256Hex",
+          "callee": "new TextEncoder().encode",
+          "lineNumber": 3
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "String",
+          "lineNumber": 3
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "crypto.subtle.digest",
+          "lineNumber": 4
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "[...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, \"0\")).join",
+          "lineNumber": 5
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "[...new Uint8Array(buf)].map",
+          "lineNumber": 5
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "b.toString(16).padStart",
+          "lineNumber": 5
+        },
+        {
+          "caller": "sha256Hex",
+          "callee": "b.toString",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "lib/map.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "mapRow",
+          "startLine": 9,
+          "endLine": 13,
+          "params": [
+            "row"
+          ]
+        },
+        {
+          "name": "toRow",
+          "startLine": 14,
+          "endLine": 18,
+          "params": [
+            "obj"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "mapRow",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "toRow",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "mapRow",
+          "callee": "Object.entries",
+          "lineNumber": 11
+        },
+        {
+          "caller": "toRow",
+          "callee": "Object.entries",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "supabase/.temp/cli-latest",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {}
+    },
+    {
+      "path": "supabase/.temp/linked-project.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "sections": [
+        {
+          "heading": "ref",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "name",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "organization_id",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "organization_slug",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": "supabase/functions/og/index.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "json",
+          "startLine": 14,
+          "endLine": 18,
+          "params": [
+            "body",
+            "status"
+          ]
+        },
+        {
+          "name": "decode",
+          "startLine": 21,
+          "endLine": 22,
+          "params": [
+            "s"
+          ]
+        },
+        {
+          "name": "og",
+          "startLine": 25,
+          "endLine": 33,
+          "params": [
+            "html",
+            "prop"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "json",
+          "callee": "JSON.stringify",
+          "lineNumber": 15
+        },
+        {
+          "caller": "decode",
+          "callee": "s.replace(/&amp;/g, \"&\").replace(/&#x2F;/gi, \"/\").replace(/&#39;/g, \"'\").replace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "decode",
+          "callee": "s.replace(/&amp;/g, \"&\").replace(/&#x2F;/gi, \"/\").replace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "decode",
+          "callee": "s.replace(/&amp;/g, \"&\").replace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "decode",
+          "callee": "s.replace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "og",
+          "callee": "html.match",
+          "lineNumber": 26
+        },
+        {
+          "caller": "og",
+          "callee": "html.match",
+          "lineNumber": 29
+        },
+        {
+          "caller": "og",
+          "callee": "decode",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/authors.test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/cardsize.test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/data-layer.test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test/hash.test.mjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

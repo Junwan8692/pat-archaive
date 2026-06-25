@@ -1,0 +1,251 @@
+{
+  "name": "pat-archive",
+  "description": "로그인 없이 함께 쓰는 실시간 링크/프롬프트 아카이브. Gumroad풍 네오브루탈리즘 UI로, 바닐라 ES module 프런트엔드와 Supabase(Postgres + RLS + RPC + Realtime + Storage) 백엔드로 구성되며 빌드 단계 없이 Vercel에 정적 서빙된다.",
+  "languages": [
+    "css",
+    "html",
+    "javascript",
+    "json",
+    "markdown",
+    "sql",
+    "typescript"
+  ],
+  "frameworks": [
+    "Supabase",
+    "Vercel"
+  ],
+  "files": [
+    {
+      "path": ".understand-anything/.understandignore",
+      "language": "unknown",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".understand-anything/config.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": "app.js",
+      "language": "javascript",
+      "sizeLines": 986,
+      "fileCategory": "code"
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "sizeLines": 86,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "Design.md",
+      "language": "markdown",
+      "sizeLines": 190,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "language": "markdown",
+      "sizeLines": 344,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "language": "markdown",
+      "sizeLines": 587,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-06-24-access-control.md",
+      "language": "markdown",
+      "sizeLines": 563,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "language": "markdown",
+      "sizeLines": 107,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "language": "markdown",
+      "sizeLines": 184,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "language": "markdown",
+      "sizeLines": 179,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "index.html",
+      "language": "html",
+      "sizeLines": 168,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "lib/authors.mjs",
+      "language": "javascript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/cardsize.mjs",
+      "language": "javascript",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/hash.mjs",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/map.mjs",
+      "language": "javascript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "lib/theme.mjs",
+      "language": "javascript",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 67,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "schema.sql",
+      "language": "sql",
+      "sizeLines": 220,
+      "fileCategory": "data"
+    },
+    {
+      "path": "style.css",
+      "language": "css",
+      "sizeLines": 1867,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "supabase.js",
+      "language": "javascript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/.temp/cli-latest",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/.temp/linked-project.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/functions/og/index.ts",
+      "language": "typescript",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/authors.test.mjs",
+      "language": "javascript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/cardsize.test.mjs",
+      "language": "javascript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/data-layer.test.mjs",
+      "language": "javascript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/hash.test.mjs",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "test/theme.test.mjs",
+      "language": "javascript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "vercel.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    }
+  ],
+  "totalFiles": 30,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "small",
+  "importMap": {
+    ".understand-anything/.understandignore": [],
+    ".understand-anything/config.json": [],
+    "app.js": [
+      "lib/authors.mjs",
+      "lib/cardsize.mjs",
+      "lib/hash.mjs",
+      "lib/map.mjs",
+      "lib/theme.mjs",
+      "supabase.js"
+    ],
+    "CLAUDE.md": [],
+    "Design.md": [],
+    "docs/superpowers/plans/2026-06-23-card-size-theme.md": [],
+    "docs/superpowers/plans/2026-06-23-pat-archive.md": [],
+    "docs/superpowers/plans/2026-06-24-access-control.md": [],
+    "docs/superpowers/specs/2026-06-23-card-size-theme-design.md": [],
+    "docs/superpowers/specs/2026-06-23-pat-archive-design.md": [],
+    "docs/superpowers/specs/2026-06-24-access-control-design.md": [],
+    "index.html": [],
+    "lib/authors.mjs": [],
+    "lib/cardsize.mjs": [],
+    "lib/hash.mjs": [],
+    "lib/map.mjs": [],
+    "lib/theme.mjs": [],
+    "README.md": [],
+    "schema.sql": [],
+    "style.css": [],
+    "supabase.js": [],
+    "supabase/.temp/cli-latest": [],
+    "supabase/.temp/linked-project.json": [],
+    "supabase/functions/og/index.ts": [],
+    "test/authors.test.mjs": [
+      "lib/authors.mjs"
+    ],
+    "test/cardsize.test.mjs": [
+      "lib/cardsize.mjs"
+    ],
+    "test/data-layer.test.mjs": [
+      "lib/map.mjs"
+    ],
+    "test/hash.test.mjs": [
+      "lib/hash.mjs"
+    ],
+    "test/theme.test.mjs": [
+      "lib/theme.mjs"
+    ],
+    "vercel.json": []
+  }
+}

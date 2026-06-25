@@ -1,0 +1,13 @@
+{
+  "projectRoot": "D:/code/share_url/pat-archive",
+  "batchFiles": [
+    {"path": "CLAUDE.md", "language": "markdown", "sizeLines": 86, "fileCategory": "docs"},
+    {"path": "Design.md", "language": "markdown", "sizeLines": 190, "fileCategory": "docs"},
+    {"path": "README.md", "language": "markdown", "sizeLines": 67, "fileCategory": "docs"},
+    {"path": "index.html", "language": "html", "sizeLines": 168, "fileCategory": "markup"},
+    {"path": "schema.sql", "language": "sql", "sizeLines": 220, "fileCategory": "data"},
+    {"path": "style.css", "language": "css", "sizeLines": 1867, "fileCategory": "markup"},
+    {"path": "vercel.json", "language": "json", "sizeLines": 5, "fileCategory": "config"}
+  ],
+  "batchImportData": {"CLAUDE.md":[],"Design.md":[],"README.md":[],"index.html":[],"schema.sql":[],"style.css":[],"vercel.json":[]}
+}

@@ -51,6 +51,7 @@ async function loadLinks() {
     const updated = links.find(l => l.id === currentDetailLink.id);
     if (updated) { currentDetailLink = updated; renderDetailStats(); }
   }
+  _syncFromHash();   // 공유링크로 진입 / 로그인 후 재조회 시 해당 카드 자동 오픈
 }
 
 supabase
@@ -240,6 +241,7 @@ function render() {
         <div style="font-size:10px;color:#99aabb;margin-top:4px;min-height:1.4em;display:flex;align-items:center;justify-content:space-between;">
           <span>${l.author ? `<span style="cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px" onclick="event.stopPropagation();window._filterByAuthor(${escHtml(JSON.stringify(l.author))})">by ${escHtml(l.author)}</span>` : ""}</span>
           <div class="card-actions" onclick="event.stopPropagation()">
+            <button onclick="window._share('${l.id}')">공유</button>
             <button onclick="window._editLink('${l.id}')">수정</button>
             <button class="del-btn" onclick="window._deleteLink('${l.id}')">삭제</button>
           </div>
@@ -263,6 +265,7 @@ window._openDetail = async function(id) {
   const l = links.find(x => x.id === id);
   if (!l || l.locked) return;   // 잠긴 티저 카드는 열 수 없음 (내용 자체가 클라에 없음)
   currentDetailLink = l;
+  if (location.hash !== "#c=" + id) location.hash = "c=" + id;   // 공유용 딥링크 (뒤로가기=닫기)
 
   // 조회수 증가 — DB RPC + 로컬 낙관적 +1 (realtime 왕복 기다리지 않고 즉시 반영)
   // .then() 필수 — supabase-js 빌더는 thenable이라 안 붙이면 요청이 발사조차 안 됨
@@ -477,14 +480,40 @@ window.submitComment = async function() {
   document.getElementById("commentPw").value = "";
 };
 
-window.closeDetail = function() {
+function _closeDetailUI() {
   document.getElementById("detailBg").classList.remove("open");
   if (detailCommentChannel) {
     supabase.removeChannel(detailCommentChannel);
     detailCommentChannel = null;
   }
   currentDetailLink = null;
+}
+window.closeDetail = function() {
+  _closeDetailUI();
+  if (location.hash) history.replaceState("", "", location.pathname + location.search);   // hash 제거 (재진입 없음)
 };
+
+// 공유: 현재(또는 지정) 카드 딥링크 클립보드 복사
+window._share = function(id) {
+  id = id || (currentDetailLink && currentDetailLink.id);
+  if (!id) return;
+  const url = location.origin + location.pathname + "#c=" + id;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById("detailShareBtn");
+    if (btn) { btn.textContent = "✓"; setTimeout(() => { btn.textContent = "🔗"; }, 1500); }
+  });
+};
+
+// hash(#c=id) ↔ 디테일 모달 동기화. 공유링크/뒤로가기/로드 전부 여기로
+function _syncFromHash() {
+  const id = new URLSearchParams(location.hash.slice(1)).get("c");
+  if (!id) { if (currentDetailLink) _closeDetailUI(); return; }   // hash 비면 닫기 (뒤로가기)
+  if (currentDetailLink && currentDetailLink.id === id) return;   // 이미 열림 → 루프 방지
+  const l = links.find(x => x.id === id);
+  if (!l || l.locked) { showAuthOverlay(); return; }   // admin 전용/모르는 카드 → 로그인 필요창
+  window._openDetail(id);
+}
+window.addEventListener("hashchange", _syncFromHash);
 
 document.getElementById("detailBg").addEventListener("click", e => {
   if (e.target === document.getElementById("detailBg")) window.closeDetail();

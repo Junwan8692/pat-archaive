@@ -1,0 +1,57 @@
+{
+  "scriptCompleted": true,
+  "stats": {
+    "filesScanned": 30,
+    "filesWithImports": 6,
+    "totalEdges": 11
+  },
+  "importMap": {
+    ".understand-anything/.understandignore": [],
+    ".understand-anything/config.json": [],
+    "app.js": [
+      "lib/authors.mjs",
+      "lib/cardsize.mjs",
+      "lib/hash.mjs",
+      "lib/map.mjs",
+      "lib/theme.mjs",
+      "supabase.js"
+    ],
+    "CLAUDE.md": [],
+    "Design.md": [],
+    "docs/superpowers/plans/2026-06-23-card-size-theme.md": [],
+    "docs/superpowers/plans/2026-06-23-pat-archive.md": [],
+    "docs/superpowers/plans/2026-06-24-access-control.md": [],
+    "docs/superpowers/specs/2026-06-23-card-size-theme-design.md": [],
+    "docs/superpowers/specs/2026-06-23-pat-archive-design.md": [],
+    "docs/superpowers/specs/2026-06-24-access-control-design.md": [],
+    "index.html": [],
+    "lib/authors.mjs": [],
+    "lib/cardsize.mjs": [],
+    "lib/hash.mjs": [],
+    "lib/map.mjs": [],
+    "lib/theme.mjs": [],
+    "README.md": [],
+    "schema.sql": [],
+    "style.css": [],
+    "supabase.js": [],
+    "supabase/.temp/cli-latest": [],
+    "supabase/.temp/linked-project.json": [],
+    "supabase/functions/og/index.ts": [],
+    "test/authors.test.mjs": [
+      "lib/authors.mjs"
+    ],
+    "test/cardsize.test.mjs": [
+      "lib/cardsize.mjs"
+    ],
+    "test/data-layer.test.mjs": [
+      "lib/map.mjs"
+    ],
+    "test/hash.test.mjs": [
+      "lib/hash.mjs"
+    ],
+    "test/theme.test.mjs": [
+      "lib/theme.mjs"
+    ],
+    "vercel.json": []
+  }
+}

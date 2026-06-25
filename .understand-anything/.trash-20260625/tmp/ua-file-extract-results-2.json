@@ -1,0 +1,330 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 86,
+      "nonEmptyLines": 67,
+      "sections": [
+        {
+          "heading": "CLAUDE.md — Pat Archive",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "스택",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "구조",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "아키텍처 핵심",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "작업 시 주의 (gotchas)",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "명령어",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "배포 (Vercel)",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "최초 셋업 (새 Supabase 프로젝트 기준)",
+          "level": 3,
+          "line": 79
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "Design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 190,
+      "nonEmptyLines": 147,
+      "sections": [
+        {
+          "heading": "Pat Archive — 디자인 시스템 (Neobrutalism)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 콘셉트 한 줄",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "1. 색상 토큰",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "색 사용 규칙",
+          "level": 3,
+          "line": 46
+        },
+        {
+          "heading": "2. 테두리 · 그림자 (네오브루탈 핵심)",
+          "level": 2,
+          "line": 61
+        },
+        {
+          "heading": "3. 타이포그래피",
+          "level": 2,
+          "line": 92
+        },
+        {
+          "heading": "4. 컴포넌트 스펙",
+          "level": 2,
+          "line": 112
+        },
+        {
+          "heading": "4.1 헤더 / 워드마크",
+          "level": 3,
+          "line": 114
+        },
+        {
+          "heading": "4.2 카드",
+          "level": 3,
+          "line": 119
+        },
+        {
+          "heading": "4.3 버튼",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "4.4 태그 필터 칩",
+          "level": 3,
+          "line": 144
+        },
+        {
+          "heading": "4.5 모달 (추가/상세)",
+          "level": 3,
+          "line": 149
+        },
+        {
+          "heading": "4.6 작성자 퀵버튼 (신규 동작)",
+          "level": 3,
+          "line": 154
+        },
+        {
+          "heading": "5. 애니메이션",
+          "level": 2,
+          "line": 163
+        },
+        {
+          "heading": "6. 반응형",
+          "level": 2,
+          "line": 173
+        },
+        {
+          "heading": "7. \"이것만 지키면 네오브루탈\" 체크리스트",
+          "level": 2,
+          "line": 179
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 67,
+      "nonEmptyLines": 47,
+      "sections": [
+        {
+          "heading": "Pat Archive",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "구성",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "셋업 (Supabase)",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "접근 제어 셋업 (admin/guest) — 주인 1회 작업",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "로컬 실행",
+          "level": 2,
+          "line": 42
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 51
+        },
+        {
+          "heading": "배포 (Vercel)",
+          "level": 2,
+          "line": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "index.html",
+      "language": "html",
+      "fileCategory": "markup",
+      "totalLines": 168,
+      "nonEmptyLines": 153,
+      "metrics": {}
+    },
+    {
+      "path": "schema.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 220,
+      "nonEmptyLines": 191,
+      "definitions": [
+        {
+          "name": "links",
+          "kind": "table",
+          "fields": [
+            "id",
+            "title",
+            "url",
+            "desc",
+            "author",
+            "tags",
+            "image",
+            "images",
+            "pinned",
+            "pinned_at",
+            "created_at",
+            "views",
+            "likes",
+            "comment_count",
+            "prompt_intro",
+            "prompt_env",
+            "prompt_text",
+            "prompt_tip"
+          ],
+          "startLine": 3,
+          "endLine": 22
+        },
+        {
+          "name": "comments",
+          "kind": "table",
+          "fields": [
+            "id",
+            "link_id",
+            "author",
+            "text",
+            "created_at"
+          ],
+          "startLine": 24,
+          "endLine": 30
+        },
+        {
+          "name": "tags",
+          "kind": "table",
+          "fields": [
+            "id",
+            "name",
+            "created_at"
+          ],
+          "startLine": 68,
+          "endLine": 72
+        },
+        {
+          "name": "comments_link_id_idx",
+          "kind": "index",
+          "fields": [],
+          "startLine": 32,
+          "endLine": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 4
+      }
+    },
+    {
+      "path": "style.css",
+      "language": "css",
+      "fileCategory": "markup",
+      "totalLines": 1867,
+      "nonEmptyLines": 1643,
+      "metrics": {}
+    },
+    {
+      "path": "vercel.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "sections": [
+        {
+          "heading": "$schema",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "cleanUrls",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "trailingSlash",
+          "level": 1,
+          "line": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    }
+  ]
+}

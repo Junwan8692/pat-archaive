@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "id": "file:app.js",
+      "type": "file",
+      "name": "app.js",
+      "filePath": "app.js",
+      "summary": "앱 로직 전체를 담은 단일 진입점. STATE/RENDER/DETAIL/MODAL/업로드/작성자/크기·테마 섹션으로 나뉘며 Supabase에서 링크·태그·댓글을 불러와 네오브루탈 카드 UI로 렌더링하고, RPC·Realtime·Storage 호출과 admin/guest 역할 전환을 담당한다.",
+      "tags": ["entry-point", "ui-rendering", "supabase", "event-handler", "state-management"],
+      "complexity": "complex",
+      "languageNotes": "프레임워크/번들러 없는 바닐라 ES module. 템플릿 리터럴로 직접 innerHTML을 조립하고 window._* 전역 핸들러로 인라인 onclick과 연결한다."
+    },
+    {
+      "id": "function:app.js:loadLinks",
+      "type": "function",
+      "name": "loadLinks",
+      "filePath": "app.js",
+      "lineRange": [28, 54],
+      "summary": "Supabase links 테이블에서 데이터를 조회해 mapRow로 행을 매핑하고, guest에게는 admin 전용 글을 잠긴 카드로 변환한 뒤 render를 호출한다. 열린 상세 모달이 있으면 통계도 갱신한다.",
+      "tags": ["data-loading", "supabase", "render-trigger", "access-control"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:renderFeatured",
+      "type": "function",
+      "name": "renderFeatured",
+      "filePath": "app.js",
+      "lineRange": [125, 166],
+      "summary": "pinned(✦ PICK)으로 표시된 링크를 필터·정렬해 상단 추천 카드 영역에 썸네일·도메인·좋아요/댓글 수와 함께 렌더링한다.",
+      "tags": ["ui-rendering", "featured", "card"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:render",
+      "type": "function",
+      "name": "render",
+      "filePath": "app.js",
+      "lineRange": [169, 257],
+      "summary": "검색어·선택 태그 기준으로 링크를 필터·정렬하고 메인 카드 그리드를 조립하는 핵심 렌더 함수. 잠긴 카드, NEW/admin 배지, 작성자·조회/좋아요/댓글 메타까지 한 번에 그린다.",
+      "tags": ["ui-rendering", "card", "filtering", "search"],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:app.js:renderComments",
+      "type": "function",
+      "name": "renderComments",
+      "filePath": "app.js",
+      "lineRange": [426, 444],
+      "summary": "댓글 배열을 아바타·작성자·본문·작성일과 삭제 버튼이 있는 댓글 아이템 마크업으로 렌더링하고 삭제 핸들러를 바인딩한다.",
+      "tags": ["ui-rendering", "comments", "event-handler"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.js:bindCommentDelete",
+      "type": "function",
+      "name": "bindCommentDelete",
+      "filePath": "app.js",
+      "lineRange": [446, 464],
+      "summary": "댓글 리스트에 이벤트 위임으로 삭제를 연결한다. admin은 delete_comment_admin RPC로, guest는 작성 시 정한 암호를 받아 delete_comment RPC로 서버 측 해시 검증 삭제를 수행한다.",
+      "tags": ["event-handler", "comments", "rpc", "access-control"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:renderTagFilters",
+      "type": "function",
+      "name": "renderTagFilters",
+      "filePath": "app.js",
+      "lineRange": [501, 520],
+      "summary": "전체+개별 태그 칩을 렌더링하고 클릭 시 selectedTags 집합을 토글한 뒤 메인 그리드를 다시 그린다.",
+      "tags": ["ui-rendering", "filtering", "tags", "event-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:renderModalTags",
+      "type": "function",
+      "name": "renderModalTags",
+      "filePath": "app.js",
+      "lineRange": [531, 557],
+      "summary": "작성/수정 모달의 태그 선택 버튼을 렌더링한다. 태그 선택 토글, 태그 삭제(tags 테이블 delete), Prompt 태그 선택 시 프롬프트 입력 필드 표시를 처리한다.",
+      "tags": ["ui-rendering", "tags", "modal", "event-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:fetchMeta",
+      "type": "function",
+      "name": "fetchMeta",
+      "filePath": "app.js",
+      "lineRange": [625, 655],
+      "summary": "링크 URL의 og 메타(제목·썸네일)를 추출한다. 1차로 자체 og Edge Function(Discordbot UA)을 invoke하고, 실패 시 microlink 스크린샷 fallback으로 백필한다.",
+      "tags": ["metadata-extraction", "edge-function", "fallback", "async"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:renderUploadPreview",
+      "type": "function",
+      "name": "renderUploadPreview",
+      "filePath": "app.js",
+      "lineRange": [804, 820],
+      "summary": "기존 이미지와 새로 선택한 이미지 파일의 썸네일 미리보기를 모달 업로드 영역에 렌더링한다.",
+      "tags": ["ui-rendering", "upload", "preview"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.js:renderFilePreview",
+      "type": "function",
+      "name": "renderFilePreview",
+      "filePath": "app.js",
+      "lineRange": [839, 850],
+      "summary": "첨부 파일(zip·워크플로 등) 목록을 칩 형태로 렌더링하고 각 파일에 제거 버튼을 단다.",
+      "tags": ["ui-rendering", "upload", "file-attachment"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.js:compressToBlob",
+      "type": "function",
+      "name": "compressToBlob",
+      "filePath": "app.js",
+      "lineRange": [859, 885],
+      "summary": "업로드 이미지를 canvas로 리사이즈·재인코딩해 Blob으로 압축하는 Promise 기반 헬퍼. Storage 업로드 전 용량을 줄인다.",
+      "tags": ["image-compression", "canvas", "async", "upload"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.js:renderAuthors",
+      "type": "function",
+      "name": "renderAuthors",
+      "filePath": "app.js",
+      "lineRange": [891, 907],
+      "summary": "localStorage에 저장된 작성자 퀵버튼 칩을 렌더링하고, 선택(set)·삭제(del) 클릭을 이벤트 위임으로 처리한다.",
+      "tags": ["ui-rendering", "authors", "localstorage", "event-handler"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:lib/theme.mjs",
+      "type": "file",
+      "name": "theme.mjs",
+      "filePath": "lib/theme.mjs",
+      "summary": "의존성 없는 순수 헬퍼. 임의의 입력값을 유효한 테마 값으로 정규화하는 normalizeTheme 함수를 export한다.",
+      "tags": ["utility", "pure-function", "theme", "validation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/theme.mjs:normalizeTheme",
+      "type": "function",
+      "name": "normalizeTheme",
+      "filePath": "lib/theme.mjs",
+      "lineRange": [1, 3],
+      "summary": "입력값을 허용된 테마 문자열로 정규화하는 순수 함수. app.js의 applyTheme와 test/theme.test.mjs에서 사용된다.",
+      "tags": ["utility", "pure-function", "theme", "validation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:supabase.js",
+      "type": "file",
+      "name": "supabase.js",
+      "filePath": "supabase.js",
+      "summary": "Supabase 클라이언트를 anon 키로 초기화해 export하고 Storage 버킷명(STORAGE_BUCKET)을 함께 노출하는 백엔드 연결 설정 모듈. anon 키는 RLS 보호 하에 코드에 내장돼도 안전하다.",
+      "tags": ["configuration", "supabase", "client-init", "entry-point"],
+      "complexity": "simple",
+      "languageNotes": "서버 코드 없이 브라우저가 anon 키로 직접 Supabase를 호출하는 구조의 단일 연결 지점."
+    },
+    {
+      "id": "file:test/theme.test.mjs",
+      "type": "file",
+      "name": "theme.test.mjs",
+      "filePath": "test/theme.test.mjs",
+      "summary": "lib/theme.mjs의 normalizeTheme 순수 헬퍼를 검증하는 의존성 없는 node 테스트.",
+      "tags": ["test", "unit-test", "theme", "pure-function"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {"source": "file:app.js", "target": "file:lib/authors.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:app.js", "target": "file:lib/cardsize.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:app.js", "target": "file:lib/hash.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:app.js", "target": "file:lib/map.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:app.js", "target": "file:lib/theme.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:app.js", "target": "file:supabase.js", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:test/theme.test.mjs", "target": "file:lib/theme.mjs", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:app.js", "target": "function:app.js:loadLinks", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderFeatured", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:render", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderComments", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:bindCommentDelete", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderTagFilters", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderModalTags", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:fetchMeta", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderUploadPreview", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderFilePreview", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:compressToBlob", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:app.js", "target": "function:app.js:renderAuthors", "type": "contains", "direction": "forward", "weight": 1.0},
+
+    {"source": "file:lib/theme.mjs", "target": "function:lib/theme.mjs:normalizeTheme", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:lib/theme.mjs", "target": "function:lib/theme.mjs:normalizeTheme", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "function:app.js:render", "target": "function:app.js:renderFeatured", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "function:app.js:renderComments", "target": "function:app.js:bindCommentDelete", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "function:app.js:loadLinks", "target": "function:app.js:render", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "function:app.js:renderTagFilters", "target": "function:app.js:render", "type": "calls", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:app.js", "target": "function:lib/theme.mjs:normalizeTheme", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "file:app.js", "target": "function:lib/cardsize.mjs:normalizeSize", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "file:app.js", "target": "function:lib/map.mjs:mapRow", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "file:app.js", "target": "function:lib/authors.mjs:addAuthorName", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "file:app.js", "target": "function:lib/authors.mjs:removeAuthorName", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "file:app.js", "target": "function:lib/hash.mjs:sha256Hex", "type": "calls", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:lib/theme.mjs", "target": "file:test/theme.test.mjs", "type": "tested_by", "direction": "forward", "weight": 0.5},
+    {"source": "function:lib/theme.mjs:normalizeTheme", "target": "file:test/theme.test.mjs", "type": "tested_by", "direction": "forward", "weight": 0.5}
+  ]
+}

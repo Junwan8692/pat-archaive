@@ -711,7 +711,7 @@ header h1 {
 }
 
 /* 닫기 버튼 */
-.detail-close {
+.detail-close, .detail-share {
   position: sticky;
   top: 10px;
   float: right;
@@ -733,12 +733,12 @@ header h1 {
   transition: background 0.1s, transform 0.1s;
 }
 
-.detail-close:hover {
+.detail-close:hover, .detail-share:hover {
   background: var(--black);
   color: var(--white);
 }
 
-.detail-close:active {
+.detail-close:active, .detail-share:active {
   transform: translate(2px, 2px);
 }
 

@@ -1,0 +1,327 @@
+{
+  "nodes": [
+    {
+      "id": "file:.understand-anything/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "summary": "Understand-Anything 분석 도구의 ignore 패턴 파일로, 지식 그래프 생성 시 제외할 파일·디렉터리를 지정한다.",
+      "tags": ["configuration", "tooling", "ignore-rules"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.understand-anything/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".understand-anything/config.json",
+      "summary": "Understand-Anything 분석 도구 설정 파일로, 출력 언어(outputLanguage) 등을 지정한다.",
+      "tags": ["configuration", "tooling", "json"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/authors.mjs",
+      "type": "file",
+      "name": "authors.mjs",
+      "filePath": "lib/authors.mjs",
+      "summary": "작성자 퀵버튼 목록을 관리하는 의존성 없는 순수 헬퍼로, 작성자 이름을 추가·제거한다.",
+      "tags": ["utility", "pure-function", "authors", "state-helper"],
+      "complexity": "simple",
+      "languageNotes": "프레임워크 의존성 없는 ES module 순수 헬퍼. localStorage에 저장되는 작성자 목록 가공 로직을 분리해 node 테스트로 검증한다."
+    },
+    {
+      "id": "function:lib/authors.mjs:addAuthorName",
+      "type": "function",
+      "name": "addAuthorName",
+      "filePath": "lib/authors.mjs",
+      "lineRange": [2, 6],
+      "summary": "작성자 이름을 트림한 뒤 중복이 아니면 목록 맨 앞에 추가해 새 배열을 반환한다.",
+      "tags": ["utility", "pure-function", "immutable"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/authors.mjs:removeAuthorName",
+      "type": "function",
+      "name": "removeAuthorName",
+      "filePath": "lib/authors.mjs",
+      "lineRange": [7, 9],
+      "summary": "지정한 작성자 이름을 목록에서 필터링해 제거한 새 배열을 반환한다.",
+      "tags": ["utility", "pure-function", "immutable"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/cardsize.mjs",
+      "type": "file",
+      "name": "cardsize.mjs",
+      "filePath": "lib/cardsize.mjs",
+      "summary": "카드 크기 값을 허용된 프리셋으로 정규화하는 의존성 없는 순수 헬퍼다.",
+      "tags": ["utility", "pure-function", "validation", "card-size"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/cardsize.mjs:normalizeSize",
+      "type": "function",
+      "name": "normalizeSize",
+      "filePath": "lib/cardsize.mjs",
+      "lineRange": [1, 3],
+      "summary": "입력 카드 크기 값을 허용 목록에 맞춰 정규화하고, 유효하지 않으면 기본값을 반환한다.",
+      "tags": ["utility", "validation", "pure-function"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/hash.mjs",
+      "type": "file",
+      "name": "hash.mjs",
+      "filePath": "lib/hash.mjs",
+      "summary": "댓글 삭제 암호의 SHA-256 16진 해시를 생성하는 의존성 없는 순수 헬퍼로, Web Crypto API를 사용한다.",
+      "tags": ["utility", "pure-function", "hash", "security"],
+      "complexity": "simple",
+      "languageNotes": "브라우저 Web Crypto(crypto.subtle.digest)로 SHA-256을 계산해 16진 문자열로 변환. 게스트 댓글 삭제 암호를 서버 RPC에서 해시 검증하기 위한 클라이언트 측 해싱이다."
+    },
+    {
+      "id": "function:lib/hash.mjs:sha256Hex",
+      "type": "function",
+      "name": "sha256Hex",
+      "filePath": "lib/hash.mjs",
+      "lineRange": [2, 6],
+      "summary": "문자열을 UTF-8로 인코딩한 뒤 Web Crypto로 SHA-256 다이제스트를 구해 16진 문자열로 반환한다.",
+      "tags": ["hash", "security", "async", "pure-function"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/map.mjs",
+      "type": "file",
+      "name": "map.mjs",
+      "filePath": "lib/map.mjs",
+      "summary": "DB 행과 앱 객체 간 snake_case↔camelCase 키를 양방향 매핑하는 의존성 없는 순수 헬퍼다.",
+      "tags": ["utility", "pure-function", "serialization", "data-mapping"],
+      "complexity": "simple",
+      "languageNotes": "Object.entries 기반으로 DB row(snake_case)와 앱 객체(camelCase)를 변환. DB 의존 로직을 app.js에서 분리해 node 테스트로 검증한다."
+    },
+    {
+      "id": "function:lib/map.mjs:mapRow",
+      "type": "function",
+      "name": "mapRow",
+      "filePath": "lib/map.mjs",
+      "lineRange": [9, 13],
+      "summary": "DB 행 객체의 snake_case 키를 camelCase로 변환한 앱 객체를 반환한다.",
+      "tags": ["serialization", "pure-function", "data-mapping"],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:lib/map.mjs:toRow",
+      "type": "function",
+      "name": "toRow",
+      "filePath": "lib/map.mjs",
+      "lineRange": [14, 18],
+      "summary": "앱 객체의 camelCase 키를 snake_case로 변환해 DB 삽입용 행 객체를 반환한다.",
+      "tags": ["serialization", "pure-function", "data-mapping"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:supabase/.temp/cli-latest",
+      "type": "file",
+      "name": "cli-latest",
+      "filePath": "supabase/.temp/cli-latest",
+      "summary": "Supabase CLI가 생성한 임시 메타데이터 파일로, 최신 CLI 버전 정보를 담는 도구 아티팩트다.",
+      "tags": ["tooling", "artifact", "supabase"],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:supabase/.temp/linked-project.json",
+      "type": "config",
+      "name": "linked-project.json",
+      "filePath": "supabase/.temp/linked-project.json",
+      "summary": "Supabase CLI가 연결된 프로젝트(ref·name·organization)를 기록하는 임시 메타데이터 파일이다.",
+      "tags": ["tooling", "artifact", "supabase", "json"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:supabase/functions/og/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/og/index.ts",
+      "summary": "Supabase Edge Function으로, 대상 URL을 Discordbot UA로 가져와 og:image·title을 정규식으로 추출하는 썸네일 프록시다. reddit·HF 등 antibot 사이트 우회용 1차 메타 추출기다.",
+      "tags": ["service", "edge-function", "og-proxy", "scraping", "api-handler"],
+      "complexity": "moderate",
+      "languageNotes": "Deno 런타임 Edge Function. 브라우저가 직접 못 긁는 antibot 사이트를 Discordbot UA로 대신 요청하고, HTML에서 og:image/title 메타 태그를 정규식 매칭 후 HTML 엔티티를 디코딩한다."
+    },
+    {
+      "id": "file:test/authors.test.mjs",
+      "type": "file",
+      "name": "authors.test.mjs",
+      "filePath": "test/authors.test.mjs",
+      "summary": "lib/authors.mjs의 작성자 추가·제거 헬퍼를 검증하는 node 테스트 러너 테스트다.",
+      "tags": ["test", "unit-test", "pure-function"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/cardsize.test.mjs",
+      "type": "file",
+      "name": "cardsize.test.mjs",
+      "filePath": "test/cardsize.test.mjs",
+      "summary": "lib/cardsize.mjs의 카드 크기 정규화 헬퍼를 검증하는 node 테스트다.",
+      "tags": ["test", "unit-test", "validation"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/data-layer.test.mjs",
+      "type": "file",
+      "name": "data-layer.test.mjs",
+      "filePath": "test/data-layer.test.mjs",
+      "summary": "lib/map.mjs의 DB 행↔앱 객체 양방향 매핑 헬퍼를 검증하는 node 테스트다.",
+      "tags": ["test", "unit-test", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/hash.test.mjs",
+      "type": "file",
+      "name": "hash.test.mjs",
+      "filePath": "test/hash.test.mjs",
+      "summary": "lib/hash.mjs의 SHA-256 16진 해시 헬퍼를 검증하는 node 테스트다.",
+      "tags": ["test", "unit-test", "hash"],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "function:lib/authors.mjs:addAuthorName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "function:lib/authors.mjs:addAuthorName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "function:lib/authors.mjs:removeAuthorName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "function:lib/authors.mjs:removeAuthorName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/cardsize.mjs",
+      "target": "function:lib/cardsize.mjs:normalizeSize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/cardsize.mjs",
+      "target": "function:lib/cardsize.mjs:normalizeSize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/hash.mjs",
+      "target": "function:lib/hash.mjs:sha256Hex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/hash.mjs",
+      "target": "function:lib/hash.mjs:sha256Hex",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "function:lib/map.mjs:mapRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "function:lib/map.mjs:mapRow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "function:lib/map.mjs:toRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "function:lib/map.mjs:toRow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:test/authors.test.mjs",
+      "target": "file:lib/authors.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/cardsize.test.mjs",
+      "target": "file:lib/cardsize.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/data-layer.test.mjs",
+      "target": "file:lib/map.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/hash.test.mjs",
+      "target": "file:lib/hash.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "file:test/authors.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/cardsize.mjs",
+      "target": "file:test/cardsize.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "file:test/data-layer.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/hash.mjs",
+      "target": "file:test/hash.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

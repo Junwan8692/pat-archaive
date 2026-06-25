@@ -1,0 +1,36 @@
+{
+  "issues": [],
+  "warnings": [
+    "Node 'file:.understand-anything/.understandignore' has no edges (orphan)",
+    "Node 'config:.understand-anything/config.json' has no edges (orphan)",
+    "Node 'file:supabase/.temp/cli-latest' has no edges (orphan)",
+    "Node 'config:supabase/.temp/linked-project.json' has no edges (orphan)",
+    "Node 'file:supabase/functions/og/index.ts' has no edges (orphan)"
+  ],
+  "stats": {
+    "totalNodes": 52,
+    "totalEdges": 95,
+    "totalLayers": 6,
+    "tourSteps": 10,
+    "nodeTypes": {
+      "file": 17,
+      "function": 19,
+      "document": 9,
+      "schema": 1,
+      "table": 3,
+      "config": 3
+    },
+    "edgeTypes": {
+      "imports": 11,
+      "contains": 19,
+      "exports": 7,
+      "calls": 10,
+      "tested_by": 5,
+      "defines_schema": 4,
+      "related": 1,
+      "depends_on": 2,
+      "configures": 1,
+      "documents": 35
+    }
+  }
+}

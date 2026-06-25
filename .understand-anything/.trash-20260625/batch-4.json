@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "type": "document",
+      "name": "2026-06-23-card-size-theme-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "summary": "카드 크기 조절(S/M/L)과 Day/Dark 테마 기능의 설계 spec. CSS 변수 프리셋과 시맨틱 변수 오버라이드 메커니즘, localStorage 영속, 초기화 적용 순서, 색 감사 항목을 정의한다.",
+      "tags": ["documentation", "design-spec", "theming", "ui", "css-variables"],
+      "complexity": "moderate",
+      "languageNotes": "한국어 설계 문서. CSS 변수 프리셋(카드 크기)과 시맨틱 변수 오버라이드(다크 테마)라는 두 메커니즘을 분리해 기술한다."
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "type": "document",
+      "name": "2026-06-23-pat-archive-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "summary": "Pat Archive의 최상위 설계 문서. 싸이월드 Y2K 원본을 네오브루탈리즘으로 리스킨하고 백엔드를 Firestore에서 Supabase(스키마·RLS·데이터 계층 매핑)로 이전하는 전체 아키텍처, 프로젝트 구조, Vercel 배포, 구현 순서를 정의한다.",
+      "tags": ["documentation", "design-spec", "architecture", "supabase", "overview"],
+      "complexity": "complex",
+      "languageNotes": "한국어 설계 문서. 기존 firestore.rules와 동등한 RLS 정책 및 데이터 계층 매핑을 명세해 백엔드 마이그레이션 전략을 기록한다."
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "type": "document",
+      "name": "2026-06-24-access-control-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "summary": "Admin/Guest 접근 제어 및 모더레이션 설계 spec. RLS·스키마·security definer RPC를 실제 방어선으로 두고, 프론트 UI 역할 게이팅, 권한 매트릭스, 댓글 동작, 조회수=클릭수, admin-only 콘텐츠 정책을 정의한다.",
+      "tags": ["documentation", "design-spec", "security", "access-control", "rls"],
+      "complexity": "complex",
+      "languageNotes": "한국어 설계 문서. 신뢰 경계를 DB(RLS/RPC)에 두고 프론트 가드는 억제용으로만 사용한다는 보안 원칙을 권한 매트릭스로 명시한다."
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:lib/cardsize.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:lib/theme.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:supabase.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:lib/map.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "config:vercel.json",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "file:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "file:lib/hash.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "document:README.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ]
+}

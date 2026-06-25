@@ -1,0 +1,992 @@
+{
+  "nodes": [
+    {
+      "id": "file:app.js",
+      "type": "file",
+      "name": "app.js",
+      "filePath": "app.js",
+      "summary": "앱 로직 전체를 담은 단일 진입점. STATE/RENDER/DETAIL/MODAL/업로드/작성자/크기·테마 섹션으로 나뉘며 Supabase에서 링크·태그·댓글을 불러와 네오브루탈 카드 UI로 렌더링하고, RPC·Realtime·Storage 호출과 admin/guest 역할 전환을 담당한다.",
+      "tags": [
+        "entry-point",
+        "ui-rendering",
+        "supabase",
+        "event-handler",
+        "state-management"
+      ],
+      "complexity": "complex",
+      "languageNotes": "프레임워크/번들러 없는 바닐라 ES module. 템플릿 리터럴로 직접 innerHTML을 조립하고 window._* 전역 핸들러로 인라인 onclick과 연결한다."
+    },
+    {
+      "id": "file:lib/theme.mjs",
+      "type": "file",
+      "name": "theme.mjs",
+      "filePath": "lib/theme.mjs",
+      "summary": "의존성 없는 순수 헬퍼. 임의의 입력값을 유효한 테마 값으로 정규화하는 normalizeTheme 함수를 export한다.",
+      "tags": [
+        "utility",
+        "pure-function",
+        "theme",
+        "validation",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:supabase.js",
+      "type": "file",
+      "name": "supabase.js",
+      "filePath": "supabase.js",
+      "summary": "Supabase 클라이언트를 anon 키로 초기화해 export하고 Storage 버킷명(STORAGE_BUCKET)을 함께 노출하는 백엔드 연결 설정 모듈. anon 키는 RLS 보호 하에 코드에 내장돼도 안전하다.",
+      "tags": [
+        "configuration",
+        "supabase",
+        "client-init",
+        "entry-point"
+      ],
+      "complexity": "simple",
+      "languageNotes": "서버 코드 없이 브라우저가 anon 키로 직접 Supabase를 호출하는 구조의 단일 연결 지점."
+    },
+    {
+      "id": "file:test/theme.test.mjs",
+      "type": "file",
+      "name": "theme.test.mjs",
+      "filePath": "test/theme.test.mjs",
+      "summary": "lib/theme.mjs의 normalizeTheme 순수 헬퍼를 검증하는 의존성 없는 node 테스트.",
+      "tags": [
+        "test",
+        "unit-test",
+        "theme",
+        "pure-function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "Claude Code용 프로젝트 가이드 문서. 스택(바닐라 ES module + Supabase + Vercel), 파일 구조, RLS 기반 권한 아키텍처, 작업 시 gotchas, 로컬 실행·배포 절차를 정리한다.",
+      "tags": [
+        "documentation",
+        "architecture",
+        "development",
+        "deployment"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "8개 섹션으로 구성된 한국어 개발 가이드. RLS/RPC/Edge Function 등 Supabase 핵심 개념과 신뢰 경계가 DB에 있음을 강조."
+    },
+    {
+      "id": "document:Design.md",
+      "type": "document",
+      "name": "Design.md",
+      "filePath": "Design.md",
+      "summary": "네오브루탈리즘 디자인 시스템 명세서. 색상 토큰, 테두리·그림자 규칙, 타이포그래피, 컴포넌트 스펙(헤더·카드·버튼·칩·모달·작성자 퀵버튼), 애니메이션, 반응형 가이드를 담는다.",
+      "tags": [
+        "documentation",
+        "design-system",
+        "neobrutalism",
+        "ui-spec"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "16개 섹션의 디자인 토큰 명세. style.css 구현의 설계 근거 역할."
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "프로젝트 개요와 셋업 가이드. 구성 설명, Supabase 셋업, admin/guest 접근 제어 설정, 로컬 실행, 테스트, Vercel 배포 절차를 안내하는 진입 문서.",
+      "tags": [
+        "documentation",
+        "entry-point",
+        "setup",
+        "overview"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "index.html",
+      "summary": "앱의 마크업 진입점. 프레임워크·번들러 없이 style.css와 app.js(ES module)를 직접 로드하며 카드 그리드·모달 등 정적 구조를 정의한다.",
+      "tags": [
+        "entry-point",
+        "markup",
+        "html",
+        "spa-shell"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "빌드 단계 없는 정적 HTML. <script type=\"module\">로 app.js 로드 — file://로 열면 CORS 차단되므로 HTTP 서버 필수."
+    },
+    {
+      "id": "schema:schema.sql",
+      "type": "schema",
+      "name": "schema.sql",
+      "filePath": "schema.sql",
+      "summary": "DB 전체 정의(멱등). links·comments·tags 테이블, RLS 정책, 카운트/댓글 삭제용 RPC(increment_views·adjust_likes·delete_comment 등), Realtime·Storage·접근 제어를 한 파일에 담는다.",
+      "tags": [
+        "schema-definition",
+        "database",
+        "rls",
+        "rpc",
+        "migration"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Supabase Postgres 스키마. 권한을 RLS로 강제하고, 클라가 카운트 값을 직접 못 쓰게 SECURITY DEFINER RPC로만 증감하도록 설계."
+    },
+    {
+      "id": "table:schema.sql:links",
+      "type": "table",
+      "name": "links",
+      "filePath": "schema.sql",
+      "lineRange": [
+        3,
+        22
+      ],
+      "summary": "링크/프롬프트 카드의 핵심 테이블. 제목·URL·작성자·태그·썸네일(image/images)·고정(pinned)·조회/좋아요/댓글 카운트와 프롬프트 본문 필드를 보관한다.",
+      "tags": [
+        "data-model",
+        "database",
+        "core-table"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "table:schema.sql:comments",
+      "type": "table",
+      "name": "comments",
+      "filePath": "schema.sql",
+      "lineRange": [
+        24,
+        30
+      ],
+      "summary": "링크별 댓글 테이블. link_id 외래키로 links에 연결되며 작성자·본문·작성시각을 보관(삭제 검증용 del_hash는 RLS로 클라 비노출).",
+      "tags": [
+        "data-model",
+        "database",
+        "comments"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:schema.sql:tags",
+      "type": "table",
+      "name": "tags",
+      "filePath": "schema.sql",
+      "lineRange": [
+        68,
+        72
+      ],
+      "summary": "필터용 태그 목록 테이블. 태그 이름과 생성 시각을 보관한다.",
+      "tags": [
+        "data-model",
+        "database",
+        "tags"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:style.css",
+      "type": "file",
+      "name": "style.css",
+      "filePath": "style.css",
+      "summary": "네오브루탈 디자인 시스템 구현 전체. CSS 변수 토큰, 카드/버튼/모달/태그 칩 스타일, 카드 크기·다크 테마 프리셋, 반응형·애니메이션을 정의한다.",
+      "tags": [
+        "styling",
+        "design-system",
+        "neobrutalism",
+        "css",
+        "theming"
+      ],
+      "complexity": "complex",
+      "languageNotes": "1867줄 단일 스타일시트. CSS 커스텀 프로퍼티로 테마·카드크기 프리셋을 토글하는 구조."
+    },
+    {
+      "id": "config:vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "vercel.json",
+      "summary": "Vercel 정적 서빙 설정. cleanUrls와 trailingSlash 옵션만 지정하며 빌드 단계 없이 루트를 그대로 서빙한다.",
+      "tags": [
+        "configuration",
+        "deployment",
+        "vercel",
+        "static-hosting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "type": "document",
+      "name": "2026-06-23-card-size-theme.md",
+      "filePath": "docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "summary": "카드 크기 조절과 Day/Dark 테마 토글 기능의 구현 계획서. 순수 헬퍼(normalizeSize/normalizeTheme) 작성부터 CSS 프리셋 변수 배선, index.html 토글 마크업, app.js 핸들러·localStorage 복원, 수동 통합 검증까지 5개 Task로 구성된다.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "ui-feature",
+        "theming",
+        "card-size"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Superpowers 구현 계획서 포맷 — Task 단위로 파일별 변경·검증 절차와 Self-Review 체크리스트를 명시한다."
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "type": "document",
+      "name": "2026-06-23-pat-archive.md",
+      "filePath": "docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "summary": "Pat Archive 초기 구축 계획서. 백엔드(Supabase 스키마·클라이언트·Firestore→Supabase 데이터 계층 포팅), 프론트(네오브루탈 디자인 시스템·index.html 마크업·작성자 퀵버튼), 통합·검수·Vercel 배포의 3개 트랙(A/B/C) 9개 Task를 subagent 병렬 트랙으로 배정한다.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "architecture",
+        "supabase-migration",
+        "design-system"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Track A/B/C로 subagent 병렬 작업을 배정하는 멀티트랙 계획서 — 가장 큰 마이그레이션 spec."
+    },
+    {
+      "id": "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "type": "document",
+      "name": "2026-06-24-access-control.md",
+      "filePath": "docs/superpowers/plans/2026-06-24-access-control.md",
+      "summary": "Admin/Guest 접근 제어와 댓글 모더레이션 구현 계획서. DB 스키마·RLS·RPC 정의, sha256Hex 순수 헬퍼, 로그인 오버레이·인증/역할 코어, admin 전용 콘텐츠, 게스트 댓글 암호 삭제, 주인 셋업·통합 검증까지 6개 Task로 RLS 기반 권한 경계를 설계한다.",
+      "tags": [
+        "documentation",
+        "implementation-plan",
+        "access-control",
+        "security",
+        "rls"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Supabase RLS를 신뢰 경계로 삼는 접근 제어 spec — 클라이언트 가드는 UX용, DB가 실제 강제."
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "type": "document",
+      "name": "2026-06-23-card-size-theme-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "summary": "카드 크기 조절(S/M/L)과 Day/Dark 테마 기능의 설계 spec. CSS 변수 프리셋과 시맨틱 변수 오버라이드 메커니즘, localStorage 영속, 초기화 적용 순서, 색 감사 항목을 정의한다.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "theming",
+        "ui",
+        "css-variables"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "한국어 설계 문서. CSS 변수 프리셋(카드 크기)과 시맨틱 변수 오버라이드(다크 테마)라는 두 메커니즘을 분리해 기술한다."
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "type": "document",
+      "name": "2026-06-23-pat-archive-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "summary": "Pat Archive의 최상위 설계 문서. 싸이월드 Y2K 원본을 네오브루탈리즘으로 리스킨하고 백엔드를 Firestore에서 Supabase(스키마·RLS·데이터 계층 매핑)로 이전하는 전체 아키텍처, 프로젝트 구조, Vercel 배포, 구현 순서를 정의한다.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "architecture",
+        "supabase",
+        "overview"
+      ],
+      "complexity": "complex",
+      "languageNotes": "한국어 설계 문서. 기존 firestore.rules와 동등한 RLS 정책 및 데이터 계층 매핑을 명세해 백엔드 마이그레이션 전략을 기록한다."
+    },
+    {
+      "id": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "type": "document",
+      "name": "2026-06-24-access-control-design.md",
+      "filePath": "docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "summary": "Admin/Guest 접근 제어 및 모더레이션 설계 spec. RLS·스키마·security definer RPC를 실제 방어선으로 두고, 프론트 UI 역할 게이팅, 권한 매트릭스, 댓글 동작, 조회수=클릭수, admin-only 콘텐츠 정책을 정의한다.",
+      "tags": [
+        "documentation",
+        "design-spec",
+        "security",
+        "access-control",
+        "rls"
+      ],
+      "complexity": "complex",
+      "languageNotes": "한국어 설계 문서. 신뢰 경계를 DB(RLS/RPC)에 두고 프론트 가드는 억제용으로만 사용한다는 보안 원칙을 권한 매트릭스로 명시한다."
+    },
+    {
+      "id": "file:.understand-anything/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "summary": "Understand-Anything 분석 도구의 ignore 패턴 파일로, 지식 그래프 생성 시 제외할 파일·디렉터리를 지정한다.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "ignore-rules"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.understand-anything/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".understand-anything/config.json",
+      "summary": "Understand-Anything 분석 도구 설정 파일로, 출력 언어(outputLanguage) 등을 지정한다.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "json"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/authors.mjs",
+      "type": "file",
+      "name": "authors.mjs",
+      "filePath": "lib/authors.mjs",
+      "summary": "작성자 퀵버튼 목록을 관리하는 의존성 없는 순수 헬퍼로, 작성자 이름을 추가·제거한다.",
+      "tags": [
+        "utility",
+        "pure-function",
+        "authors",
+        "state-helper",
+        "tested"
+      ],
+      "complexity": "simple",
+      "languageNotes": "프레임워크 의존성 없는 ES module 순수 헬퍼. localStorage에 저장되는 작성자 목록 가공 로직을 분리해 node 테스트로 검증한다."
+    },
+    {
+      "id": "file:lib/cardsize.mjs",
+      "type": "file",
+      "name": "cardsize.mjs",
+      "filePath": "lib/cardsize.mjs",
+      "summary": "카드 크기 값을 허용된 프리셋으로 정규화하는 의존성 없는 순수 헬퍼다.",
+      "tags": [
+        "utility",
+        "pure-function",
+        "validation",
+        "card-size",
+        "tested"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:lib/hash.mjs",
+      "type": "file",
+      "name": "hash.mjs",
+      "filePath": "lib/hash.mjs",
+      "summary": "댓글 삭제 암호의 SHA-256 16진 해시를 생성하는 의존성 없는 순수 헬퍼로, Web Crypto API를 사용한다.",
+      "tags": [
+        "utility",
+        "pure-function",
+        "hash",
+        "security",
+        "tested"
+      ],
+      "complexity": "simple",
+      "languageNotes": "브라우저 Web Crypto(crypto.subtle.digest)로 SHA-256을 계산해 16진 문자열로 변환. 게스트 댓글 삭제 암호를 서버 RPC에서 해시 검증하기 위한 클라이언트 측 해싱이다."
+    },
+    {
+      "id": "file:lib/map.mjs",
+      "type": "file",
+      "name": "map.mjs",
+      "filePath": "lib/map.mjs",
+      "summary": "DB 행과 앱 객체 간 snake_case↔camelCase 키를 양방향 매핑하는 의존성 없는 순수 헬퍼다.",
+      "tags": [
+        "utility",
+        "pure-function",
+        "serialization",
+        "data-mapping",
+        "tested"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Object.entries 기반으로 DB row(snake_case)와 앱 객체(camelCase)를 변환. DB 의존 로직을 app.js에서 분리해 node 테스트로 검증한다."
+    },
+    {
+      "id": "file:supabase/.temp/cli-latest",
+      "type": "file",
+      "name": "cli-latest",
+      "filePath": "supabase/.temp/cli-latest",
+      "summary": "Supabase CLI가 생성한 임시 메타데이터 파일로, 최신 CLI 버전 정보를 담는 도구 아티팩트다.",
+      "tags": [
+        "tooling",
+        "artifact",
+        "supabase"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:supabase/.temp/linked-project.json",
+      "type": "config",
+      "name": "linked-project.json",
+      "filePath": "supabase/.temp/linked-project.json",
+      "summary": "Supabase CLI가 연결된 프로젝트(ref·name·organization)를 기록하는 임시 메타데이터 파일이다.",
+      "tags": [
+        "tooling",
+        "artifact",
+        "supabase",
+        "json"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:supabase/functions/og/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/og/index.ts",
+      "summary": "Supabase Edge Function으로, 대상 URL을 Discordbot UA로 가져와 og:image·title을 정규식으로 추출하는 썸네일 프록시다. reddit·HF 등 antibot 사이트 우회용 1차 메타 추출기다.",
+      "tags": [
+        "service",
+        "edge-function",
+        "og-proxy",
+        "scraping",
+        "api-handler"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Deno 런타임 Edge Function. 브라우저가 직접 못 긁는 antibot 사이트를 Discordbot UA로 대신 요청하고, HTML에서 og:image/title 메타 태그를 정규식 매칭 후 HTML 엔티티를 디코딩한다."
+    },
+    {
+      "id": "file:test/authors.test.mjs",
+      "type": "file",
+      "name": "authors.test.mjs",
+      "filePath": "test/authors.test.mjs",
+      "summary": "lib/authors.mjs의 작성자 추가·제거 헬퍼를 검증하는 node 테스트 러너 테스트다.",
+      "tags": [
+        "test",
+        "unit-test",
+        "pure-function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/cardsize.test.mjs",
+      "type": "file",
+      "name": "cardsize.test.mjs",
+      "filePath": "test/cardsize.test.mjs",
+      "summary": "lib/cardsize.mjs의 카드 크기 정규화 헬퍼를 검증하는 node 테스트다.",
+      "tags": [
+        "test",
+        "unit-test",
+        "validation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/data-layer.test.mjs",
+      "type": "file",
+      "name": "data-layer.test.mjs",
+      "filePath": "test/data-layer.test.mjs",
+      "summary": "lib/map.mjs의 DB 행↔앱 객체 양방향 매핑 헬퍼를 검증하는 node 테스트다.",
+      "tags": [
+        "test",
+        "unit-test",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test/hash.test.mjs",
+      "type": "file",
+      "name": "hash.test.mjs",
+      "filePath": "test/hash.test.mjs",
+      "summary": "lib/hash.mjs의 SHA-256 16진 해시 헬퍼를 검증하는 node 테스트다.",
+      "tags": [
+        "test",
+        "unit-test",
+        "hash"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:app.js",
+      "target": "file:lib/authors.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.js",
+      "target": "file:lib/cardsize.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.js",
+      "target": "file:lib/hash.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.js",
+      "target": "file:lib/map.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.js",
+      "target": "file:lib/theme.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.js",
+      "target": "file:supabase.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/theme.test.mjs",
+      "target": "file:lib/theme.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/theme.mjs",
+      "target": "file:test/theme.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:links",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:comments",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "table:schema.sql:tags",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:schema.sql:comments",
+      "target": "table:schema.sql:links",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "schema:schema.sql",
+      "target": "file:app.js",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:index.html",
+      "target": "file:style.css",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:index.html",
+      "target": "file:app.js",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:vercel.json",
+      "target": "file:index.html",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "document:README.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:README.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:CLAUDE.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:Design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "target": "file:lib/cardsize.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "target": "file:lib/theme.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:supabase.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:index.html",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:lib/authors.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "file:lib/map.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "target": "file:lib/hash.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:lib/cardsize.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+      "target": "file:lib/theme.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:supabase.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:style.css",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "file:lib/map.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "config:vercel.json",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "file:app.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "file:lib/hash.mjs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "document:README.md",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:test/authors.test.mjs",
+      "target": "file:lib/authors.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/cardsize.test.mjs",
+      "target": "file:lib/cardsize.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/data-layer.test.mjs",
+      "target": "file:lib/map.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:test/hash.test.mjs",
+      "target": "file:lib/hash.mjs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:lib/authors.mjs",
+      "target": "file:test/authors.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/cardsize.mjs",
+      "target": "file:test/cardsize.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/map.mjs",
+      "target": "file:test/data-layer.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:lib/hash.mjs",
+      "target": "file:test/hash.test.mjs",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/plans/2026-06-24-access-control.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/superpowers/specs/2026-06-24-access-control-design.md",
+      "target": "schema:schema.sql",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:ui",
+      "name": "프레젠테이션 / UI 레이어",
+      "description": "브라우저에서 직접 로드되는 SPA 셸과 앱 로직 — index.html 마크업, 네오브루탈리즘 style.css, 렌더링·이벤트·상태를 담당하는 app.js, 그리고 anon 키로 Supabase에 직접 붙는 클라이언트 초기화(supabase.js)로 구성.",
+      "nodeIds": [
+        "file:index.html",
+        "file:style.css",
+        "file:app.js",
+        "file:supabase.js"
+      ]
+    },
+    {
+      "id": "layer:utility",
+      "name": "유틸리티 레이어",
+      "description": "의존성 없는 순수 헬퍼 모듈(lib/*.mjs) — 행 매핑·작성자·sha256 해시·카드크기·테마 로직. app.js와 테스트 양쪽에서 import되는 가장 foundational한 계층.",
+      "nodeIds": [
+        "file:lib/map.mjs",
+        "file:lib/authors.mjs",
+        "file:lib/hash.mjs",
+        "file:lib/cardsize.mjs",
+        "file:lib/theme.mjs"
+      ]
+    },
+    {
+      "id": "layer:data",
+      "name": "백엔드 / 데이터 레이어",
+      "description": "Supabase 백엔드 — schema.sql의 테이블·RLS·RPC·Realtime·Storage 정의와 links·comments·tags 데이터 모델, 그리고 썸네일 og:image를 추출하는 Edge Function(og 프록시).",
+      "nodeIds": [
+        "schema:schema.sql",
+        "table:schema.sql:links",
+        "table:schema.sql:comments",
+        "table:schema.sql:tags",
+        "file:supabase/functions/og/index.ts"
+      ]
+    },
+    {
+      "id": "layer:test",
+      "name": "테스트 레이어",
+      "description": "lib/ 순수 헬퍼를 검증하는 node 기반 단위 테스트(test/*.mjs) — 매핑·작성자·해시·카드크기·테마 로직을 의존성 없이 확인.",
+      "nodeIds": [
+        "file:test/data-layer.test.mjs",
+        "file:test/authors.test.mjs",
+        "file:test/hash.test.mjs",
+        "file:test/cardsize.test.mjs",
+        "file:test/theme.test.mjs"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "문서 레이어",
+      "description": "프로젝트 개요·아키텍처·디자인 시스템 문서(README/CLAUDE/Design)와 docs/superpowers의 기능별 설계 spec·구현 계획서.",
+      "nodeIds": [
+        "document:README.md",
+        "document:CLAUDE.md",
+        "document:Design.md",
+        "document:docs/superpowers/plans/2026-06-23-card-size-theme.md",
+        "document:docs/superpowers/plans/2026-06-23-pat-archive.md",
+        "document:docs/superpowers/plans/2026-06-24-access-control.md",
+        "document:docs/superpowers/specs/2026-06-23-card-size-theme-design.md",
+        "document:docs/superpowers/specs/2026-06-23-pat-archive-design.md",
+        "document:docs/superpowers/specs/2026-06-24-access-control-design.md"
+      ]
+    },
+    {
+      "id": "layer:config",
+      "name": "설정 / 도구 레이어",
+      "description": "Vercel 정적 호스팅 설정(vercel.json)과 Supabase CLI 연동·understand-anything 분석 도구가 생성한 설정·아티팩트 파일들.",
+      "nodeIds": [
+        "config:vercel.json",
+        "file:.understand-anything/.understandignore",
+        "config:.understand-anything/config.json",
+        "file:supabase/.temp/cli-latest",
+        "config:supabase/.temp/linked-project.json"
+      ]
+    }
+  ]
+}
