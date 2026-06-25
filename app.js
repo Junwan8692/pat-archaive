@@ -241,7 +241,7 @@ function render() {
         <div style="font-size:10px;color:#99aabb;margin-top:4px;min-height:1.4em;display:flex;align-items:center;justify-content:space-between;">
           <span>${l.author ? `<span style="cursor:pointer;text-decoration:underline dotted;text-underline-offset:2px" onclick="event.stopPropagation();window._filterByAuthor(${escHtml(JSON.stringify(l.author))})">by ${escHtml(l.author)}</span>` : ""}</span>
           <div class="card-actions" onclick="event.stopPropagation()">
-            <button onclick="window._share('${l.id}')">공유</button>
+            <button onclick="window._share('${l.id}')" title="공유 링크 복사"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
             <button onclick="window._editLink('${l.id}')">수정</button>
             <button class="del-btn" onclick="window._deleteLink('${l.id}')">삭제</button>
           </div>
@@ -500,7 +500,7 @@ window._share = function(id) {
   const url = location.origin + location.pathname + "#c=" + id;
   navigator.clipboard.writeText(url).then(() => {
     const btn = document.getElementById("detailShareBtn");
-    if (btn) { btn.textContent = "✓"; setTimeout(() => { btn.textContent = "🔗"; }, 1500); }
+    if (btn) { const o = btn.innerHTML; btn.textContent = "✓"; setTimeout(() => { btn.innerHTML = o; }, 1500); }
   });
 };
 
